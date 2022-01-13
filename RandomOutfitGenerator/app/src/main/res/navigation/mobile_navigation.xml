@@ -12,14 +12,27 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_gallery"
+        android:id="@+id/nav_closet"
         android:name="edu.rosehulman.randomoutfitgenerator.ui.ClosetFragment"
-        android:label="@string/menu_gallery"
+        android:label="@string/menu_closet"
         tools:layout="@layout/fragment_closet" />
 
     <fragment
-        android:id="@+id/nav_slideshow"
+        android:id="@+id/nav_settings"
         android:name="edu.rosehulman.randomoutfitgenerator.ui.SettingsFragment"
-        android:label="@string/menu_slideshow"
+        android:label="@string/menu_settings"
         tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/nav_outfit"
+        android:name="edu.rosehulman.randomoutfitgenerator.ui.SettingsFragment"
+        android:label="@string/outfit"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/nav_saved_outfits"
+        android:name="edu.rosehulman.randomoutfitgenerator.ui.SettingsFragment"
+        android:label="@string/menu_saved_outfits"
+        tools:layout="@layout/fragment_settings" />
+
 </navigation>

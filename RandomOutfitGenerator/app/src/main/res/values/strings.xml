@@ -7,17 +7,19 @@
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
-    <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
 
     //-------------------Closet----------------
+    <string name="menu_closet">My Closet</string>
 
     //-------------------Outfits-------------------
+    <string name="outfit">My Outfit</string>
 
     //----------------------Settings---------------
+    <string name="menu_settings">Settings</string>
 
     //--------------------------Home--------------------
+    <string name="menu_home">Home</string>
 
     //----------------Saved Outfits-------------------
+    <string name="menu_saved_outfits">Saved Outfits</string>
 </resources>
