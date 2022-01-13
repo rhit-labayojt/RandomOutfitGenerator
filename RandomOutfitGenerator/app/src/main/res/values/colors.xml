@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    //------------Main App Theme------------
+    <color name="tiffany_blue">#FF17B2B5</color>
+    <color name="gray_11">#FFB8B5BA</color>
+    <color name="spanish_gray">#FF90908E</color>
+    <color name="blizzard_blue">#FFAEE9EA</color>
+    <color name="goldenrod">#FFE0A629</color>
+
+    //-------------------Closet----------------
+
+    //-------------------Outfits-------------------
+
+    //----------------------Settings---------------
+
+    //--------------------------Home--------------------
+
+    //----------------Saved Outfits-------------------
+
+</resources>
