@@ -17,14 +17,14 @@
       android:fillType="evenOdd"
       android:strokeColor="#00000000">
     <aapt:attr name="android:fillColor">
-      <gradient 
+      <gradient
           android:startY="154.9948"
           android:startX="26.077206"
           android:endY="-25.989862"
           android:endX="126.026"
           android:type="linear">
-        <item android:offset="0" android:color="#FFAE68FF"/>
-        <item android:offset="1" android:color="#FF7991FF"/>
+        <item android:offset="0" android:color="@color/tiffany_blue"/>
+        <item android:offset="1" android:color="@color/blizzard_blue"/>
       </gradient>
     </aapt:attr>
   </path>
