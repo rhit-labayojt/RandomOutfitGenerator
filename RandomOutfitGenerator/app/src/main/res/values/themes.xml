@@ -24,11 +24,13 @@
     <style name="Theme.RandomOutfitGenerator.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     //--------------Generic Button Theme-----------------
+
     <style name="button_theme">
         <item name="android:layout_margin">10dp</item>
     </style>
 
     //--------------FAB Theme-----------------
+
     <style name="fab_theme">
         <item name="android:layout_margin">10dp</item>
         <item name="android:layout_width">wrap_content</item>

@@ -6,16 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.ClosetFragment">
 
-    <androidx.recyclerview.widget.RecyclerView android:id="@+id/closet_view"
-        android:layout_height="match_parent"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/closet_view"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:scrollbarSize="12dp"
-        android:scrollbars="vertical"
-        />
+        android:scrollbars="vertical" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/camera_fab"
         style="@style/fab_theme"
-        android:src="@drawable/ic_menu_camera"/>
+        android:src="@drawable/ic_menu_camera" />
 
 </RelativeLayout>

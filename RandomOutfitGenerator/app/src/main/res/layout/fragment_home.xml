@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     tools:context=".ui.HomeFragment">
 
-    <androidx.constraintlayout.helper.widget.Carousel android:id="@+id/outfit_carousel"
+    <androidx.constraintlayout.helper.widget.Carousel
+        android:id="@+id/outfit_carousel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerInParent="true" />
