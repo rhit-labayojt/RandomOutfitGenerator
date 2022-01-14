@@ -23,4 +23,5 @@
     //----------------Saved Outfits-------------------
     <string name="menu_saved_outfits">Saved Outfits</string>
     <string name="randomization_title">Customization</string>
+    <string name="save_outfit">Save</string>
 </resources>
