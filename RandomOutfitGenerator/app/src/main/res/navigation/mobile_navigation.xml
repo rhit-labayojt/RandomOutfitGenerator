@@ -41,4 +41,10 @@
         android:label="@string/randomization_title"
         tools.layout="@layout/fragment_randomization" />
 
+    <fragment
+        android:id="@+id/nav_camera"
+        android:name="edu.rosehulman.randomoutfitgenerator.ui.CameraFragment"
+        android:label="@string/camera"
+        tools.layout="@layout/fragment_camera" />
+
 </navigation>

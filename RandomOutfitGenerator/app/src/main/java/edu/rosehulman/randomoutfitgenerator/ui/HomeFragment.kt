@@ -21,7 +21,7 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
 
-        binding.randomOutfitButton.setOnClickListener {
+        binding.randomOutfitFab.setOnClickListener {
             findNavController().navigate(R.id.nav_randomization)
         }
 

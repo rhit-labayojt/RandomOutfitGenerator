@@ -10,7 +10,8 @@
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/activity_main.xml" value="0.275" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/app_bar_main.xml" value="0.275" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/content_main.xml" value="0.275" />
-        <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_closet.xml" value="0.275" />
+        <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_camera.xml" value="0.2111111111111111" />
+        <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_closet.xml" value="0.1" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_home.xml" value="0.275" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_outfit.xml" value="0.275" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_randomization.xml" value="0.275" />
@@ -19,40 +20,17 @@
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/nav_header_main.xml" value="0.275" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/menu/activity_main_drawer.xml" value="0.275" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/menu/main.xml" value="0.14375" />
+        <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/mipmap-anydpi-v26/ic_menu_bars.xml" value="0.2861111111111111" />
+        <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/mipmap-anydpi-v26/ic_menu_bars_round.xml" value="0.2861111111111111" />
         <entry key="..\:/Users/hahmcm/Documents/Senior/Winter/CSSE483-01 Android Application Development/RandomOutfitGenerator/app/src/main/res/layout/activity_main.xml" value="0.3814814814814815" />
         <entry key="..\:/Users/hahmcm/Documents/Senior/Winter/CSSE483-01 Android Application Development/RandomOutfitGenerator/app/src/main/res/layout/fragment_gallery.xml" value="0.15648148148148147" />
         <entry key="..\:/Users/hahmcm/Documents/Senior/Winter/CSSE483-01 Android Application Development/RandomOutfitGenerator/app/src/main/res/layout/fragment_outfit.xml" value="0.3814814814814815" />
         <entry key="..\:/Users/hahmcm/Documents/Senior/Winter/CSSE483-01 Android Application Development/RandomOutfitGenerator/app/src/main/res/layout/fragment_saved_outfits.xml" value="0.3814814814814815" />
         <entry key="..\:/Users/hahmcm/Documents/Senior/Winter/CSSE483-01 Android Application Development/RandomOutfitGenerator/app/src/main/res/menu/activity_main_drawer.xml" value="0.22993197278911565" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/ic_baseline_bookmarks_24.xml" value="0.2703125" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/ic_baseline_cloud_24.xml" value="0.2703125" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/ic_baseline_filter_list_24.xml" value="0.2703125" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/ic_baseline_home_24.xml" value="0.2703125" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/ic_baseline_settings_24.xml" value="0.2703125" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/ic_baseline_shuffle_24.xml" value="0.2703125" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.2703125" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/ic_menu_bars.xml" value="0.2703125" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/ic_menu_bars_background.xml" value="0.2703125" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/ic_menu_bars_foreground.xml" value="0.2703125" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/ic_menu_camera.xml" value="0.2703125" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/ic_menu_gallery.xml" value="0.2703125" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/ic_menu_slideshow.xml" value="0.2703125" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/ic_t_shirt.xml" value="0.2703125" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/side_nav_bar.xml" value="0.2703125" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/activity_main.xml" value="0.264" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/app_bar_main.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/content_main.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_closet.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_home.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_outfit.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_randomization.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_saved_outfits.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_settings.xml" value="0.25416666666666665" />
-        <entry key="..\:/Users/labayojt/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/nav_header_main.xml" value="0.25416666666666665" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
