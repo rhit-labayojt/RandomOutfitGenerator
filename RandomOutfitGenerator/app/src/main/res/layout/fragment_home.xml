@@ -11,20 +11,21 @@
         android:layout_height="match_parent"
         android:layout_centerInParent="true" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton android:id="@+id/random_outfit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:src="@drawable/ic_baseline_shuffle_24"
-        style="@style/button_theme"/>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/random_outfit_fab"
+        style="@style/fab_theme"
+        android:src="@drawable/ic_baseline_shuffle_24" />
 
-    <ImageView android:id="@+id/weather_widget"
+    <ImageView
+        android:id="@+id/weather_widget"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:src="@drawable/ic_baseline_cloud_24"
-        android:scaleY="3"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:layout_marginBottom="30dp"
         android:scaleX="3"
-        android:layout_margin="30dp" />
+        android:scaleY="3"
+        android:src="@drawable/ic_baseline_cloud_24" />
 </RelativeLayout>
