@@ -25,14 +25,20 @@
 
     <fragment
         android:id="@+id/nav_outfit"
-        android:name="edu.rosehulman.randomoutfitgenerator.ui.SettingsFragment"
+        android:name="edu.rosehulman.randomoutfitgenerator.ui.OutfitFragment"
         android:label="@string/outfit"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_outfit" />
 
     <fragment
         android:id="@+id/nav_saved_outfits"
-        android:name="edu.rosehulman.randomoutfitgenerator.ui.SettingsFragment"
+        android:name="edu.rosehulman.randomoutfitgenerator.ui.SavedOutfitsFragment"
         android:label="@string/menu_saved_outfits"
-        tools:layout="@layout/fragment_settings" />
+        tools:layout="@layout/fragment_saved_outfits" />
+
+    <fragment
+        android:id="@+id/nav_randomization"
+        android:name="edu.rosehulman.randomoutfitgenerator.ui.RandomizationFragment"
+        android:label="@string/randomization_title"
+        tools.layout="@layout/fragment_randomization" />
 
 </navigation>

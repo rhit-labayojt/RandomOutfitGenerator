@@ -6,8 +6,8 @@
         <item name="colorPrimaryVariant">@color/tiffany_blue</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/blizzard_blue</item>
-        <item name="colorSecondaryVariant">@color/spanish_gray</item>
+        <item name="colorSecondary">@color/spanish_gray</item>
+        <item name="colorSecondaryVariant">@color/blizzard_blue</item>
         <item name="colorOnSecondary">@color/white</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
@@ -25,7 +25,7 @@
 
     //--------------Generic Button Theme-----------------
     <style name="button_theme">
-
+        <item name="android:layout_margin">10dp</item>
     </style>
 
     //--------------------Home Fragment Themes--------------------
