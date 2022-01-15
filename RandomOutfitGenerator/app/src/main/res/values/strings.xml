@@ -13,6 +13,7 @@
 
     //-------------------Outfits-------------------
     <string name="outfit">My Outfit</string>
+    <string name="save_outfit">Save</string>
 
     //----------------------Settings---------------
     <string name="menu_settings">Settings</string>
@@ -22,7 +23,10 @@
 
     //----------------Saved Outfits-------------------
     <string name="menu_saved_outfits">Saved Outfits</string>
+
+    //-------------------------Randomization---------------------
     <string name="randomization_title">Customization</string>
-    <string name="save_outfit">Save</string>
+
+    //-----------------------Camera-----------------
     <string name="camera">Camera</string>
 </resources>
