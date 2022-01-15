@@ -14,8 +14,8 @@ import edu.rosehulman.randomoutfitgenerator.objects.CameraPreview
 class CameraFragment : Fragment() {
 
     private lateinit var binding: FragmentCameraBinding
-    private var cam: Camera? = getCameraInstance()
-    private lateinit var preview: CameraPreview?
+//    private var cam: Camera? = getCameraInstance()
+//    private lateinit var preview: CameraPreview?
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -28,12 +28,12 @@ class CameraFragment : Fragment() {
         return binding.root
     }
 
-    fun getCameraInstance(): Camera? {
-        return try {
-            Camera.
-        } catch (e: Exception) {
-            null
-        }
-    }
+//    fun getCameraInstance(): Camera? {
+//        return try {
+//            Camera.open()
+//        } catch (e: Exception) {
+//            null
+//        }
+//    }
 
 }
