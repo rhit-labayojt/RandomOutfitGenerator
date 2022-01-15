@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Search</title>
+    <defs>
+        <linearGradient x1="19.4299207%" y1="137.756608%" x2="100%" y2="-36.8920375%" id="linearGradient-1">
+            <stop stop-color="#AE68FF" offset="0%"></stop>
+            <stop stop-color="#7991FF" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="E-commerce-icons" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g transform="translate(-164.000000, -660.000000)" id="Search">
+            <g transform="translate(164.000000, 660.000000)">
+                <rect id="Rectangle" fill-opacity="0" fill="#FFFFFF" x="0" y="0" width="128" height="128"></rect>
+                <path d="M56,10.6666667 C81.0369087,10.6666667 101.333333,30.9630913 101.333333,56 C101.333333,66.5947974 97.6988436,76.3407143 91.6086425,84.0589723 L121.104569,113.562097 L113.562097,121.104569 L84.0589723,91.6086425 C76.3407143,97.6988436 66.5947974,101.333333 56,101.333333 C30.9630913,101.333333 10.6666667,81.0369087 10.6666667,56 C10.6666667,30.9630913 30.9630913,10.6666667 56,10.6666667 Z M56,21.3333333 C36.8541287,21.3333333 21.3333333,36.8541287 21.3333333,56 C21.3333333,75.1458713 36.8541287,90.6666667 56,90.6666667 C75.1458713,90.6666667 90.6666667,75.1458713 90.6666667,56 C90.6666667,36.8541287 75.1458713,21.3333333 56,21.3333333 Z" fill="url(#linearGradient-1)"></path>
+            </g>
+        </g>
+    </g>
+</svg>
