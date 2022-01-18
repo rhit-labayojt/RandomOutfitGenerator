@@ -1,4 +1,9 @@
 package edu.rosehulman.randomoutfitgenerator.objects
 
-class Clothing {
+import android.media.Image
+
+class Clothing(val superCat: String = "", val subCat: String = "",
+               val style: String = "", val weather: String = "",
+                val image: Image ) {
+
 }

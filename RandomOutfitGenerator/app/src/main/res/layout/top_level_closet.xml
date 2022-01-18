@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="@dimen/top_level_recycler_height" >
+
+    <TextView android:id="@+id/header_title"
+        style="@style/closet_header_theme" />
+
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/clothing_grid"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+
+</RelativeLayout>

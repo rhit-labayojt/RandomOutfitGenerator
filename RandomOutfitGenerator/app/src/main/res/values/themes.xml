@@ -43,6 +43,16 @@
     //--------------------Home Fragment Themes--------------------
 
     //----------------------Closet Fragment Themes-----------------
+    <style name="closet_header_theme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/closet_header_height</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/closet_header_text</item>
+        <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="android:textColor">?attr/colorSecondaryVariant</item>
+        <item name="android:text">@string/closet_header_filler</item>
+        <item name="android:layout_marginVertical">@dimen/closet_header_margin</item>
+    </style>
 
     //------------------------Outfit Fragment Themes------------------
 
