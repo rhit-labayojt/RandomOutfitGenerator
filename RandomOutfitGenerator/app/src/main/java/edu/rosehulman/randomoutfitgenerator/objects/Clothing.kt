@@ -4,7 +4,7 @@ import android.media.Image
 
 class Clothing(private var subCat: String = "",
                var styles: ArrayList<String> = ArrayList(), var weathers: ArrayList<String> = ArrayList(),
-                private var image: Image ) {
+                private var image: String = "" ) {
 
     fun addStyle(s: String){
         styles.add(s)
@@ -22,11 +22,11 @@ class Clothing(private var subCat: String = "",
         weathers.remove(w)
     }
 
-    fun editImage(i: Image){
+    fun editImage(i: String){
         image = i
     }
 
-    fun getImage(): Image{
+    fun getImage(): String{
         return image
     }
 
