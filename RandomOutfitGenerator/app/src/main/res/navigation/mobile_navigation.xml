@@ -47,4 +47,10 @@
         android:label="@string/camera"
         tools.layout="@layout/fragment_camera" />
 
+    <fragment
+        android:id="@+id/nav_clothing_edit"
+        android:name="edu.rosehulman.randomoutfitgenerator.ui.ClothingEditFragment"
+        android:label="@string/clothing_edit"
+        tools.layout="@layout/fragment_clothing_edit" />
+
 </navigation>

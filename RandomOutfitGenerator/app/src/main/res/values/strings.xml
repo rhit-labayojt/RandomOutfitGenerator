@@ -34,4 +34,5 @@
 
     //-----------------------Camera-----------------
     <string name="camera">Camera</string>
+    <string name="clothing_edit">Edit Item</string>
 </resources>

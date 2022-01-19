@@ -45,11 +45,12 @@
     //----------------------Closet Fragment Themes-----------------
     <style name="closet_header_theme">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/closet_header_height</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/closet_header_text</item>
-        <item name="backgroundTint">?attr/colorSecondary</item>
+        <item name="android:background">?attr/colorSecondary</item>
         <item name="android:textColor">?attr/colorSecondaryVariant</item>
+        <item name="android:padding">@dimen/closet_header_padding</item>
         <item name="android:layout_marginVertical">@dimen/closet_header_margin</item>
     </style>
 
@@ -57,6 +58,16 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="backgroundTint">?attr/colorSecondaryVariant</item>
+        <item name="android:layout_marginHorizontal">@dimen/closet_recycler_view_margin</item>
+        <item name="android:scrollbars">vertical</item>
+        <item name="android:scrollbarSize">@dimen/closet_scrollbar_size</item>
+    </style>
+
+    <style name="closet_grid_image">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/closet_image_height</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:padding">@dimen/closet_grid_padding</item>
     </style>
 
     //------------------------Outfit Fragment Themes------------------

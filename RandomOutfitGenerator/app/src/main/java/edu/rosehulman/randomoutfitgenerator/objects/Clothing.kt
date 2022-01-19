@@ -3,14 +3,14 @@ package edu.rosehulman.randomoutfitgenerator.objects
 import android.media.Image
 
 class Clothing(private var superCat: SuperCategory = SuperCategory.Top, private var subCat: String = "",
-               var styles: ArrayList<String> = ArrayList(), var weathers: ArrayList<String> = ArrayList(),
+               var styles: ArrayList<String> = ArrayList(), var weathers: ArrayList<Weather> = ArrayList(),
                private var image: String = "" ) {
 
     fun addStyle(s: String){
         styles.add(s)
     }
 
-    fun addWeather(w: String){
+    fun addWeather(w: Weather){
         weathers.add(w)
     }
 
@@ -18,7 +18,7 @@ class Clothing(private var superCat: SuperCategory = SuperCategory.Top, private 
         styles.remove(s)
     }
 
-    fun removeWeather(w: String){
+    fun removeWeather(w: Weather){
         weathers.remove(w)
     }
 
