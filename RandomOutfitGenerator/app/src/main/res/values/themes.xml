@@ -37,7 +37,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentEnd">true</item>
         <item name="android:layout_alignParentBottom">true</item>
-        <item name="android:backgroundTint">@color/tiffany_blue</item>
+        <item name="android:backgroundTint">?attr/colorPrimaryVariant</item>
     </style>
 
     //--------------------Home Fragment Themes--------------------
@@ -50,8 +50,13 @@
         <item name="android:textSize">@dimen/closet_header_text</item>
         <item name="backgroundTint">?attr/colorSecondary</item>
         <item name="android:textColor">?attr/colorSecondaryVariant</item>
-        <item name="android:text">@string/closet_header_filler</item>
         <item name="android:layout_marginVertical">@dimen/closet_header_margin</item>
+    </style>
+
+    <style name="closet_recycler_view_theme">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="backgroundTint">?attr/colorSecondaryVariant</item>
     </style>
 
     //------------------------Outfit Fragment Themes------------------

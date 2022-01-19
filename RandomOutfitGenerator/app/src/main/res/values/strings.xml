@@ -10,7 +10,11 @@
 
     //-------------------Closet----------------
     <string name="menu_closet">My Closet</string>
-    <string name="closet_header_filler">Top</string>
+    <string name="tops">Tops</string>
+    <string name="bottoms">Bottoms</string>
+    <string name="accessories">Accessories</string>
+    <string name="shoes">Shoes</string>
+    <string name="full_body">Full Body</string>
 
     //-------------------Outfits-------------------
     <string name="outfit">My Outfit</string>

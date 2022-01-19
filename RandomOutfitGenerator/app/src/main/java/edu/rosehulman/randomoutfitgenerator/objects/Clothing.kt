@@ -2,9 +2,9 @@ package edu.rosehulman.randomoutfitgenerator.objects
 
 import android.media.Image
 
-class Clothing(private var subCat: String = "",
+class Clothing(private var superCat: SuperCategory = SuperCategory.Top, private var subCat: String = "",
                var styles: ArrayList<String> = ArrayList(), var weathers: ArrayList<String> = ArrayList(),
-                private var image: String = "" ) {
+               private var image: String = "" ) {
 
     fun addStyle(s: String){
         styles.add(s)
@@ -32,6 +32,10 @@ class Clothing(private var subCat: String = "",
 
     fun getSubCat(): String{
         return subCat
+    }
+
+    fun getSuperCat(): SuperCategory{
+        return superCat
     }
 
 }
