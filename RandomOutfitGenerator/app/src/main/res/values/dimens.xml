@@ -6,11 +6,12 @@
     <dimen name="nav_header_height">176dp</dimen>
 
     //---------------------------Closet Fragment-----------------
-    <dimen name="closet_header_text">24sp</dimen>
+    <dimen name="closet_header_text">36sp</dimen>
     <dimen name="closet_header_padding">7dp</dimen>
     <dimen name="closet_header_margin">5dp</dimen>
     <dimen name="closet_recycler_view_margin">5dp</dimen>
     <dimen name="closet_scrollbar_size">10dp</dimen>
     <dimen name="closet_image_height">200dp</dimen>
     <dimen name="closet_grid_padding">3dp</dimen>
+    <dimen name="closet_main_scrollbarSize">15dp</dimen>
 </resources>

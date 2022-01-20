@@ -1,60 +1,72 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".ui.ClosetFragment">
+    android:layout_height="match_parent" >
 
-    <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
+
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".ui.ClosetFragment">
+        tools:context=".ui.ClosetFragment"
+        android:scrollbarSize="@dimen/closet_main_scrollbarSize">
 
-        <TextView android:id="@+id/closet_tops"
-            style="@style/closet_header_theme"
-            android:text="@string/tops" />
 
-        <androidx.recyclerview.widget.RecyclerView android:id="@+id/tops_grid"
-            style="@style/closet_recycler_view_theme" />
 
-        <TextView android:id="@+id/closet_bottoms"
-            style="@style/closet_header_theme"
-            android:text="@string/bottoms" />
+            <androidx.appcompat.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                tools:context=".ui.ClosetFragment"
+                android:id="@+id/closet_view">
 
-        <androidx.recyclerview.widget.RecyclerView android:id="@+id/bottoms_grid"
-            style="@style/closet_recycler_view_theme" />
+                <TextView android:id="@+id/closet_tops"
+                    style="@style/closet_header_theme"
+                    android:text="@string/tops" />
 
-        <TextView android:id="@+id/closet_full_body"
-            style="@style/closet_header_theme"
-            android:text="@string/full_body" />
+                <androidx.recyclerview.widget.RecyclerView android:id="@+id/tops_grid"
+                    style="@style/closet_recycler_view_theme" />
 
-        <androidx.recyclerview.widget.RecyclerView android:id="@+id/full_body_grid"
-            style="@style/closet_recycler_view_theme" />
+                <TextView android:id="@+id/closet_bottoms"
+                    style="@style/closet_header_theme"
+                    android:text="@string/bottoms" />
 
-        <TextView android:id="@+id/closet_shoes"
-            style="@style/closet_header_theme"
-            android:text="@string/shoes" />
+                <androidx.recyclerview.widget.RecyclerView android:id="@+id/bottoms_grid"
+                    style="@style/closet_recycler_view_theme" />
 
-        <androidx.recyclerview.widget.RecyclerView android:id="@+id/shoes_grid"
-            style="@style/closet_recycler_view_theme" />
+                <TextView android:id="@+id/closet_full_body"
+                    style="@style/closet_header_theme"
+                    android:text="@string/full_body" />
 
-        <TextView android:id="@+id/closet_accessories"
-            style="@style/closet_header_theme"
-            android:text="@string/accessories" />
+                <androidx.recyclerview.widget.RecyclerView android:id="@+id/full_body_grid"
+                    style="@style/closet_recycler_view_theme" />
 
-        <androidx.recyclerview.widget.RecyclerView android:id="@+id/accessories_grid"
-            style="@style/closet_recycler_view_theme" />
+                <TextView android:id="@+id/closet_shoes"
+                    style="@style/closet_header_theme"
+                    android:text="@string/shoes" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/camera_fab"
-            style="@style/fab_theme"
-            android:src="@drawable/ic_menu_camera" />
+                <androidx.recyclerview.widget.RecyclerView android:id="@+id/shoes_grid"
+                    style="@style/closet_recycler_view_theme" />
 
-    </androidx.appcompat.widget.LinearLayoutCompat>
+                <TextView android:id="@+id/closet_accessories"
+                    style="@style/closet_header_theme"
+                    android:text="@string/accessories" />
 
-</ScrollView>
+                <androidx.recyclerview.widget.RecyclerView android:id="@+id/accessories_grid"
+                    style="@style/closet_recycler_view_theme" />
+
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/camera_fab"
+        style="@style/fab_theme"
+        android:src="@drawable/ic_menu_camera" />
+
+</RelativeLayout>

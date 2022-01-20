@@ -44,26 +44,81 @@ class ClosetFragment : Fragment() {
         binding.accessoriesGrid.layoutManager = GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false)
         binding.fullBodyGrid.layoutManager = GridLayoutManager(requireContext(), 4, GridLayoutManager.VERTICAL, false)
 
+
+        binding.topsGrid.visibility = View.GONE
+        binding.bottomsGrid.visibility = View.GONE
+        binding.accessoriesGrid.visibility = View.GONE
+        binding.shoesGrid.visibility = View.GONE
+        binding.fullBodyGrid.visibility = View.GONE
+
         adapterList = Array(5){binding.topsGrid; binding.bottomsGrid; binding.shoesGrid; binding.accessoriesGrid; binding.fullBodyGrid}
 
         binding.closetTops.setOnClickListener{
-            setViewVisible(binding.topsGrid)
+            if(binding.topsGrid.visibility == View.GONE){
+                binding.topsGrid.visibility = View.VISIBLE
+            }else{
+                binding.topsGrid.visibility = View.GONE
+            }
+
+            binding.bottomsGrid.visibility = View.GONE
+            binding.accessoriesGrid.visibility = View.GONE
+            binding.shoesGrid.visibility = View.GONE
+            binding.fullBodyGrid.visibility = View.GONE
         }
 
         binding.closetBottoms.setOnClickListener{
-            setViewVisible(binding.bottomsGrid)
+            binding.topsGrid.visibility = View.GONE
+
+            if(binding.bottomsGrid.visibility == View.GONE){
+                binding.bottomsGrid.visibility = View.VISIBLE
+            }else{
+                binding.bottomsGrid.visibility = View.GONE
+            }
+
+            binding.accessoriesGrid.visibility = View.GONE
+            binding.shoesGrid.visibility = View.GONE
+            binding.fullBodyGrid.visibility = View.GONE
         }
 
         binding.closetAccessories.setOnClickListener{
-            setViewVisible(binding.accessoriesGrid)
+            binding.topsGrid.visibility = View.GONE
+            binding.bottomsGrid.visibility = View.GONE
+
+            if(binding.accessoriesGrid.visibility == View.GONE){
+                binding.accessoriesGrid.visibility = View.VISIBLE
+            }else{
+                binding.accessoriesGrid.visibility = View.GONE
+            }
+
+            binding.shoesGrid.visibility = View.GONE
+            binding.fullBodyGrid.visibility = View.GONE
         }
 
         binding.closetShoes.setOnClickListener{
-            setViewVisible(binding.shoesGrid)
+            binding.topsGrid.visibility = View.GONE
+            binding.bottomsGrid.visibility = View.GONE
+            binding.accessoriesGrid.visibility = View.GONE
+
+            if(binding.shoesGrid.visibility == View.GONE){
+                binding.shoesGrid.visibility = View.VISIBLE
+            }else{
+                binding.shoesGrid.visibility = View.GONE
+            }
+
+            binding.fullBodyGrid.visibility = View.GONE
         }
 
         binding.closetFullBody.setOnClickListener {
-            setViewVisible(binding.fullBodyGrid)
+            binding.topsGrid.visibility = View.GONE
+            binding.bottomsGrid.visibility = View.GONE
+            binding.accessoriesGrid.visibility = View.GONE
+            binding.shoesGrid.visibility = View.GONE
+
+            if(binding.fullBodyGrid.visibility == View.GONE){
+                binding.fullBodyGrid.visibility = View.VISIBLE
+            }else{
+                binding.fullBodyGrid.visibility = View.GONE
+            }
         }
 
         binding.cameraFab.setOnClickListener {
@@ -72,20 +127,7 @@ class ClosetFragment : Fragment() {
             }
         }
 
-        setViewVisible(binding.topsGrid)
-
         return binding.root
     }
-
-    fun setViewVisible(view: RecyclerView){
-        for(i in adapterList){
-            if(i == view ){
-                view.visibility = View.VISIBLE
-            }else{
-                view.visibility = View.GONE
-            }
-        }
-    }
-
 
 }

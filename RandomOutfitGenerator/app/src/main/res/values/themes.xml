@@ -48,8 +48,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/closet_header_text</item>
-        <item name="android:background">?attr/colorSecondary</item>
-        <item name="android:textColor">?attr/colorSecondaryVariant</item>
+        <item name="android:background">?attr/colorSecondaryVariant</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
         <item name="android:padding">@dimen/closet_header_padding</item>
         <item name="android:layout_marginVertical">@dimen/closet_header_margin</item>
     </style>

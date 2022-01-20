@@ -57,7 +57,7 @@ class Closet {
     }
 
     private fun generateTestImages(){
-        for(i in 0 until 76){
+        for(i in 0 until 5*7){
             when(i % 5){
                 0 -> addClothing(Clothing(SuperCategory.Top, topsTags.get(Random.nextInt(topsTags.size)), arrayListOf(styles.get(i % styles.size), styles.get((i+3)%styles.size), styles.get((i+5)%styles.size)),arrayListOf(
                     Weather.Moderate, Weather.Cool, Weather.Cold), testImages.get(Random.nextInt(testImages.size))))
