@@ -14,4 +14,8 @@
     <dimen name="closet_image_height">200dp</dimen>
     <dimen name="closet_grid_padding">3dp</dimen>
     <dimen name="closet_main_scrollbarSize">15dp</dimen>
+
+    //-----------------Clothing Edit Fragment---------------------
+    <dimen name="clothing_edit_image_height">200dp</dimen>
+    <dimen name="clothing_edit_image_margin">25dp</dimen>
 </resources>
