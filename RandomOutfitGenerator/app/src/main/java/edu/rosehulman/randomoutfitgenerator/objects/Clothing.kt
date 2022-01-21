@@ -24,7 +24,7 @@ class Clothing(private var superCat: SuperCategory = SuperCategory.Top, private 
         weathers.remove(w)
     }
 
-    fun editImage(i: String){
+    fun setImage(i: String){
         image = i
     }
 
@@ -38,6 +38,10 @@ class Clothing(private var superCat: SuperCategory = SuperCategory.Top, private 
 
     fun getSuperCat(): SuperCategory{
         return superCat
+    }
+
+    fun setSuperCat(cat: String){
+        superCat = SuperCategory.stringToEnum((cat))
     }
 
 }

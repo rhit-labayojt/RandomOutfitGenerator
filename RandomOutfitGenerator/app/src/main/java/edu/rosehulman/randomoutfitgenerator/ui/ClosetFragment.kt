@@ -16,7 +16,6 @@ import edu.rosehulman.randomoutfitgenerator.objects.SuperCategory
 
 class ClosetFragment : Fragment() {
     private lateinit var binding: FragmentClosetBinding
-    lateinit var adapterList: Array<RecyclerView>
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,6 +25,18 @@ class ClosetFragment : Fragment() {
 
         binding = FragmentClosetBinding.inflate(inflater, container, false)
 
+        setAdapters()
+        setListeners()
+
+        return binding.root
+    }
+
+    /**
+     * Sets the adapters for each of the five recycler views used in the fragment. Additionally it
+     * sets the visibility of all the the view to View.GONE so that the user can choose which view
+     * is visible
+     */
+    fun setAdapters(){
         val topsAdapter = ClosetAdapter(this, SuperCategory.Top)
         val bottomsAdapter = ClosetAdapter(this, SuperCategory.Bottom)
         val shoesAdapter = ClosetAdapter(this,SuperCategory.Shoes)
@@ -50,9 +61,15 @@ class ClosetFragment : Fragment() {
         binding.accessoriesGrid.visibility = View.GONE
         binding.shoesGrid.visibility = View.GONE
         binding.fullBodyGrid.visibility = View.GONE
+    }
 
-        adapterList = Array(5){binding.topsGrid; binding.bottomsGrid; binding.shoesGrid; binding.accessoriesGrid; binding.fullBodyGrid}
-
+    /**
+     * Puts listeners on each of the text views to control the visibility of the corresponding
+     * recycler view. It toggles the visibility of the selected view between View.VISIBLE and
+     * View.GONE. It also sets the other four recyclers to Visibilty.GONE to recuse clutter on the
+     * screen
+     */
+    fun setListeners(){
         binding.closetTops.setOnClickListener{
             if(binding.topsGrid.visibility == View.GONE){
                 binding.topsGrid.visibility = View.VISIBLE
@@ -126,8 +143,6 @@ class ClosetFragment : Fragment() {
                 findNavController().navigate(R.id.nav_camera)
             }
         }
-
-        return binding.root
     }
 
 }

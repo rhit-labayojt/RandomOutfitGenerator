@@ -35,4 +35,13 @@
     //-----------------------Camera-----------------
     <string name="camera">Camera</string>
     <string name="clothing_edit">Edit Item</string>
+
+    //----------------Clothing Edit---------------
+    <string-array name="super_categories">
+        <item>Top</item>
+        <item>Bottom</item>
+        <item>Full Body</item>
+        <item>Accessory</item>
+        <item>Shoes</item>
+    </string-array>
 </resources>
