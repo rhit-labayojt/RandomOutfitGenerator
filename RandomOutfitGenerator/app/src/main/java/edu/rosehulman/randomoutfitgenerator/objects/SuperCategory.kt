@@ -8,14 +8,14 @@ enum class SuperCategory {
     Shoes;
 
     companion object {
-        fun stringArray(): Array<String> {
-            return Array(5) {
-                "Top";
-                "Bottom";
-                "Full Body";
-                "Accessory";
-                "Shoes"
-            }
+        fun stringArray(): ArrayList<String> {
+            var list = ArrayList<String>()
+            list.add("Top")
+            list.add("Bottom")
+            list.add("Full Body")
+            list.add("Accessory")
+            list.add("Shoes")
+            return list
         }
 
         fun stringToEnum(s: String): SuperCategory{
@@ -30,6 +30,16 @@ enum class SuperCategory {
             }
 
             return toReturn
+        }
+
+        fun enumToString(cat: SuperCategory): String{
+            when(cat){
+                Top -> return "Top"
+                Bottom -> return "Bottom"
+                Shoes -> return "Shoes"
+                Accessory -> return "Accessory"
+                else -> return "Full Body"
+            }
         }
     }
 

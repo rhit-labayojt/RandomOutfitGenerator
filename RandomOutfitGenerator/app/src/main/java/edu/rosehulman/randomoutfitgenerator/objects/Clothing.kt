@@ -44,4 +44,8 @@ class Clothing(private var superCat: SuperCategory = SuperCategory.Top, private 
         superCat = SuperCategory.stringToEnum((cat))
     }
 
+    fun setSubCat(cat: String){
+        subCat = cat
+    }
+
 }
