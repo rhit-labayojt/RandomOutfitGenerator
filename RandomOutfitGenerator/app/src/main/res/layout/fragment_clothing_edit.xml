@@ -12,16 +12,11 @@
 
     <Spinner android:id="@+id/super_cat_spinner"
         style="@style/clothing_edit_spinner_theme"
-        android:layout_below="@+id/clothing_edit_image"
-        />
+        android:layout_below="@+id/clothing_edit_image" />
 
     <Spinner android:id="@+id/sub_cat_spinner"
         style="@style/clothing_edit_spinner_theme"
         android:layout_alignParentEnd="true"
         android:layout_below="@id/clothing_edit_image"/>
-
-
-
-
 
 </RelativeLayout>
