@@ -18,4 +18,7 @@
     //-----------------Clothing Edit Fragment---------------------
     <dimen name="clothing_edit_image_height">200dp</dimen>
     <dimen name="clothing_edit_image_margin">25dp</dimen>
+    <dimen name="clothing_edit_spinner_width">100dp</dimen>
+    <dimen name="clothing_edit_text">15sp</dimen>
+    <dimen name="clothing_edit_spinner_margin">15dp</dimen>
 </resources>

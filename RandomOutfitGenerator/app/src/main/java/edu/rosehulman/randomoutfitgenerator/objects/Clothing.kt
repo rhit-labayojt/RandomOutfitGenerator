@@ -6,6 +6,8 @@ class Clothing(private var superCat: SuperCategory = SuperCategory.Top, private 
                var styles: ArrayList<String> = ArrayList(), var weathers: ArrayList<Weather> = ArrayList(),
                private var image: String = "" ) {
 
+    var id = ""
+
     fun addStyle(s: String){
         styles.add(s)
     }

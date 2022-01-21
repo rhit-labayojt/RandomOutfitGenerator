@@ -1,13 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/platinum">
     
-    <ImageView
+    <ImageView android:id="@+id/clothing_edit_image"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/clothing_edit_image_height"
         android:layout_centerHorizontal="true"
         android:layout_marginVertical="@dimen/clothing_edit_image_margin"/>
+
+    <Spinner android:id="@+id/super_cat_spinner"
+        style="@style/clothing_edit_spinner_theme"
+        android:layout_below="@+id/clothing_edit_image"
+        />
+
+    <Spinner android:id="@+id/sub_cat_spinner"
+        style="@style/clothing_edit_spinner_theme"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@id/clothing_edit_image"/>
 
 
 

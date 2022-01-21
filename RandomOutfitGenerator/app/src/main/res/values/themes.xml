@@ -72,7 +72,15 @@
 
     //------------------------Outfit Fragment Themes------------------
 
-    //-------------------------Saved Outfits Fragment Themes------------
+    //---------------------Saved Outfits Fragment Themes------------
 
-    //-------------------------Settings Fragment Themes-------------------
+    //---------------------Settings Fragment Themes-------------------
+
+    //---------------------Clothing Edit Themes---------------------
+    <style name="clothing_edit_spinner_theme">
+        <item name="android:layout_width">@dimen/clothing_edit_spinner_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/clothing_edit_text</item>
+        <item name="android:layout_marginHorizontal">@dimen/clothing_edit_spinner_margin</item>
+    </style>
 </resources>
