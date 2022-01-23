@@ -67,8 +67,8 @@ class ClothingEditFragment: Fragment() {
             transformations(RoundedCornersTransformation())
         }
 
-        setInitialSpinnerValues()
         setupSpinnerAdapters()
+        setInitialSpinnerValues()
         addSpinnerListeners()
 
         return binding.root
