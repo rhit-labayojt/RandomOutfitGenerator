@@ -8,6 +8,7 @@
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/ic_t_shirt.xml" value="0.2911458333333333" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/side_nav_bar.xml" value="0.2911458333333333" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/activity_main.xml" value="0.275" />
+        <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/app_bar_edit.xml" value="0.26268115942028986" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/app_bar_main.xml" value="0.275" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/closet_grid_view.xml" value="0.2962962962962963" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/content_main.xml" value="0.275" />
@@ -24,7 +25,8 @@
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/spinner_item_selected.xml" value="0.13323201621073963" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/top_level_closet.xml" value="0.18333333333333332" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/menu/activity_main_drawer.xml" value="0.275" />
-        <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/menu/main.xml" value="0.14375" />
+        <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/menu/main.xml" value="0.264" />
+        <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/menu/menu_clothing_edit.xml" value="0.38697916666666665" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/mipmap-anydpi-v26/ic_menu_bars.xml" value="0.2861111111111111" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/mipmap-anydpi-v26/ic_menu_bars_round.xml" value="0.2861111111111111" />
         <entry key="..\:/Users/hahmcm/Documents/Senior/Winter/CSSE483-01 Android Application Development/RandomOutfitGenerator/app/src/main/res/layout/activity_main.xml" value="0.3814814814814815" />

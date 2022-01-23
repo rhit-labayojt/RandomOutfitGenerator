@@ -37,11 +37,6 @@
     <string name="clothing_edit">Edit Item</string>
 
     //----------------Clothing Edit---------------
-    <string-array name="super_categories">
-        <item>Top</item>
-        <item>Bottom</item>
-        <item>Full Body</item>
-        <item>Accessory</item>
-        <item>Shoes</item>
-    </string-array>
+    <string name="clothing_delete">Delete</string>
+    <string name="clothing_save">Save</string>
 </resources>

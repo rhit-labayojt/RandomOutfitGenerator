@@ -10,4 +10,9 @@ class ClosetViewModel : ViewModel() {
     fun updateCurrentItem(clothes: Clothing){
         currentItem = clothes
     }
+
+    fun deleteCurrentItem(){
+        closet.clothing.remove(currentItem)
+        currentItem = closet.clothing.get(0)
+    }
 }
