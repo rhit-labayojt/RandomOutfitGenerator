@@ -8,11 +8,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.ClosetAdapter
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentClosetBinding
-import edu.rosehulman.randomoutfitgenerator.objects.SuperCategory
+import edu.rosehulman.randomoutfitgenerator.models.Closet
 
 class ClosetFragment : Fragment() {
     private lateinit var binding: FragmentClosetBinding
@@ -37,11 +36,11 @@ class ClosetFragment : Fragment() {
      * is visible
      */
     fun setAdapters(){
-        val topsAdapter = ClosetAdapter(this, SuperCategory.Top)
-        val bottomsAdapter = ClosetAdapter(this, SuperCategory.Bottom)
-        val shoesAdapter = ClosetAdapter(this,SuperCategory.Shoes)
-        val fullBodyAdapter = ClosetAdapter(this, SuperCategory.FullBody)
-        val accessoriesAdapter = ClosetAdapter(this, SuperCategory.Accessory)
+        val topsAdapter = ClosetAdapter(this, Closet.superCategories[0])
+        val bottomsAdapter = ClosetAdapter(this, Closet.superCategories[1])
+        val accessoriesAdapter = ClosetAdapter(this, Closet.superCategories[2])
+        val shoesAdapter = ClosetAdapter(this, Closet.superCategories[3])
+        val fullBodyAdapter = ClosetAdapter(this, Closet.superCategories[4])
 
         binding.topsGrid.adapter = topsAdapter
         binding.bottomsGrid.adapter = bottomsAdapter

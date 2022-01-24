@@ -3,11 +3,9 @@ package edu.rosehulman.randomoutfitgenerator.ui
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import android.widget.Spinner
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -16,18 +14,18 @@ import coil.transform.RoundedCornersTransformation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentClothingEditBinding
+import edu.rosehulman.randomoutfitgenerator.models.Closet
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
-import edu.rosehulman.randomoutfitgenerator.objects.SuperCategory
-import edu.rosehulman.randomoutfitgenerator.objects.Weather
 
 class ClothingEditFragment: Fragment() {
     private lateinit var binding: FragmentClothingEditBinding
     private lateinit var model: ClosetViewModel
     private var newSuperCat = ""
     private var newSubCat = ""
-    private var checkedStyles = Array<Boolean>(model.closet.styles.size){false}
-    private var checkedWeathers = Array<Boolean>(Weather.toArrayList().size){false}
+    private lateinit var checkedStyles: BooleanArray
+    private var checkedWeathers = BooleanArray(Closet.weathers.size){false}
     private var stylesToAdd = ArrayList<String>()
+    private var stylesToRemove = ArrayList<String>()
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_clothing_edit, menu)
@@ -65,6 +63,7 @@ class ClothingEditFragment: Fragment() {
     ): View? {
         binding = FragmentClothingEditBinding.inflate(inflater, container, false)
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
+        checkedStyles = BooleanArray(model.closet.styles.size){false}
 
         setHasOptionsMenu(true)
 
@@ -82,14 +81,14 @@ class ClothingEditFragment: Fragment() {
     }
 
     private fun setInitialSpinnerValues(){
-        binding.superCatSpinner.setSelection(SuperCategory.stringArray().indexOfFirst { it == SuperCategory.enumToString(model.currentItem.getSuperCat()) })
+        binding.superCatSpinner.setSelection(Closet.superCategories.indexOfFirst { it == model.currentItem.getSuperCat() })
 
         when(model.currentItem.getSuperCat()){
-            SuperCategory.Top -> binding.subCatSpinner.setSelection(model.closet.topsTags.indexOfFirst { it == model.currentItem.getSubCat() })
-            SuperCategory.Bottom -> binding.subCatSpinner.setSelection(model.closet.bottomsTags.indexOfFirst { it == model.currentItem.getSubCat() })
-            SuperCategory.Accessory -> binding.subCatSpinner.setSelection(model.closet.accessoriesTags.indexOfFirst { it == model.currentItem.getSubCat() })
-            SuperCategory.Shoes -> binding.subCatSpinner.setSelection(model.closet.shoesTags.indexOfFirst { it == model.currentItem.getSubCat() })
-            else -> binding.subCatSpinner.setSelection(model.closet.fullBodyTags.indexOfFirst { it == model.currentItem.getSubCat() })
+            Closet.superCategories[0] -> binding.subCatSpinner.setSelection(model.closet.topsTags.keys.toTypedArray().indexOfFirst { it == model.currentItem.getSubCat() })
+            Closet.superCategories[1] -> binding.subCatSpinner.setSelection(model.closet.bottomsTags.keys.toTypedArray().indexOfFirst { it == model.currentItem.getSubCat() })
+            Closet.superCategories[2]-> binding.subCatSpinner.setSelection(model.closet.accessoriesTags.keys.toTypedArray().indexOfFirst { it == model.currentItem.getSubCat() })
+            Closet.superCategories[3] -> binding.subCatSpinner.setSelection(model.closet.shoesTags.keys.toTypedArray().indexOfFirst { it == model.currentItem.getSubCat() })
+            else -> binding.subCatSpinner.setSelection(model.closet.fullBodyTags.keys.toTypedArray().indexOfFirst { it == model.currentItem.getSubCat() })
         }
     }
 
@@ -97,7 +96,7 @@ class ClothingEditFragment: Fragment() {
         val superCatAdapter = ArrayAdapter(
             requireContext(),
             R.layout.spinner_item_selected,
-            SuperCategory.stringArray()
+            Closet.superCategories
         )
         superCatAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown)
         binding.superCatSpinner.adapter = superCatAdapter
@@ -105,16 +104,16 @@ class ClothingEditFragment: Fragment() {
         setSubCatAdapter(model.currentItem.getSuperCat())
     }
 
-    private fun setSubCatAdapter(superCat: SuperCategory){
+    private fun setSubCatAdapter(superCat: String){
         val subCatAdapter = ArrayAdapter(
             requireContext(),
             R.layout.spinner_item_selected,
             when(superCat){
-                SuperCategory.Top -> model.closet.topsTags
-                SuperCategory.Bottom -> model.closet.bottomsTags
-                SuperCategory.Shoes -> model.closet.shoesTags
-                SuperCategory.Accessory -> model.closet.accessoriesTags
-                else -> model.closet.fullBodyTags
+                Closet.superCategories[0] -> model.closet.topsTags.keys.toTypedArray()
+                Closet.superCategories[1] -> model.closet.bottomsTags.keys.toTypedArray()
+                Closet.superCategories[2] -> model.closet.accessoriesTags.keys.toTypedArray()
+                Closet.superCategories[3]-> model.closet.shoesTags.keys.toTypedArray()
+                else -> model.closet.fullBodyTags.keys.toTypedArray()
             }
         )
         subCatAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown)
@@ -129,28 +128,47 @@ class ClothingEditFragment: Fragment() {
     private fun saveClothing(){
         model.currentItem.setSuperCat(newSuperCat)
         model.currentItem.setSubCat(newSubCat)
-        model.currentItem.setStyle(stylesToAdd)
+        stylesToAdd.forEach { model.currentItem.addStyle(it) }
+        stylesToRemove.forEach { model.currentItem.removeStyle(it) }
     }
 
     private fun setupTextViews(){
-        findCheckedItems(model.currentItem.styles, model.closet.styles, checkedStyles)
-        findCheckedItems(model.currentItem.getWeather(), Weather.toArrayList(), checkedWeathers)
-        binding.stylesOptions.text = "Styles: ${model.currentItem.styles}"
+        findCheckedItems(model.currentItem.getStyles(), model.closet.styles.keys.toTypedArray(), checkedStyles)
+        findCheckedItems(model.currentItem.getWeather(), Closet.weathers, checkedWeathers)
+
+        binding.stylesOptions.text = "Styles: ${model.closet.toString(model.currentItem.getStyles())}"
+        binding.weatherOptions.text = "Weathers: ${model.closet.toString(model.currentItem.getWeather())}"
 
         binding.stylesOptions.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle("Styles")
-                .setMultiChoiceItems(model.closet.styles.toArray(), checkedStyles, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
+                .setMultiChoiceItems(model.closet.styles.keys.toTypedArray(), checkedStyles, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
                     if(isChecked){
-                        stylesToAdd.add(model.closet.styles.get(which))
+                        stylesToAdd.add(model.closet.styles.keys.toTypedArray().get(which))
+                    }else{
+                        stylesToRemove.add(model.closet.styles.keys.toTypedArray().get(which))
                     }
                 })
-                .build()
+                .show()
+
+        }
+
+        binding.weatherOptions.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Weathers")
+                .setMultiChoiceItems(Closet.weathers, checkedStyles, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
+                    if(isChecked){
+                        stylesToAdd.add(Closet.weathers[which])
+                    }else{
+                        stylesToRemove.add(Closet.weathers[which])
+                    }
+                })
+                .show()
 
         }
     }
 
-    private fun findCheckedItems(clothingItems: ArrayList<String>, closetItems: ArrayList<String>, itemsChecked: Array<Boolean>){
+    private fun findCheckedItems(clothingItems: MutableSet<String>, closetItems: Array<String>, itemsChecked: BooleanArray){
         for(item in 0 until closetItems.size){
             itemsChecked[item] = clothingItems.contains(closetItems[item])
         }
@@ -175,7 +193,7 @@ class ClothingEditFragment: Fragment() {
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
             val superCat = binding.superCatSpinner.getItemAtPosition(position)
             newSuperCat = superCat as String
-            setSubCatAdapter(SuperCategory.stringToEnum(newSuperCat))
+            setSubCatAdapter(newSuperCat)
         }
 
         /**
@@ -186,7 +204,7 @@ class ClothingEditFragment: Fragment() {
          * @param parent The AdapterView that now contains no selected item.
          */
         override fun onNothingSelected(parent: AdapterView<*>?) {
-            newSuperCat = SuperCategory.enumToString(model.currentItem.getSuperCat())
+            newSuperCat = model.currentItem.getSuperCat()
         }
 
 

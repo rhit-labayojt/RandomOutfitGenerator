@@ -1,6 +1,5 @@
 package edu.rosehulman.randomoutfitgenerator.adapters
 
-import android.text.Layout
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,10 +12,9 @@ import coil.transform.RoundedCornersTransformation
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
 import edu.rosehulman.randomoutfitgenerator.objects.Clothing
-import edu.rosehulman.randomoutfitgenerator.objects.SuperCategory
 import edu.rosehulman.randomoutfitgenerator.ui.ClosetFragment
 
-class ClosetAdapter(val fragment: ClosetFragment, val modelTag: SuperCategory): RecyclerView.Adapter<ClosetAdapter.ClosetViewHolder>() {
+class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): RecyclerView.Adapter<ClosetAdapter.ClosetViewHolder>() {
     private val model = ViewModelProvider(fragment.requireActivity()).get(ClosetViewModel::class.java)
     private val itemList = model.closet.clothing.filter { it.getSuperCat() == modelTag }
 

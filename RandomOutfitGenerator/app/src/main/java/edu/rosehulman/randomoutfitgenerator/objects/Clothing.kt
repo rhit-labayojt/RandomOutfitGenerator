@@ -2,25 +2,27 @@ package edu.rosehulman.randomoutfitgenerator.objects
 
 import android.media.Image
 
-class Clothing(private var superCat: SuperCategory = SuperCategory.Top, private var subCat: String = "",
-               var styles: ArrayList<String> = ArrayList(), var weathers: ArrayList<Weather> = ArrayList(),
+class Clothing(private var superCat: String = "",
+               private var subCat: String = "",
+               private var styles: MutableMap<String, Boolean>,
+               private var weathers: MutableMap<String, Boolean>,
                private var image: String = "" ) {
 
     var id = ""
 
     fun addStyle(s: String){
-        styles.add(s)
+        styles.put(s, true)
     }
 
-    fun addWeather(w: Weather){
-        weathers.add(w)
+    fun addWeather(w: String){
+        weathers.put(w, true)
     }
 
     fun removeStyle(s: String){
         styles.remove(s)
     }
 
-    fun removeWeather(w: Weather){
+    fun removeWeather(w: String){
         weathers.remove(w)
     }
 
@@ -36,30 +38,24 @@ class Clothing(private var superCat: SuperCategory = SuperCategory.Top, private 
         return subCat
     }
 
-    fun getSuperCat(): SuperCategory{
+    fun getSuperCat(): String{
         return superCat
     }
 
     fun setSuperCat(cat: String){
-        superCat = SuperCategory.stringToEnum((cat))
+        superCat = cat
     }
 
     fun setSubCat(cat: String){
         subCat = cat
     }
 
-    fun getWeather(): ArrayList<String>{
-        var list = ArrayList<String>()
-
-        weathers.forEach{ list.add(Weather.enumToString(it))}
-
-        return list
+    fun getWeather(): MutableSet<String>{
+        return weathers.keys
     }
 
-    fun setStyle(s: ArrayList<String>){
-        if(!s.isEmpty()){
-            styles.addAll(s)
-        }
+    fun getStyles(): MutableSet<String>{
+        return styles.keys
     }
 
 }

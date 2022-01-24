@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "600276793928",
+    "project_id": "randomoutfitgenerator-2a8fc",
+    "storage_bucket": "randomoutfitgenerator-2a8fc.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:600276793928:android:44dc520978540b187ab67d",
+        "android_client_info": {
+          "package_name": "edu.rosehulman.randomoutfitgenerator"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "600276793928-bvpennsb33tgoj03ps4p83nlk0sonvlk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACNfTm_hUt6hj5LJv0WfUv7SV-Z7MPICA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "600276793928-bvpennsb33tgoj03ps4p83nlk0sonvlk.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
