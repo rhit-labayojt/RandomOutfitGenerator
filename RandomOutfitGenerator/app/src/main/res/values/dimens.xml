@@ -26,4 +26,5 @@
     <dimen name="clothing_edit_spinner_padding_right">40dp</dimen>
     <dimen name="clothing_edit_spinner_padding_vertical">10dp</dimen>
     <dimen name="clothing_edit_spinner_height">70dp</dimen>
+    <dimen name="clothing_edit_top_margin">25dp</dimen>
 </resources>

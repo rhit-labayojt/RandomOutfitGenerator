@@ -48,4 +48,18 @@ class Clothing(private var superCat: SuperCategory = SuperCategory.Top, private 
         subCat = cat
     }
 
+    fun getWeather(): ArrayList<String>{
+        var list = ArrayList<String>()
+
+        weathers.forEach{ list.add(Weather.enumToString(it))}
+
+        return list
+    }
+
+    fun setStyle(s: ArrayList<String>){
+        if(!s.isEmpty()){
+            styles.addAll(s)
+        }
+    }
+
 }

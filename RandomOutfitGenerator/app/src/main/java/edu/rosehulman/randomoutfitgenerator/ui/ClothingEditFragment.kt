@@ -1,5 +1,7 @@
 package edu.rosehulman.randomoutfitgenerator.ui
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -16,12 +18,16 @@ import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentClothingEditBinding
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
 import edu.rosehulman.randomoutfitgenerator.objects.SuperCategory
+import edu.rosehulman.randomoutfitgenerator.objects.Weather
 
 class ClothingEditFragment: Fragment() {
     private lateinit var binding: FragmentClothingEditBinding
     private lateinit var model: ClosetViewModel
     private var newSuperCat = ""
     private var newSubCat = ""
+    private var checkedStyles = Array<Boolean>(model.closet.styles.size){false}
+    private var checkedWeathers = Array<Boolean>(Weather.toArrayList().size){false}
+    private var stylesToAdd = ArrayList<String>()
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_clothing_edit, menu)
@@ -70,6 +76,7 @@ class ClothingEditFragment: Fragment() {
         setupSpinnerAdapters()
         setInitialSpinnerValues()
         addSpinnerListeners()
+        setupTextViews()
 
         return binding.root
     }
@@ -122,6 +129,31 @@ class ClothingEditFragment: Fragment() {
     private fun saveClothing(){
         model.currentItem.setSuperCat(newSuperCat)
         model.currentItem.setSubCat(newSubCat)
+        model.currentItem.setStyle(stylesToAdd)
+    }
+
+    private fun setupTextViews(){
+        findCheckedItems(model.currentItem.styles, model.closet.styles, checkedStyles)
+        findCheckedItems(model.currentItem.getWeather(), Weather.toArrayList(), checkedWeathers)
+        binding.stylesOptions.text = "Styles: ${model.currentItem.styles}"
+
+        binding.stylesOptions.setOnClickListener {
+            AlertDialog.Builder(requireContext())
+                .setTitle("Styles")
+                .setMultiChoiceItems(model.closet.styles.toArray(), checkedStyles, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
+                    if(isChecked){
+                        stylesToAdd.add(model.closet.styles.get(which))
+                    }
+                })
+                .build()
+
+        }
+    }
+
+    private fun findCheckedItems(clothingItems: ArrayList<String>, closetItems: ArrayList<String>, itemsChecked: Array<Boolean>){
+        for(item in 0 until closetItems.size){
+            itemsChecked[item] = clothingItems.contains(closetItems[item])
+        }
     }
 
     inner class SuperCatListener: AdapterView.OnItemSelectedListener{

@@ -19,4 +19,9 @@
         android:layout_alignParentEnd="true"
         android:layout_below="@id/clothing_edit_image"/>
 
+    <TextView android:id="@+id/styles_options"
+        style="@style/clothing_edit_spinner_theme"
+        android:layout_below="@id/super_cat_spinner"
+        android:layout_marginTop="@dimen/clothing_edit_top_margin"/>
+
 </RelativeLayout>
