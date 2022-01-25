@@ -70,7 +70,18 @@
         <item name="android:padding">@dimen/closet_grid_padding</item>
     </style>
 
-    //------------------------Outfit Fragment Themes------------------
+    //----------------------Outfit Fragment Themes------------------
+    <style name="outfit_view">
+        <item name="android:layout_width">@dimen/outfit_image_size</item>
+        <item name="android:layout_height">@dimen/outfit_image_size</item>
+        <item name="android:layout_margin">@dimen/outfit_image_margin</item>
+    </style>
+
+    <style name="outfit_text">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_margin">@dimen/outfit_image_margin</item>
+    </style>
 
     //---------------------Saved Outfits Fragment Themes------------
 
@@ -78,16 +89,14 @@
 
     //---------------------Clothing Edit Themes---------------------
     <style name="clothing_edit_spinner_theme">
-        <item name="android:layout_width">@dimen/clothing_edit_spinner_width</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/clothing_edit_text</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:textColor">?attr/colorPrimaryVariant</item>
         <item name="android:layout_marginHorizontal">@dimen/clothing_edit_spinner_margin</item>
         <item name="android:paddingLeft">@dimen/clothing_edit_spinner_padding_left</item>
         <item name="android:paddingRight">@dimen/clothing_edit_spinner_padding_right</item>
         <item name="android:paddingVertical">@dimen/clothing_edit_spinner_padding_vertical</item>
-        <item name="android:background">?attr/colorPrimaryVariant</item>
-        <item name="android:drawableRight">@drawable/ic_baseline_arrow_drop_down_24</item>
     </style>
 
     <style name="spinner_item_dropdown">
@@ -105,8 +114,8 @@
         <item name="android:layout_width">@dimen/clothing_edit_spinner_width</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/clothing_edit_text</item>
-        <item name="android:background">?attr/colorSecondary</item>
-        <item name="android:textColor">@color/white</item>
+        <item name="android:background">@color/platinum</item>
+        <item name="android:textColor">?attr/colorPrimaryVariant</item>
         <item name="android:paddingLeft">@dimen/clothing_edit_spinner_padding_left</item>
         <item name="android:paddingRight">@dimen/clothing_edit_spinner_padding_right</item>
         <item name="android:paddingVertical">@dimen/clothing_edit_spinner_padding_vertical</item>

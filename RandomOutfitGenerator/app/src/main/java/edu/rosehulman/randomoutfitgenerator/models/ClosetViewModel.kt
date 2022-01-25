@@ -4,6 +4,8 @@ import androidx.lifecycle.ViewModel
 import edu.rosehulman.randomoutfitgenerator.objects.Clothing
 
 class ClosetViewModel : ViewModel() {
+
+    var user = User()
     var closet = Closet()
     var currentItem = closet.clothing.get(0)
 

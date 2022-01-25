@@ -26,6 +26,8 @@ class ClothingEditFragment: Fragment() {
     private var checkedWeathers = BooleanArray(Closet.weathers.size){false}
     private var stylesToAdd = ArrayList<String>()
     private var stylesToRemove = ArrayList<String>()
+    private var weathersToAdd = ArrayList<String>()
+    private var weathersToRemove = ArrayList<String>()
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_clothing_edit, menu)
@@ -128,8 +130,12 @@ class ClothingEditFragment: Fragment() {
     private fun saveClothing(){
         model.currentItem.setSuperCat(newSuperCat)
         model.currentItem.setSubCat(newSubCat)
+
         stylesToAdd.forEach { model.currentItem.addStyle(it) }
         stylesToRemove.forEach { model.currentItem.removeStyle(it) }
+
+        weathersToAdd.forEach { model.currentItem.addWeather(it) }
+        weathersToRemove.forEach { model.currentItem.removeWeather(it) }
     }
 
     private fun setupTextViews(){
@@ -156,11 +162,11 @@ class ClothingEditFragment: Fragment() {
         binding.weatherOptions.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle("Weathers")
-                .setMultiChoiceItems(Closet.weathers, checkedStyles, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
+                .setMultiChoiceItems(Closet.weathers, checkedWeathers, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
                     if(isChecked){
-                        stylesToAdd.add(Closet.weathers[which])
+                        weathersToAdd.add(Closet.weathers[which])
                     }else{
-                        stylesToRemove.add(Closet.weathers[which])
+                        weathersToRemove.add(Closet.weathers[which])
                     }
                 })
                 .show()

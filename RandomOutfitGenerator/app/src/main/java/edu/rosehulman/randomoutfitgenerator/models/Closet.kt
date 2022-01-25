@@ -42,6 +42,10 @@ class Closet {
         clothing.add(item)
     }
 
+    fun removeClothing(item: Clothing){
+        clothing.remove(item)
+    }
+
     fun saveOutfit(fit: Outfit){
         savedOutfits.add(fit)
     }
@@ -53,8 +57,7 @@ class Closet {
     fun toString(list: MutableSet<String>): String{
         var s = ""
         list.forEach{ s+="$it, "}
-        s.removeRange((s.length-2), s.length)
-        return s
+        return s.removeSuffix(", ")
     }
 
     private fun generateTestImages(){

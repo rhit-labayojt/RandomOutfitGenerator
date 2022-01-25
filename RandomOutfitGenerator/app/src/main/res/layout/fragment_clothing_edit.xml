@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/platinum">
+    android:background="@color/white">
     
     <ImageView android:id="@+id/clothing_edit_image"
         android:layout_width="@dimen/clothing_edit_image_width"
@@ -20,14 +20,17 @@
         android:layout_below="@id/clothing_edit_image"/>
 
     <TextView android:id="@+id/styles_options"
-        style="@style/clothing_edit_spinner_theme"
+        style="@style/spinner_item_selected"
         android:layout_below="@id/super_cat_spinner"
-        android:layout_marginTop="@dimen/clothing_edit_top_margin"/>
+        android:layout_marginTop="@dimen/clothing_edit_top_margin"
+        android:background="@color/platinum"
+        android:layout_marginLeft="@dimen/clothing_edit_styles_left"/>
 
     <TextView android:id="@+id/weather_options"
-        style="@style/clothing_edit_spinner_theme"
+        style="@style/spinner_item_selected"
         android:layout_below="@id/super_cat_spinner"
         android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/clothing_edit_top_margin"/>
+        android:layout_marginTop="@dimen/clothing_edit_top_margin"
+        android:layout_marginRight="@dimen/clothing_edit_weather_margin_right"/>
 
 </RelativeLayout>
