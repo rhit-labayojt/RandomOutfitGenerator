@@ -44,5 +44,7 @@
     <dimen name="randomization_dropdown_text_size">24sp</dimen>
     <dimen name="selection_margin_horizontal">7dp</dimen>
     <dimen name="selection_margin_vertical">15dp</dimen>
+    <dimen name="randomize_fab_height">75dp</dimen>
+    <dimen name="randomize_fab_text_size">24sp</dimen>
 
 </resources>

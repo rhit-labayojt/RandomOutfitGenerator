@@ -19,7 +19,7 @@ class Closet {
     var id = ""
 
     companion object{
-        var weathers = arrayOf("Hot", "Warm", "Moderate", "Cool", "Cold")
+        var weathers = mutableMapOf("Hot" to true, "Warm" to true, "Moderate" to true, "Cool" to true, "Cold" to true)
         var superCategories = arrayOf("Top", "Bottom", "Accessory", "Shoes", "Full Body")
     }
 
@@ -63,11 +63,11 @@ class Closet {
     private fun generateTestImages(){
         for(i in 0 until 5*5){
             when(i % 5){
-                0 -> addClothing(Clothing(superCategories[i%5], topsTags.keys.toList().get(Random.nextInt(topsTags.keys.size)), mutableMapOf("Casual" to true), mutableMapOf(weathers.get(i%3) to true), testImages[Random.nextInt(testImages.size)]))
-                1 -> addClothing(Clothing(superCategories[i%5], bottomsTags.keys.toList().get(Random.nextInt(bottomsTags.keys.size)), mutableMapOf("Casual" to true), mutableMapOf(weathers.get(i%3) to true), testImages[Random.nextInt(testImages.size)]))
-                2 -> addClothing(Clothing(superCategories[i%5], accessoriesTags.keys.toList().get(Random.nextInt(accessoriesTags.keys.size)), mutableMapOf("Casual" to true), mutableMapOf(weathers.get(i%3) to true), testImages[Random.nextInt(testImages.size)]))
-                3 -> addClothing(Clothing(superCategories[i%5], shoesTags.keys.toList().get(Random.nextInt(shoesTags.keys.size)), mutableMapOf("Casual" to true), mutableMapOf(weathers.get(i%3) to true), testImages[Random.nextInt(testImages.size)]))
-                else -> addClothing(Clothing(superCategories[i%5], fullBodyTags.keys.toList().get(Random.nextInt(fullBodyTags.keys.size)), mutableMapOf("Casual" to true), mutableMapOf(weathers.get(i%3) to true), testImages[Random.nextInt(testImages.size)]))
+                0 -> addClothing(Clothing(superCategories[i%5], topsTags.keys.toList().get(Random.nextInt(topsTags.keys.size)), mutableMapOf("Casual" to true), mutableMapOf("Hot" to true), testImages[Random.nextInt(testImages.size)]))
+                1 -> addClothing(Clothing(superCategories[i%5], bottomsTags.keys.toList().get(Random.nextInt(bottomsTags.keys.size)), mutableMapOf("Casual" to true), mutableMapOf("Warm" to true), testImages[Random.nextInt(testImages.size)]))
+                2 -> addClothing(Clothing(superCategories[i%5], accessoriesTags.keys.toList().get(Random.nextInt(accessoriesTags.keys.size)), mutableMapOf("Casual" to true), mutableMapOf("Moderate" to true), testImages[Random.nextInt(testImages.size)]))
+                3 -> addClothing(Clothing(superCategories[i%5], shoesTags.keys.toList().get(Random.nextInt(shoesTags.keys.size)), mutableMapOf("Casual" to true), mutableMapOf("Cool" to true), testImages[Random.nextInt(testImages.size)]))
+                else -> addClothing(Clothing(superCategories[i%5], fullBodyTags.keys.toList().get(Random.nextInt(fullBodyTags.keys.size)), mutableMapOf("Casual" to true), mutableMapOf("Cold" to true), testImages[Random.nextInt(testImages.size)]))
             }
         }
     }

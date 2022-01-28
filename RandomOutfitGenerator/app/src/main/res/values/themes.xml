@@ -126,11 +126,15 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:text">@string/random_full_body_fit</item>
+        <item name="android:textColor">?attr/colorPrimaryVariant</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:layout_margin">@dimen/full_body_switch_margin</item>
         <item name="android:padding">@dimen/full_body_switch_padding</item>
+        <item name="android:layout_alignParentEnd">true</item>
+        <item name="android:layout_alignParentTop">true</item>
     </style>
 
-    <style name="randomize_spinner_theme">
+    <style name="randomize_theme">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:textSize">@dimen/randomization_dropdown_text_size</item>
@@ -138,6 +142,7 @@
         <item name="android:paddingLeft">@dimen/clothing_edit_spinner_padding_left</item>
         <item name="android:paddingRight">@dimen/clothing_edit_spinner_padding_right</item>
         <item name="android:paddingVertical">@dimen/clothing_edit_spinner_padding_vertical</item>
+        <item name="android:inputType">none</item>
     </style>
 
     <style name="randomize_item_dropdown">

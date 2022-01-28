@@ -140,7 +140,7 @@ class ClothingEditFragment: Fragment() {
 
     private fun setupTextViews(){
         findCheckedItems(model.currentItem.getStyles(), model.closet.styles.keys.toTypedArray(), checkedStyles)
-        findCheckedItems(model.currentItem.getWeather(), Closet.weathers, checkedWeathers)
+        findCheckedItems(model.currentItem.getWeather(), Closet.weathers.keys.toTypedArray(), checkedWeathers)
 
         binding.stylesOptions.text = "Styles: ${model.closet.toString(model.currentItem.getStyles())}"
         binding.weatherOptions.text = "Weathers: ${model.closet.toString(model.currentItem.getWeather())}"
@@ -162,11 +162,11 @@ class ClothingEditFragment: Fragment() {
         binding.weatherOptions.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle("Weathers")
-                .setMultiChoiceItems(Closet.weathers, checkedWeathers, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
+                .setMultiChoiceItems(Closet.weathers.keys.toTypedArray(), checkedWeathers, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
                     if(isChecked){
-                        weathersToAdd.add(Closet.weathers[which])
+                        weathersToAdd.add(Closet.weathers.keys.toTypedArray().get(which))
                     }else{
-                        weathersToRemove.add(Closet.weathers[which])
+                        weathersToRemove.add(Closet.weathers.keys.toTypedArray().get(which))
                     }
                 })
                 .show()
