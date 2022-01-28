@@ -31,6 +31,16 @@
 
     //-------------------------Randomization---------------------
     <string name="randomization_title">Customization</string>
+    <string name="generate_random">Generate</string>
+    <string name="random_full_body_fit">Full Body Outfit</string>
+    <string name="randomization_top">Top</string>
+    <string name="randomization_bottom">Bottom</string>
+    <string name="randomization_full_body">Full Body</string>
+    <string name="randomization_shoes">Shoes</string>
+    <string name="randomization_accessories">Accessories</string>
+    <string name="randomization_styles">Styles</string>
+    <string name="randomization_weathers">Weathers</string>
+    <string name="random_use_weather">By Weather</string>
 
     //-----------------------Camera-----------------
     <string name="camera">Camera</string>

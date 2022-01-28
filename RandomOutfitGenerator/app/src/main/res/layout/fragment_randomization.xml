@@ -1,6 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/platinum">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <Switch android:id="@+id/full_body_outfit_toggle"
+        style="@style/full_body_switch"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"/>
+
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/random_top_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/full_body_outfit_toggle"
+        android:layout_marginHorizontal="@dimen/selection_margin_horizontal"
+        android:layout_marginVertical="@dimen/selection_margin_vertical">
+
+        <AutoCompleteTextView android:id="@+id/random_top"
+            style="@style/randomize_spinner_theme"
+            android:inputType="none"
+            android:text="@string/randomization_top"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/random_bottom_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/random_top_parent"
+        android:layout_marginHorizontal="@dimen/selection_margin_horizontal"
+        android:layout_marginVertical="@dimen/selection_margin_vertical">
+
+        <AutoCompleteTextView android:id="@+id/random_bottom"
+            style="@style/randomize_spinner_theme"
+            android:inputType="none"
+            android:text="@string/randomization_top"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/random_full_body_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/random_bottom_parent"
+        android:layout_marginHorizontal="@dimen/selection_margin_horizontal"
+        android:layout_marginVertical="@dimen/selection_margin_vertical">
+
+        <AutoCompleteTextView android:id="@+id/random_full_body"
+            style="@style/randomize_spinner_theme"
+            android:inputType="none"
+            android:text="@string/randomization_top"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/random_shoes_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/random_full_body_parent"
+        android:layout_marginHorizontal="@dimen/selection_margin_horizontal"
+        android:layout_marginVertical="@dimen/selection_margin_vertical">
+
+        <AutoCompleteTextView android:id="@+id/random_shoes"
+            style="@style/randomize_spinner_theme"
+            android:inputType="none"
+            android:text="@string/randomization_top"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/random_accessories_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/random_shoes_parent"
+        android:layout_marginHorizontal="@dimen/selection_margin_horizontal"
+        android:layout_marginVertical="@dimen/selection_margin_vertical">
+
+        <AutoCompleteTextView android:id="@+id/random_accessories"
+            style="@style/randomize_spinner_theme"
+            android:inputType="none"
+            android:text="@string/randomization_top"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/random_styles_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/random_accessories_parent"
+        android:layout_marginHorizontal="@dimen/selection_margin_horizontal"
+        android:layout_marginVertical="@dimen/selection_margin_vertical">
+
+        <AutoCompleteTextView android:id="@+id/random_styles"
+            style="@style/randomize_spinner_theme"
+            android:inputType="none"
+            android:text="@string/randomization_top"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout android:id="@+id/random_weathers_parent"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/random_styles_parent"
+        android:layout_marginHorizontal="@dimen/selection_margin_horizontal"
+        android:layout_marginVertical="@dimen/selection_margin_vertical">
+
+        <AutoCompleteTextView android:id="@+id/random_weathers"
+            style="@style/randomize_spinner_theme"
+            android:inputType="none"
+            android:text="@string/randomization_top"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/use_weather"
+        style="@style/fab_theme"
+        android:text="@string/random_use_weather"/>
+
+
+
+</RelativeLayout>
+

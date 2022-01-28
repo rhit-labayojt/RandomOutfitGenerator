@@ -34,7 +34,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/outfit_weather"
-        android:layout_margin="@dimen/outfit_image_margin">
+        android:layout_margin="@dimen/outfit_image_margin"
+        android:orientation="vertical">
 
         <TextView android:id="@+id/outfit_top_cat"
             style="@style/outfit_text"/>

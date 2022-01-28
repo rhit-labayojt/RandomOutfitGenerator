@@ -36,5 +36,13 @@
     <dimen name="outfit_text_view_height">75dp</dimen>
     <dimen name="outfit_text_size">18sp</dimen>
     <dimen name="outfit_text_view_width">50dp</dimen>
+    <dimen name="outfit_text_margin">12dp</dimen>
+
+    //-----------------Randomization Fragment------------------
+    <dimen name="full_body_switch_margin">15dp</dimen>
+    <dimen name="full_body_switch_padding">5dp</dimen>
+    <dimen name="randomization_dropdown_text_size">24sp</dimen>
+    <dimen name="selection_margin_horizontal">7dp</dimen>
+    <dimen name="selection_margin_vertical">15dp</dimen>
 
 </resources>

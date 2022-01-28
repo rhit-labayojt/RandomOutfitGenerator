@@ -233,7 +233,7 @@ class ClothingEditFragment: Fragment() {
          * @param id The row id of the item that is selected
          */
         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-            val subCat = binding.subCatSpinner.getItemAtPosition(position)
+            val subCat = binding.subCatSpinner.adapter.getItem(position)
             newSubCat = subCat as String
         }
 

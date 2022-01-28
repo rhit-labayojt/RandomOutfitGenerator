@@ -7,7 +7,10 @@ class ClosetViewModel : ViewModel() {
 
     var user = User()
     var closet = Closet()
+
     var currentItem = closet.clothing.get(0)
+    //var currentOutfit = closet.savedOutfits.get(0)
+
 
     fun updateCurrentItem(clothes: Clothing){
         currentItem = clothes

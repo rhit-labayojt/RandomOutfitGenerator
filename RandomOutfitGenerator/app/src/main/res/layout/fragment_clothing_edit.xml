@@ -12,6 +12,8 @@
 
     <Spinner android:id="@+id/super_cat_spinner"
         style="@style/clothing_edit_spinner_theme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_below="@+id/clothing_edit_image" />
 
     <Spinner android:id="@+id/sub_cat_spinner"
@@ -21,14 +23,14 @@
 
     <TextView android:id="@+id/styles_options"
         style="@style/spinner_item_selected"
-        android:layout_below="@id/super_cat_spinner"
+        android:layout_below="@id/sub_cat_spinner"
         android:layout_marginTop="@dimen/clothing_edit_top_margin"
         android:background="@color/platinum"
         android:layout_marginLeft="@dimen/clothing_edit_styles_left"/>
 
     <TextView android:id="@+id/weather_options"
         style="@style/spinner_item_selected"
-        android:layout_below="@id/super_cat_spinner"
+        android:layout_below="@id/sub_cat_spinner"
         android:layout_alignParentEnd="true"
         android:layout_marginTop="@dimen/clothing_edit_top_margin"
         android:layout_marginRight="@dimen/clothing_edit_weather_margin_right"/>
