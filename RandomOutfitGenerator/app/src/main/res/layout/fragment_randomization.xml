@@ -87,27 +87,27 @@
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout android:id="@+id/random_styles_parent"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <com.google.android.material.textfield.TextInputLayout android:id="@+id/random_style_parent"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/selection_margin_horizontal"
                 android:layout_marginVertical="@dimen/selection_margin_vertical">
 
-                <AutoCompleteTextView android:id="@+id/random_styles"
+                <AutoCompleteTextView android:id="@+id/random_style"
                     style="@style/randomize_theme"
                     android:text="@string/randomization_styles"
                     />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.textfield.TextInputLayout android:id="@+id/random_weathers_parent"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            <com.google.android.material.textfield.TextInputLayout android:id="@+id/random_weather_parent"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="@dimen/selection_margin_horizontal"
                 android:layout_marginVertical="@dimen/selection_margin_vertical">
 
-                <AutoCompleteTextView android:id="@+id/random_weathers"
+                <AutoCompleteTextView android:id="@+id/random_weather"
                     style="@style/randomize_theme"
                     android:text="@string/randomization_weathers"
                     />

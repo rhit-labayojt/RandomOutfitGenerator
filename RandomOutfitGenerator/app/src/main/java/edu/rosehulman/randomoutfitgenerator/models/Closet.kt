@@ -18,6 +18,9 @@ class Closet {
 
     var id = ""
 
+    var defaultStyle = "Casual"
+    var defaultWeather = "Moderate"
+
     companion object{
         var weathers = mutableMapOf("Hot" to true, "Warm" to true, "Moderate" to true, "Cool" to true, "Cold" to true)
         var superCategories = arrayOf("Top", "Bottom", "Accessory", "Shoes", "Full Body")

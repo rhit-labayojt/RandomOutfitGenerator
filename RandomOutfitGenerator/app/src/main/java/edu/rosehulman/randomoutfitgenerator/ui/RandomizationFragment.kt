@@ -9,11 +9,15 @@ import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.google.android.material.color.MaterialColors
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentRandomizationBinding
 import edu.rosehulman.randomoutfitgenerator.models.Closet
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
+import edu.rosehulman.randomoutfitgenerator.objects.Clothing
+import edu.rosehulman.randomoutfitgenerator.objects.Outfit
+import kotlin.random.Random
 
 class RandomizationFragment: Fragment() {
     private lateinit var binding: FragmentRandomizationBinding
@@ -23,10 +27,10 @@ class RandomizationFragment: Fragment() {
     private var bottomType = ""
     private var fullBodyType = ""
     private var shoesType = ""
+    private var styleType = ""
+    private var weatherType = ""
 
     private lateinit var accessoriesTypes: MutableSet<String>
-    private lateinit var styleTypes: MutableSet<String>
-    private lateinit var weatherTypes: MutableSet<String>
 
     private lateinit var checkedAcc: BooleanArray
     private lateinit var checkedStyles: BooleanArray
@@ -39,6 +43,31 @@ class RandomizationFragment: Fragment() {
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_randomization, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean{
+        return when(item.itemId){
+            R.id.generate_outfit ->{
+                if(weatherType == ""){
+                    weatherType = model.closet.defaultWeather
+                }
+
+                if(styleType == ""){
+                    styleType = model.closet.defaultStyle
+                }
+
+                if(binding.fullBodyOutfitToggle.isChecked){
+                    generateFullBodyOutfit()
+                }else{
+                    generateOutfit()
+                    findNavController().navigate(R.id.nav_outfit)
+                }
+
+                true
+            }
+
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 
     override fun onCreateView(
@@ -73,37 +102,35 @@ class RandomizationFragment: Fragment() {
 
     private fun populateArrayLists(){
         accessoriesTypes = mutableSetOf()
-        styleTypes = mutableSetOf()
-        weatherTypes = mutableSetOf()
 
         views.add(binding.randomTop)
         views.add(binding.randomBottom)
         views.add(binding.randomFullBody)
         views.add(binding.randomShoes)
+        views.add(binding.randomStyle)
+        views.add(binding.randomWeather)
         views.add(binding.randomAccessories)
-        views.add(binding.randomStyles)
-        views.add(binding.randomWeathers)
 
         lists.add(model.closet.topsTags)
         lists.add(model.closet.bottomsTags)
         lists.add(model.closet.fullBodyTags)
         lists.add(model.closet.shoesTags)
-        lists.add(model.closet.accessoriesTags)
         lists.add(model.closet.styles)
         lists.add(Closet.weathers)
+        lists.add(model.closet.accessoriesTags)
 
         itemClickListeners.add(TopTypeListener())
         itemClickListeners.add(BottomTypeListener())
         itemClickListeners.add(FullBodyTypeListener())
         itemClickListeners.add(ShoesTypeListener())
+        itemClickListeners.add(StyleTypeListener())
+        itemClickListeners.add(WeatherTypeListener())
 
         onClickListeners.add(AccessoriesTypeListener())
-        onClickListeners.add(StylesTypeListener())
-        onClickListeners.add(WeatherTypeListener())
     }
 
     private fun setupDropdownViews(){
-        for(view in 0 until 4){
+        for(view in 0 until 5){
             val a = ArrayAdapter(
                 requireContext(),
                 R.layout.randomization_item_dropdown,
@@ -117,7 +144,7 @@ class RandomizationFragment: Fragment() {
     }
 
     private fun setupAutoCompleteTextViewDialogs(){
-        for(view in 4 until 7){
+        for(view in 5 until 7){
             var item = views[view] as AutoCompleteTextView
             item.setOnClickListener(onClickListeners[view - 4])
         }
@@ -133,6 +160,68 @@ class RandomizationFragment: Fragment() {
             binding.randomBottomParent.visibility = View.VISIBLE
             binding.randomFullBodyParent.visibility = View.GONE
         }
+    }
+
+    private fun generateOutfit(){
+
+        var topOptions = getOptionsList(topType, Closet.superCategories[0])
+        var bottomOptions = getOptionsList(bottomType, Closet.superCategories[1])
+        var shoeOptions = getOptionsList(shoesType, Closet.superCategories[3])
+
+        var accessoryOptions = ArrayList<List<Clothing>>()
+
+        accessoriesTypes.forEach { accessoryOptions.add(getOptionsList(it, Closet.superCategories[2])) }
+
+        var outfitClothing = ArrayList<Clothing>()
+
+        outfitClothing.add(topOptions.get(Random.nextInt(topOptions.size)))
+        outfitClothing.add(bottomOptions.get(Random.nextInt(bottomOptions.size)))
+        outfitClothing.add(shoeOptions.get(Random.nextInt(shoeOptions.size)))
+        accessoryOptions.forEach { outfitClothing.add(it.get(Random.nextInt(it.size))) }
+
+        var newOutfit = Outfit(outfitClothing, styleType, weatherType, false)
+        model.updateCurrentOutfit(newOutfit)
+    }
+
+    private fun generateFullBodyOutfit(){
+        var fullBodyOptions = getOptionsList(fullBodyType, Closet.superCategories[4])
+        var shoeOptions = getOptionsList(shoesType, Closet.superCategories[3])
+
+        var accessoryOptions = ArrayList<List<Clothing>>()
+
+        accessoriesTypes.forEach { accessoryOptions.add(getOptionsList(it, Closet.superCategories[2])) }
+
+        var outfitClothing = ArrayList<Clothing>()
+
+        outfitClothing.add(fullBodyOptions.get(Random.nextInt(fullBodyOptions.size)))
+        outfitClothing.add(shoeOptions.get(Random.nextInt(shoeOptions.size)))
+        accessoryOptions.forEach { outfitClothing.add(it.get(Random.nextInt(it.size))) }
+
+        var newOutfit = Outfit(outfitClothing, styleType, weatherType, true)
+        model.updateCurrentOutfit(newOutfit)
+    }
+
+    /**
+     * Creates a list of valid clothing options from the specified parameters
+     */
+    private fun getOptionsList(type: String, superCat: String): List<Clothing>{
+        var list: List<Clothing>
+
+        if(model.closet.topsTags.keys.toTypedArray().contains(topType)){
+            list = model.closet.clothing.filter{it: Clothing ->
+                it.getSubCat()==type
+                it.getStyles().contains(styleType)
+                it.getWeather().contains(weatherType)
+            }
+        }else{
+            list = model.closet.clothing.filter{it: Clothing ->
+                it.getSuperCat() == superCat
+                it.getStyles().contains(styleType)
+                it.getWeather().contains(weatherType)
+            }
+        }
+
+        return list
     }
 
     inner class TopTypeListener: AdapterView.OnItemClickListener{
@@ -246,7 +335,6 @@ class RandomizationFragment: Fragment() {
          * @param v The view that was clicked.
          */
         override fun onClick(v: View?) {
-            var arraySize = model.closet.accessoriesTags.keys.toTypedArray().size
 
             AlertDialog.Builder(requireContext())
                 .setTitle("Accessories Options")
@@ -266,56 +354,52 @@ class RandomizationFragment: Fragment() {
 
     }
 
-    inner class StylesTypeListener: View.OnClickListener{
+    inner class StyleTypeListener: AdapterView.OnItemClickListener{
         /**
-         * Called when a view has been clicked.
+         * Callback method to be invoked when an item in this AdapterView has
+         * been clicked.
          *
-         * @param v The view that was clicked.
+         *
+         * Implementers can call getItemAtPosition(position) if they need
+         * to access the data associated with the selected item.
+         *
+         * @param parent The AdapterView where the click happened.
+         * @param view The view within the AdapterView that was clicked (this
+         * will be a view provided by the adapter)
+         * @param position The position of the view in the adapter.
+         * @param id The row id of the item that was clicked.
          */
-        override fun onClick(v: View?) {
-            var arraySize = model.closet.styles.keys.toTypedArray().size
+        override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            binding.randomStyle.setTextColor(MaterialColors.getColor(requireContext(), R.attr.colorPrimaryVariant, Color.BLUE))
+            binding.randomStyle.setTypeface(Typeface.DEFAULT_BOLD)
 
-            AlertDialog.Builder(requireContext())
-                .setTitle("Style Options")
-                .setMultiChoiceItems(model.closet.styles.keys.toTypedArray(), checkedStyles, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
-                    if(isChecked){
-                        styleTypes.add(model.closet.styles.keys.toTypedArray()[which])
-                        checkedStyles[which] = true
-                    }else{
-                        styleTypes.remove(model.closet.styles.keys.toTypedArray()[which])
-                        checkedStyles[which] = false
-                    }
-
-                    updateView(v!! as AutoCompleteTextView, styleTypes)
-                })
-                .show()
+            val type = binding.randomStyle.adapter.getItem(position)
+            styleType = type as String
         }
 
     }
 
-    inner class WeatherTypeListener: View.OnClickListener{
+    inner class WeatherTypeListener: AdapterView.OnItemClickListener{
         /**
-         * Called when a view has been clicked.
+         * Callback method to be invoked when an item in this AdapterView has
+         * been clicked.
          *
-         * @param v The view that was clicked.
+         *
+         * Implementers can call getItemAtPosition(position) if they need
+         * to access the data associated with the selected item.
+         *
+         * @param parent The AdapterView where the click happened.
+         * @param view The view within the AdapterView that was clicked (this
+         * will be a view provided by the adapter)
+         * @param position The position of the view in the adapter.
+         * @param id The row id of the item that was clicked.
          */
-        override fun onClick(v: View?) {
-            var arraySize = Closet.weathers.keys.toTypedArray().size
+        override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+            binding.randomWeather.setTextColor(MaterialColors.getColor(requireContext(), R.attr.colorPrimaryVariant, Color.BLUE))
+            binding.randomWeather.setTypeface(Typeface.DEFAULT_BOLD)
 
-            AlertDialog.Builder(requireContext())
-                .setTitle("Weather Options")
-                .setMultiChoiceItems(Closet.weathers.keys.toTypedArray(), checkedWeathers, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
-                    if(isChecked){
-                        weatherTypes.add(Closet.weathers.keys.toTypedArray()[which])
-                        checkedWeathers[which] = true
-                    }else{
-                        weatherTypes.remove(Closet.weathers.keys.toTypedArray()[which])
-                        checkedWeathers[which] = false
-                    }
-
-                    updateView(v!! as AutoCompleteTextView, weatherTypes)
-                })
-                .show()
+            val type = binding.randomStyle.adapter.getItem(position)
+            weatherType = type as String
         }
 
     }

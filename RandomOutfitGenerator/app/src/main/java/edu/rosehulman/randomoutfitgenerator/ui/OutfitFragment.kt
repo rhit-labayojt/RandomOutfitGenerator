@@ -3,13 +3,15 @@ package edu.rosehulman.randomoutfitgenerator.ui
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentOutfitBinding
+import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
 
 class OutfitFragment: Fragment() {
     private lateinit var binding: FragmentOutfitBinding
-    //private lateinit var model:
+    private lateinit var model: ClosetViewModel
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater){
         inflater.inflate(R.menu.menu_outfit, menu)
     }
@@ -32,11 +34,12 @@ class OutfitFragment: Fragment() {
     ): View? {
 
         binding = FragmentOutfitBinding.inflate(inflater, container, false)
+        model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
 
         return binding.root
     }
 
     fun deleteOutfit(){
-
+        model.deleteCurrentOutfit()
     }
 }

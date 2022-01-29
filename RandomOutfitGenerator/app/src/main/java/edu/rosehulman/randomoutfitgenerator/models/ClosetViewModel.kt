@@ -9,7 +9,7 @@ class ClosetViewModel : ViewModel() {
     var closet = Closet()
 
     var currentItem = closet.clothing.get(0)
-//    var currentOutfit: Outfit = closet.savedOutfits.get(0)
+    var currentOutfit: Outfit? = null
 
 
     fun updateCurrentItem(clothes: Clothing){
@@ -19,5 +19,14 @@ class ClosetViewModel : ViewModel() {
     fun deleteCurrentItem(){
         closet.clothing.remove(currentItem)
         currentItem = closet.clothing.get(0)
+    }
+
+    fun updateCurrentOutfit(fit: Outfit){
+        currentOutfit = fit
+    }
+
+    fun deleteCurrentOutfit(){
+        closet.savedOutfits.remove(currentOutfit)
+        currentOutfit = null
     }
 }
