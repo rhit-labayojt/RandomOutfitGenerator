@@ -141,10 +141,10 @@ class ClothingEditFragment: Fragment() {
 
     private fun setupTextViews(){
         findCheckedItems(model.getCurrentItem().getStyles(), model.closet.styles.toTypedArray(), checkedStyles)
-        findCheckedItems(model.getCurrentItem().getWeather(), Closet.weathers, checkedWeathers)
+        findCheckedItems(model.getCurrentItem().getWeathers(), Closet.weathers, checkedWeathers)
 
         binding.stylesOptions.text = "Styles: ${model.closet.toString(model.getCurrentItem().getStyles())}"
-        binding.weatherOptions.text = "Weathers: ${model.closet.toString(model.getCurrentItem().getWeather())}"
+        binding.weatherOptions.text = "Weathers: ${model.closet.toString(model.getCurrentItem().getWeathers())}"
 
         binding.stylesOptions.setOnClickListener {
             AlertDialog.Builder(requireContext())

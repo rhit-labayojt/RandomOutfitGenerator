@@ -70,7 +70,6 @@ class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): Recycle
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: ClosetViewHolder, position: Int) {
-        Log.d(Constants.TAG, "Binding Position: $position, Item List Size: ${itemList.size}")
         holder.bind(itemList.get(position))
     }
 

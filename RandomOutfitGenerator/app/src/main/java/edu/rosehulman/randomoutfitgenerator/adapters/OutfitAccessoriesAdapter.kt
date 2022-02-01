@@ -39,7 +39,7 @@ class OutfitAccessoriesAdapter(val fragment: OutfitFragment): RecyclerView.Adapt
      * @see .onBindViewHolder
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OutfitAccessoriesAdapter.AccessoriesViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.accesory_layout, parent, true)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.accesory_layout, parent, false)
         return AccessoriesViewHolder(view)
     }
 

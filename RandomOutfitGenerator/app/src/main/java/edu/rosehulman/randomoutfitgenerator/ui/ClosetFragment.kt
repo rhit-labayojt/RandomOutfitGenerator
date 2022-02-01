@@ -30,11 +30,6 @@ class ClosetFragment : Fragment() {
     private lateinit var model: ClosetViewModel
 
     companion object{
-        const val topsListener = "ClosetFragmentTops"
-        const val bottomsListener = "ClosetFragmentBottoms"
-        const val shoesListener = "ClosetFragmentShoes"
-        const val accessoriesListener = "ClosetFragmentAccessories"
-        const val fullBodyListener = "ClosetFragmentFullBody"
         const val closetListener = "ClosetFragment"
     }
 
@@ -45,12 +40,24 @@ class ClosetFragment : Fragment() {
     ): View? {
 
         binding = FragmentClosetBinding.inflate(inflater, container, false)
+        binding.closetParentLayout.visibility = View.INVISIBLE
+        binding.loadingText.visibility = View.VISIBLE
 
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
         setAdapters()
         model.addClothingListener(closetListener){
             topsAdapter.filter()
             topsAdapter.notifyDataSetChanged()
+            bottomsAdapter.filter()
+            bottomsAdapter.notifyDataSetChanged()
+            accessoriesAdapter.filter()
+            accessoriesAdapter.notifyDataSetChanged()
+            shoesAdapter.filter()
+            shoesAdapter.notifyDataSetChanged()
+            fullBodyAdapter.filter()
+            fullBodyAdapter.notifyDataSetChanged()
+            binding.loadingText.visibility = View.GONE
+            binding.closetParentLayout.visibility = View.VISIBLE
         }
         setListeners()
 
@@ -68,14 +75,6 @@ class ClosetFragment : Fragment() {
         accessoriesAdapter = ClosetAdapter(this, Closet.superCategories[2])
         shoesAdapter = ClosetAdapter(this, Closet.superCategories[3])
         fullBodyAdapter = ClosetAdapter(this, Closet.superCategories[4])
-
-//        topsAdapter.addListener(topsListener)
-//        bottomsAdapter.addListener(bottomsListener)
-//        accessoriesAdapter.addListener(accessoriesListener)
-//        shoesAdapter.addListener(shoesListener)
-//        fullBodyAdapter.addListener(fullBodyListener)
-//
-//        topsAdapter.filter()
 
         binding.topsGrid.adapter = topsAdapter
         binding.bottomsGrid.adapter = bottomsAdapter
@@ -182,11 +181,6 @@ class ClosetFragment : Fragment() {
 
     override fun onDestroyView(){
         super.onDestroyView()
-//        topsAdapter.removeListener(topsListener)
-//        bottomsAdapter.removeListener(bottomsListener)
-//        accessoriesAdapter.removeListener(accessoriesListener)
-//        shoesAdapter.removeListener(shoesListener)
-//        fullBodyAdapter.removeListener(fullBodyListener)
         model.removeListener(closetListener)
     }
 }

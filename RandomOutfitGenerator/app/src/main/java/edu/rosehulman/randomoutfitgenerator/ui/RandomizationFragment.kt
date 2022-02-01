@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.color.MaterialColors
+import edu.rosehulman.randomoutfitgenerator.Constants
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentRandomizationBinding
 import edu.rosehulman.randomoutfitgenerator.models.Closet
@@ -44,6 +45,10 @@ class RandomizationFragment: Fragment() {
     private var itemClickListeners = ArrayList<AdapterView.OnItemClickListener>()
     private var onClickListeners = ArrayList<View.OnClickListener>()
 
+    companion object{
+        const val fragmentName = "Randomization Fragment"
+    }
+
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         inflater.inflate(R.menu.menu_randomization, menu)
     }
@@ -52,7 +57,7 @@ class RandomizationFragment: Fragment() {
         return when(item.itemId){
             R.id.generate_outfit ->{
                 if(weatherType == ""){
-                    weatherType = model.closet.defaultWeather
+                    weatherType = Closet.weathers[2]
                 }
 
                 if(styleType == ""){
@@ -82,6 +87,14 @@ class RandomizationFragment: Fragment() {
         binding = FragmentRandomizationBinding.inflate(inflater, container, false)
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
         userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        binding.randomParentLayout.visibility = View.INVISIBLE
+        binding.loadingText.visibility = View.VISIBLE
+
+        model.addClothingListener(fragmentName){
+            binding.loadingText.visibility = View.GONE
+            binding.randomParentLayout.visibility = View.VISIBLE
+        }
+
         setHasOptionsMenu(true)
 
         checkedAcc = BooleanArray(model.closet.accessoriesTags.size){false}
@@ -114,13 +127,13 @@ class RandomizationFragment: Fragment() {
         views.add(binding.randomWeather)
         views.add(binding.randomAccessories)
 
-        lists.add(model.closet.topsTags as Array<String>)
-        lists.add(model.closet.bottomsTags as Array<String>)
-        lists.add(model.closet.fullBodyTags as Array<String>)
-        lists.add(model.closet.shoesTags as Array<String>)
-        lists.add(model.closet.styles as Array<String>)
+        lists.add(model.closet.topsTags.toTypedArray())
+        lists.add(model.closet.bottomsTags.toTypedArray())
+        lists.add(model.closet.fullBodyTags.toTypedArray())
+        lists.add(model.closet.shoesTags.toTypedArray())
+        lists.add(model.closet.styles.toTypedArray())
         lists.add(Closet.weathers)
-        lists.add(model.closet.accessoriesTags as Array<String>)
+        lists.add(model.closet.accessoriesTags.toTypedArray())
 
         itemClickListeners.add(TopTypeListener())
         itemClickListeners.add(BottomTypeListener())
@@ -167,9 +180,10 @@ class RandomizationFragment: Fragment() {
 
     private fun generateOutfit(){
 
-        Log.d("HELP","$topType, $bottomType, $shoesType, $weatherType, $styleType")
+        Log.d(Constants.TAG,"$topType, $bottomType, $shoesType, $weatherType, $styleType")
 
         var topOptions = getOptionsList(topType, Closet.superCategories[0])
+        Log.d(Constants.TAG, "${topOptions.size}")
         var bottomOptions = getOptionsList(bottomType, Closet.superCategories[1])
         var shoeOptions = getOptionsList(shoesType, Closet.superCategories[3])
 
@@ -223,16 +237,16 @@ class RandomizationFragment: Fragment() {
             list = model.closet.clothing.filter{it: Clothing ->
                 it.getSubCat()==type &&
                 it.getStyles().contains(styleType) &&
-                it.getWeather().contains(weatherType)
+                it.getWeathers().contains(weatherType)
             }
         }else{
             list = model.closet.clothing.filter{it: Clothing ->
                 it.getSuperCat() == superCat &&
                 it.getStyles().contains(styleType) &&
-                it.getWeather().contains(weatherType)
+                it.getWeathers().contains(weatherType)
             }
         }
-        Log.d("HELP","${list.toString()}")
+        Log.d(Constants.TAG, "${list.size}")
         return list
     }
 
@@ -427,5 +441,10 @@ class RandomizationFragment: Fragment() {
             toggleVisibilities(isChecked)
         }
 
+    }
+
+    override fun onDestroy(){
+        super.onDestroy()
+        model.removeListener(fragmentName)
     }
 }

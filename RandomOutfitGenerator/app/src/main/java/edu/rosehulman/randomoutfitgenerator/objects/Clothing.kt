@@ -1,8 +1,10 @@
 package edu.rosehulman.randomoutfitgenerator.objects
 
 import android.media.Image
+import android.util.Log
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
+import edu.rosehulman.randomoutfitgenerator.Constants
 
 class Clothing() {
 
@@ -26,6 +28,7 @@ class Clothing() {
    companion object{
        fun from(snapshot: DocumentSnapshot): Clothing{
            val c = snapshot.toObject(Clothing::class.java)!!
+           c.id = snapshot.id
 
            return c
        }
@@ -71,7 +74,7 @@ class Clothing() {
         subCat = cat
     }
 
-    fun getWeather(): ArrayList<String>{
+    fun getWeathers(): ArrayList<String>{
         return weathers
     }
 

@@ -8,7 +8,7 @@ import edu.rosehulman.randomoutfitgenerator.objects.Clothing
 import edu.rosehulman.randomoutfitgenerator.objects.Outfit
 import kotlin.random.Random
 
-class Closet {
+class Closet() {
 
     var clothing: ArrayList<Clothing> = ArrayList()
     var savedOutfits: ArrayList<Outfit> = ArrayList()
@@ -33,9 +33,9 @@ class Closet {
             "https://www.wallpaperup.com/uploads/wallpapers/2013/07/31/125737/76ae9758c5c0bc2c80d98242cc224898-700.jpg")
 
 
-    constructor(){
-        generateTestImages()
-    }
+//    constructor(){
+//        generateTestImages()
+//    }
 
     companion object{
         var weathers = arrayOf("Hot", "Warm", "Moderate", "Cool", "Cold")
@@ -73,8 +73,11 @@ class Closet {
         for(i in 0 until 50*5){
             when(i % 5){
                 0 -> {
-                    var c = Clothing(superCategories[i%5], topsTags.get(
-                        Random.nextInt(topsTags.size)), arrayListOf("Casual"), arrayListOf("Moderate"), testImages[Random.nextInt(testImages.size)])
+                    var c = Clothing(superCategories[i%5],
+                        topsTags.get(Random.nextInt(topsTags.size)),
+                        arrayListOf("Casual"),
+                        arrayListOf("Moderate"),
+                        testImages[Random.nextInt(testImages.size)])
                     clothingRef.add(c)
                 }
                 1 -> {
