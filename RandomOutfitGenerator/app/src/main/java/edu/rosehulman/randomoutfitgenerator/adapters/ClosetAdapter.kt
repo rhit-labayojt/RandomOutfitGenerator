@@ -1,5 +1,6 @@
 package edu.rosehulman.randomoutfitgenerator.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import edu.rosehulman.randomoutfitgenerator.Constants
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
 import edu.rosehulman.randomoutfitgenerator.objects.Clothing
@@ -16,7 +18,7 @@ import edu.rosehulman.randomoutfitgenerator.ui.ClosetFragment
 
 class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): RecyclerView.Adapter<ClosetAdapter.ClosetViewHolder>() {
     private val model = ViewModelProvider(fragment.requireActivity()).get(ClosetViewModel::class.java)
-    private val itemList = model.closet.clothing.filter { it.getSuperCat() == modelTag }
+    private var itemList = listOf<Clothing>()
 
     /**
      * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
@@ -68,6 +70,7 @@ class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): Recycle
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: ClosetViewHolder, position: Int) {
+        Log.d(Constants.TAG, "Binding Position: $position, Item List Size: ${itemList.size}")
         holder.bind(itemList.get(position))
     }
 
@@ -78,14 +81,8 @@ class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): Recycle
      */
     override fun getItemCount() = itemList.size
 
-    fun addListener(fragmentName: String){
-        model.addClothingListener(fragmentName){
-            notifyDataSetChanged()
-        }
-    }
-
-    fun removeListener(fragmentName: String){
-        model.removeListener(fragmentName)
+    fun filter(){
+        itemList = model.closet.clothing.filter { it.getSuperCat() == modelTag }
     }
 
     inner class ClosetViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -93,7 +90,7 @@ class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): Recycle
 
         init{
             itemView.setOnClickListener {
-                model.updateCurrentItem(adapterPosition)
+                model.updateCurrentItem(model.closet.clothing.indexOfFirst { it == itemList.get(adapterPosition) })
                 fragment.findNavController().navigate(R.id.nav_clothing_edit)
             }
         }

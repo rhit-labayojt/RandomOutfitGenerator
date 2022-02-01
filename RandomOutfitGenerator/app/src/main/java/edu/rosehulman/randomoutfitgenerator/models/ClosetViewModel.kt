@@ -37,11 +37,12 @@ class ClosetViewModel: ViewModel() {
                     Log.d(Constants.TAG, "ERROR: $e")
                     return@addSnapshotListener
                 }
-
+                Log.d(Constants.TAG, "Snapshot Length: ${snapshot?.size()}")
                 closet.clothing.clear()
                 snapshot?.documents?.forEach {
                     closet.clothing.add(Clothing.from(it))
                 }
+                Log.d(Constants.TAG, "Clothing Length: ${closet.clothing.size}")
                 observer()
             }
 
@@ -97,6 +98,7 @@ class ClosetViewModel: ViewModel() {
 
     fun updateCurrentItem(pos: Int){
         currentItemIndex = pos
+
     }
 
     fun updateClothing(){

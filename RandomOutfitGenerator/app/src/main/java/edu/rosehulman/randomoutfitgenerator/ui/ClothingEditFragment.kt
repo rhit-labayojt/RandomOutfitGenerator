@@ -140,7 +140,7 @@ class ClothingEditFragment: Fragment() {
     }
 
     private fun setupTextViews(){
-        findCheckedItems(model.getCurrentItem().getStyles(), model.closet.styles as Array<String>, checkedStyles)
+        findCheckedItems(model.getCurrentItem().getStyles(), model.closet.styles.toTypedArray(), checkedStyles)
         findCheckedItems(model.getCurrentItem().getWeather(), Closet.weathers, checkedWeathers)
 
         binding.stylesOptions.text = "Styles: ${model.closet.toString(model.getCurrentItem().getStyles())}"
@@ -149,7 +149,7 @@ class ClothingEditFragment: Fragment() {
         binding.stylesOptions.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle("Styles")
-                .setMultiChoiceItems(model.closet.styles as Array<String>, checkedStyles, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
+                .setMultiChoiceItems(model.closet.styles.toTypedArray(), checkedStyles, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
                     if(isChecked){
                         stylesToAdd.add(model.closet.styles.get(which))
                     }else{

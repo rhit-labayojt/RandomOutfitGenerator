@@ -10,12 +10,14 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.randomoutfitgenerator.Constants
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.ClosetAdapter
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentClosetBinding
 import edu.rosehulman.randomoutfitgenerator.models.Closet
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
+import kotlinx.coroutines.flow.DEFAULT_CONCURRENCY_PROPERTY_NAME
 
 class ClosetFragment : Fragment() {
     private lateinit var binding: FragmentClosetBinding
@@ -25,12 +27,15 @@ class ClosetFragment : Fragment() {
     private lateinit var accessoriesAdapter: ClosetAdapter
     private lateinit var fullBodyAdapter: ClosetAdapter
 
+    private lateinit var model: ClosetViewModel
+
     companion object{
         const val topsListener = "ClosetFragmentTops"
         const val bottomsListener = "ClosetFragmentBottoms"
         const val shoesListener = "ClosetFragmentShoes"
         const val accessoriesListener = "ClosetFragmentAccessories"
         const val fullBodyListener = "ClosetFragmentFullBody"
+        const val closetListener = "ClosetFragment"
     }
 
     override fun onCreateView(
@@ -41,12 +46,13 @@ class ClosetFragment : Fragment() {
 
         binding = FragmentClosetBinding.inflate(inflater, container, false)
 
-        var model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
-        Log.d(Constants.TAG, model.closet.clothing.toString())
+        model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
         setAdapters()
-        Log.d(Constants.TAG, model.closet.clothing.toString())
+        model.addClothingListener(closetListener){
+            topsAdapter.filter()
+            topsAdapter.notifyDataSetChanged()
+        }
         setListeners()
-        Log.d(Constants.TAG, model.closet.clothing.toString())
 
         return binding.root
     }
@@ -56,18 +62,20 @@ class ClosetFragment : Fragment() {
      * sets the visibility of all the the view to View.GONE so that the user can choose which view
      * is visible
      */
-    fun setAdapters(){
+    private fun setAdapters(){
         topsAdapter = ClosetAdapter(this, Closet.superCategories[0])
         bottomsAdapter = ClosetAdapter(this, Closet.superCategories[1])
         accessoriesAdapter = ClosetAdapter(this, Closet.superCategories[2])
         shoesAdapter = ClosetAdapter(this, Closet.superCategories[3])
         fullBodyAdapter = ClosetAdapter(this, Closet.superCategories[4])
 
-        topsAdapter.addListener(topsListener)
-        bottomsAdapter.addListener(bottomsListener)
-        accessoriesAdapter.addListener(accessoriesListener)
-        shoesAdapter.addListener(shoesListener)
-        fullBodyAdapter.addListener(fullBodyListener)
+//        topsAdapter.addListener(topsListener)
+//        bottomsAdapter.addListener(bottomsListener)
+//        accessoriesAdapter.addListener(accessoriesListener)
+//        shoesAdapter.addListener(shoesListener)
+//        fullBodyAdapter.addListener(fullBodyListener)
+//
+//        topsAdapter.filter()
 
         binding.topsGrid.adapter = topsAdapter
         binding.bottomsGrid.adapter = bottomsAdapter
@@ -87,6 +95,7 @@ class ClosetFragment : Fragment() {
         binding.accessoriesGrid.visibility = View.GONE
         binding.shoesGrid.visibility = View.GONE
         binding.fullBodyGrid.visibility = View.GONE
+
     }
 
     /**
@@ -173,10 +182,11 @@ class ClosetFragment : Fragment() {
 
     override fun onDestroyView(){
         super.onDestroyView()
-        topsAdapter.removeListener(topsListener)
-        bottomsAdapter.removeListener(bottomsListener)
-        accessoriesAdapter.removeListener(accessoriesListener)
-        shoesAdapter.removeListener(shoesListener)
-        fullBodyAdapter.removeListener(fullBodyListener)
+//        topsAdapter.removeListener(topsListener)
+//        bottomsAdapter.removeListener(bottomsListener)
+//        accessoriesAdapter.removeListener(accessoriesListener)
+//        shoesAdapter.removeListener(shoesListener)
+//        fullBodyAdapter.removeListener(fullBodyListener)
+        model.removeListener(closetListener)
     }
 }
