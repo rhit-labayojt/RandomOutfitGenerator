@@ -168,4 +168,22 @@
         <item name="android:paddingVertical">@dimen/clothing_edit_spinner_padding_vertical</item>
     </style>
 
+    //------------Outfit View Themes------------
+    <style name="accessory_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/outfit_accessory_height</item>
+        <item name="android:layout_margin">@dimen/outfit_accessory_margin</item>
+    </style>
+
+    //-----------Splash Fragment-------------------
+    <style name="splash_text_view">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">@dimen/splash_text_size</item>
+        <item name="android:textColor">?attr/colorPrimaryVariant</item>
+        <item name="android:layout_centerInParent">true</item>
+        <item name="android:text">@string/loading_text</item>
+    </style>
+
 </resources>

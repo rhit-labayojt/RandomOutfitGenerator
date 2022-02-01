@@ -1,21 +1,42 @@
 package edu.rosehulman.randomoutfitgenerator.objects
 
 import android.media.Image
+import com.google.firebase.firestore.DocumentSnapshot
+import com.google.firebase.firestore.Exclude
 
-class Clothing(private var superCat: String = "",
-               private var subCat: String = "",
-               private var styles: MutableMap<String, Boolean>,
-               private var weathers: MutableMap<String, Boolean>,
-               private var image: String = "" ) {
+class Clothing() {
 
-    var id = ""
+    private var superCat = ""
+    private var subCat = ""
+    private var styles = ArrayList<String>()
+    private var weathers = ArrayList<String>()
+    private var image = ""
+
+    @get:Exclude
+    var id = "" // firestore ID
+
+    constructor(superCat: String = "", subCat: String = "", styles: ArrayList<String>, weathers: ArrayList<String>, image: String = "" ) : this() {
+        this.superCat = superCat
+        this.subCat = subCat
+        this.styles = styles
+        this.weathers = weathers
+        this.image = image
+    }
+
+   companion object{
+       fun from(snapshot: DocumentSnapshot): Clothing{
+           val c = snapshot.toObject(Clothing::class.java)!!
+
+           return c
+       }
+   }
 
     fun addStyle(s: String){
-        styles.put(s, true)
+        styles.add(s)
     }
 
     fun addWeather(w: String){
-        weathers.put(w, true)
+        weathers.add(w)
     }
 
     fun removeStyle(s: String){
@@ -50,12 +71,12 @@ class Clothing(private var superCat: String = "",
         subCat = cat
     }
 
-    fun getWeather(): MutableSet<String>{
-        return weathers.keys
+    fun getWeather(): ArrayList<String>{
+        return weathers
     }
 
-    fun getStyles(): MutableSet<String>{
-        return styles.keys
+    fun getStyles(): ArrayList<String>{
+        return styles
     }
 
 }

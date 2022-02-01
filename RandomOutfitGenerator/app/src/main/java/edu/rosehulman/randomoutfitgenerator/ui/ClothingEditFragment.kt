@@ -45,7 +45,7 @@ class ClothingEditFragment: Fragment() {
                     .setTitle("Are you sure?")
                     .setMessage("Are you sure you want to delete this item?")
                     .setPositiveButton(android.R.string.ok){dialog, which ->
-                        model.deleteCurrentItem()
+                        model.deleteCurrentClothing()
                         findNavController().popBackStack()
                     }
                     .setNegativeButton(android.R.string.cancel, null)
@@ -69,7 +69,7 @@ class ClothingEditFragment: Fragment() {
 
         setHasOptionsMenu(true)
 
-        binding.clothingEditImage.load(model.currentItem.getImage()) {
+        binding.clothingEditImage.load(model.currentItem!!.getImage()) {
             crossfade(true)
             transformations(RoundedCornersTransformation())
         }
@@ -83,14 +83,14 @@ class ClothingEditFragment: Fragment() {
     }
 
     private fun setInitialSpinnerValues(){
-        binding.superCatSpinner.setSelection(Closet.superCategories.indexOfFirst { it == model.currentItem.getSuperCat() })
+        binding.superCatSpinner.setSelection(Closet.superCategories.indexOfFirst { it == model.currentItem!!.getSuperCat() })
 
-        when(model.currentItem.getSuperCat()){
-            Closet.superCategories[0] -> binding.subCatSpinner.setSelection(model.closet.topsTags.keys.toTypedArray().indexOfFirst { it == model.currentItem.getSubCat() })
-            Closet.superCategories[1] -> binding.subCatSpinner.setSelection(model.closet.bottomsTags.keys.toTypedArray().indexOfFirst { it == model.currentItem.getSubCat() })
-            Closet.superCategories[2]-> binding.subCatSpinner.setSelection(model.closet.accessoriesTags.keys.toTypedArray().indexOfFirst { it == model.currentItem.getSubCat() })
-            Closet.superCategories[3] -> binding.subCatSpinner.setSelection(model.closet.shoesTags.keys.toTypedArray().indexOfFirst { it == model.currentItem.getSubCat() })
-            else -> binding.subCatSpinner.setSelection(model.closet.fullBodyTags.keys.toTypedArray().indexOfFirst { it == model.currentItem.getSubCat() })
+        when(model.currentItem!!.getSuperCat()){
+            Closet.superCategories[0] -> binding.subCatSpinner.setSelection(model.closet.topsTags.indexOfFirst { it == model.currentItem!!.getSubCat() })
+            Closet.superCategories[1] -> binding.subCatSpinner.setSelection(model.closet.bottomsTags.indexOfFirst { it == model.currentItem!!.getSubCat() })
+            Closet.superCategories[2]-> binding.subCatSpinner.setSelection(model.closet.accessoriesTags.indexOfFirst { it == model.currentItem!!.getSubCat() })
+            Closet.superCategories[3] -> binding.subCatSpinner.setSelection(model.closet.shoesTags.indexOfFirst { it == model.currentItem!!.getSubCat() })
+            else -> binding.subCatSpinner.setSelection(model.closet.fullBodyTags.indexOfFirst { it == model.currentItem!!.getSubCat() })
         }
     }
 
@@ -103,7 +103,7 @@ class ClothingEditFragment: Fragment() {
         superCatAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown)
         binding.superCatSpinner.adapter = superCatAdapter
 
-        setSubCatAdapter(model.currentItem.getSuperCat())
+        setSubCatAdapter(model.currentItem!!.getSuperCat())
     }
 
     private fun setSubCatAdapter(superCat: String){
@@ -111,11 +111,11 @@ class ClothingEditFragment: Fragment() {
             requireContext(),
             R.layout.spinner_item_selected,
             when(superCat){
-                Closet.superCategories[0] -> model.closet.topsTags.keys.toTypedArray()
-                Closet.superCategories[1] -> model.closet.bottomsTags.keys.toTypedArray()
-                Closet.superCategories[2] -> model.closet.accessoriesTags.keys.toTypedArray()
-                Closet.superCategories[3]-> model.closet.shoesTags.keys.toTypedArray()
-                else -> model.closet.fullBodyTags.keys.toTypedArray()
+                Closet.superCategories[0] -> model.closet.topsTags
+                Closet.superCategories[1] -> model.closet.bottomsTags
+                Closet.superCategories[2] -> model.closet.accessoriesTags
+                Closet.superCategories[3]-> model.closet.shoesTags
+                else -> model.closet.fullBodyTags
             }
         )
         subCatAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown)
@@ -128,31 +128,32 @@ class ClothingEditFragment: Fragment() {
     }
 
     private fun saveClothing(){
-        model.currentItem.setSuperCat(newSuperCat)
-        model.currentItem.setSubCat(newSubCat)
+        model.currentItem!!.setSuperCat(newSuperCat)
+        model.currentItem!!.setSubCat(newSubCat)
 
-        stylesToAdd.forEach { model.currentItem.addStyle(it) }
-        stylesToRemove.forEach { model.currentItem.removeStyle(it) }
+        stylesToAdd.forEach { model.currentItem!!.addStyle(it) }
+        stylesToRemove.forEach { model.currentItem!!.removeStyle(it) }
 
-        weathersToAdd.forEach { model.currentItem.addWeather(it) }
-        weathersToRemove.forEach { model.currentItem.removeWeather(it) }
+        weathersToAdd.forEach { model.currentItem!!.addWeather(it) }
+        weathersToRemove.forEach { model.currentItem!!.removeWeather(it) }
+        model.updateClothing()
     }
 
     private fun setupTextViews(){
-        findCheckedItems(model.currentItem.getStyles(), model.closet.styles.keys.toTypedArray(), checkedStyles)
-        findCheckedItems(model.currentItem.getWeather(), Closet.weathers.keys.toTypedArray(), checkedWeathers)
+        findCheckedItems(model.currentItem!!.getStyles(), model.closet.styles as Array<String>, checkedStyles)
+        findCheckedItems(model.currentItem!!.getWeather(), Closet.weathers, checkedWeathers)
 
-        binding.stylesOptions.text = "Styles: ${model.closet.toString(model.currentItem.getStyles())}"
-        binding.weatherOptions.text = "Weathers: ${model.closet.toString(model.currentItem.getWeather())}"
+        binding.stylesOptions.text = "Styles: ${model.closet.toString(model.currentItem!!.getStyles())}"
+        binding.weatherOptions.text = "Weathers: ${model.closet.toString(model.currentItem!!.getWeather())}"
 
         binding.stylesOptions.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle("Styles")
-                .setMultiChoiceItems(model.closet.styles.keys.toTypedArray(), checkedStyles, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
+                .setMultiChoiceItems(model.closet.styles as Array<String>, checkedStyles, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
                     if(isChecked){
-                        stylesToAdd.add(model.closet.styles.keys.toTypedArray().get(which))
+                        stylesToAdd.add(model.closet.styles.get(which))
                     }else{
-                        stylesToRemove.add(model.closet.styles.keys.toTypedArray().get(which))
+                        stylesToRemove.add(model.closet.styles.get(which))
                     }
                 })
                 .show()
@@ -162,11 +163,11 @@ class ClothingEditFragment: Fragment() {
         binding.weatherOptions.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle("Weathers")
-                .setMultiChoiceItems(Closet.weathers.keys.toTypedArray(), checkedWeathers, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
+                .setMultiChoiceItems(Closet.weathers, checkedWeathers, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
                     if(isChecked){
-                        weathersToAdd.add(Closet.weathers.keys.toTypedArray().get(which))
+                        weathersToAdd.add(Closet.weathers.get(which))
                     }else{
-                        weathersToRemove.add(Closet.weathers.keys.toTypedArray().get(which))
+                        weathersToRemove.add(Closet.weathers.get(which))
                     }
                 })
                 .show()
@@ -174,7 +175,7 @@ class ClothingEditFragment: Fragment() {
         }
     }
 
-    private fun findCheckedItems(clothingItems: MutableSet<String>, closetItems: Array<String>, itemsChecked: BooleanArray){
+    private fun findCheckedItems(clothingItems: ArrayList<String>, closetItems: Array<String>, itemsChecked: BooleanArray){
         for(item in 0 until closetItems.size){
             itemsChecked[item] = clothingItems.contains(closetItems[item])
         }
@@ -210,7 +211,7 @@ class ClothingEditFragment: Fragment() {
          * @param parent The AdapterView that now contains no selected item.
          */
         override fun onNothingSelected(parent: AdapterView<*>?) {
-            newSuperCat = model.currentItem.getSuperCat()
+            newSuperCat = model.currentItem!!.getSuperCat()
         }
 
 
@@ -245,7 +246,7 @@ class ClothingEditFragment: Fragment() {
          * @param parent The AdapterView that now contains no selected item.
          */
         override fun onNothingSelected(parent: AdapterView<*>?) {
-            newSubCat = model.currentItem.getSubCat()
+            newSubCat = model.currentItem!!.getSubCat()
         }
     }
 }

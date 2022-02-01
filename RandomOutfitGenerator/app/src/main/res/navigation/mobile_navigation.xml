@@ -53,4 +53,9 @@
         android:label="@string/clothing_edit"
         tools.layout="@layout/fragment_clothing_edit" />
 
+    <fragment
+        android:id="@+id/nav_splash"
+        android:name="edu.rosehulman.randomoutfitgenerator.ui.SplashFragment"
+        tools.layout="@layout/fragment_splash" />
+
 </navigation>

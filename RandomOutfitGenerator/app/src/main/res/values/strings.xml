@@ -49,4 +49,8 @@
     //----------------Clothing Edit---------------
     <string name="clothing_delete">Delete</string>
     <string name="clothing_save">Save</string>
+
+    //--------------Splash Fragment----------------
+    <string name="loading_text">Loading...</string>
+
 </resources>

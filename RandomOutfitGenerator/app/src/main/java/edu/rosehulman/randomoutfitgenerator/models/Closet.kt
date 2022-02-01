@@ -1,5 +1,9 @@
 package edu.rosehulman.randomoutfitgenerator.models
 
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import edu.rosehulman.randomoutfitgenerator.objects.Clothing
 import edu.rosehulman.randomoutfitgenerator.objects.Outfit
 import kotlin.random.Random
@@ -9,23 +13,15 @@ class Closet {
     var clothing: ArrayList<Clothing> = ArrayList()
     var savedOutfits: ArrayList<Outfit> = ArrayList()
     var recentOutfits: Array<Outfit?> = Array(10){null; null; null; null; null; null; null; null; null; null}
-    var topsTags = mutableMapOf("Long Sleeve" to true, "T-Shirt" to true, "Sweater" to true, "Vest" to true, "Tank Top" to true)
-    var bottomsTags = mutableMapOf("Shorts" to true, "Jeans" to true, "Slacks" to true, "Sweat Pants" to true, "Skirt" to true)
-    var accessoriesTags = mutableMapOf("Sunglasses" to true, "Hat" to true, "Bracelet" to true, "Necklace" to true, "Ring" to true, "Watch" to true)
-    var shoesTags = mutableMapOf("Sneakers" to true, "Boots" to true, "Heels" to true, "Flats" to true, "Sandals" to true, "Crocs" to true)
-    var fullBodyTags = mutableMapOf("Sneakers" to true, "Boots" to true, "Heels" to true, "Flats" to true, "Sandals" to true, "Crocs" to true)
-    var styles = mutableMapOf("Casual" to true, "Formal" to true, "Relaxation" to true, "Work" to true, "School" to true)
+    var topsTags = arrayListOf("Long Sleeve", "T-Shirt", "Sweater", "Vest", "Tank Top")
+    var bottomsTags = arrayListOf("Shorts", "Jeans", "Slacks", "Sweat Pants", "Skirt")
+    var accessoriesTags = arrayListOf("Sunglasses", "Hat", "Bracelet", "Necklace", "Ring", "Watch")
+    var shoesTags = arrayListOf("Sneakers", "Boots", "Heels", "Flats", "Sandals", "Crocs")
+    var fullBodyTags = arrayListOf("Sneakers", "Boots", "Heels", "Flats", "Sandals", "Crocs")
+    var styles = arrayListOf("Casual", "Formal", "Relaxation", "Work", "School")
 
-    var id = ""
-
-    var defaultStyle = "Casual"
+    @get:Exclude
     var defaultWeather = "Moderate"
-
-    companion object{
-        var weathers = mutableMapOf("Hot" to true, "Warm" to true, "Moderate" to true, "Cool" to true, "Cold" to true)
-        var superCategories = arrayOf("Top", "Bottom", "Accessory", "Shoes", "Full Body")
-    }
-
 
     private val testImages =
         arrayListOf("https://wallpapersmug.com/large/fb6f49/sunset-horizon-mountains-valley.jpg",
@@ -39,6 +35,14 @@ class Closet {
 
     constructor(){
         generateTestImages()
+    }
+
+    companion object{
+        var weathers = arrayOf("Hot", "Warm", "Moderate", "Cool", "Cold")
+        var superCategories = arrayOf("Top", "Bottom", "Accessory", "Shoes", "Full Body")
+        const val CLOTHING_COLLECTION_PATH = "clothing"
+        const val RECENT_OUTFITS_COLLECTION_PATH = "recentOutfits"
+        const val SAVED_OUTFITS_COLLECTION_PATH = "savedOutfits"
     }
 
     fun addClothing(item: Clothing){
@@ -57,21 +61,44 @@ class Closet {
         savedOutfits.remove(fit)
     }
 
-    fun toString(list: MutableSet<String>): String{
+    fun toString(list: ArrayList<String>): String{
         var s = ""
         list.forEach{ s+="$it, "}
         return s.removeSuffix(", ")
     }
 
-    private fun generateTestImages(){
-        for(i in 0 until 5*5){
+    fun generateTestImages(){
+        val uid = Firebase.auth.currentUser!!.uid
+        var clothingRef = Firebase.firestore.collection(User.COLLECTION_PATH).document(uid).collection(Closet.CLOTHING_COLLECTION_PATH)
+        for(i in 0 until 50*5){
             when(i % 5){
-                0 -> addClothing(Clothing(superCategories[i%5], topsTags.keys.toList().get(Random.nextInt(topsTags.keys.size)), mutableMapOf("Casual" to true), mutableMapOf("Hot" to true), testImages[Random.nextInt(testImages.size)]))
-                1 -> addClothing(Clothing(superCategories[i%5], bottomsTags.keys.toList().get(Random.nextInt(bottomsTags.keys.size)), mutableMapOf("Casual" to true), mutableMapOf("Warm" to true), testImages[Random.nextInt(testImages.size)]))
-                2 -> addClothing(Clothing(superCategories[i%5], accessoriesTags.keys.toList().get(Random.nextInt(accessoriesTags.keys.size)), mutableMapOf("Casual" to true), mutableMapOf("Moderate" to true), testImages[Random.nextInt(testImages.size)]))
-                3 -> addClothing(Clothing(superCategories[i%5], shoesTags.keys.toList().get(Random.nextInt(shoesTags.keys.size)), mutableMapOf("Casual" to true), mutableMapOf("Cool" to true), testImages[Random.nextInt(testImages.size)]))
-                else -> addClothing(Clothing(superCategories[i%5], fullBodyTags.keys.toList().get(Random.nextInt(fullBodyTags.keys.size)), mutableMapOf("Casual" to true), mutableMapOf("Cold" to true), testImages[Random.nextInt(testImages.size)]))
+                0 -> {
+                    var c = Clothing(superCategories[i%5], topsTags.get(
+                        Random.nextInt(topsTags.size)), arrayListOf("Casual"), arrayListOf("Moderate"), testImages[Random.nextInt(testImages.size)])
+                    clothingRef.add(c)
+                }
+                1 -> {
+                    var c = Clothing(superCategories[i%5], bottomsTags.get(
+                        Random.nextInt(bottomsTags.size)), arrayListOf("Casual"), arrayListOf("Moderate"), testImages[Random.nextInt(testImages.size)])
+                    clothingRef.add(c)
+                }
+                2 -> {
+                    var c = Clothing(superCategories[i%5], accessoriesTags.get(
+                        Random.nextInt(accessoriesTags.size)), arrayListOf("Casual"), arrayListOf("Moderate"), testImages[Random.nextInt(testImages.size)])
+                    clothingRef.add(c)
+                }
+                3 -> {
+                    var c = Clothing(superCategories[i%5], shoesTags.get(
+                        Random.nextInt(shoesTags.size)), arrayListOf("Casual"), arrayListOf("Moderate"), testImages[Random.nextInt(testImages.size)])
+                    clothingRef.add(c)
+                }
+                else -> {
+                    var c = Clothing(superCategories[i%5], fullBodyTags.get(
+                        Random.nextInt(fullBodyTags.size)), arrayListOf("Casual"), arrayListOf("Moderate"), testImages[Random.nextInt(testImages.size)])
+                    clothingRef.add(c)
+                }
             }
         }
     }
+
 }

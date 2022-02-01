@@ -6,15 +6,30 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.ClosetAdapter
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentClosetBinding
 import edu.rosehulman.randomoutfitgenerator.models.Closet
+import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
 
 class ClosetFragment : Fragment() {
     private lateinit var binding: FragmentClosetBinding
+    private lateinit var topsAdapter: ClosetAdapter
+    private lateinit var bottomsAdapter: ClosetAdapter
+    private lateinit var shoesAdapter: ClosetAdapter
+    private lateinit var accessoriesAdapter: ClosetAdapter
+    private lateinit var fullBodyAdapter: ClosetAdapter
+
+    companion object{
+        const val topsListener = "ClosetFragmentTops"
+        const val bottomsListener = "ClosetFragmentBottoms"
+        const val shoesListener = "ClosetFragmentShoes"
+        const val accessoriesListener = "ClosetFragmentAccessories"
+        const val fullBodyListener = "ClosetFragmentFullBody"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -36,11 +51,17 @@ class ClosetFragment : Fragment() {
      * is visible
      */
     fun setAdapters(){
-        val topsAdapter = ClosetAdapter(this, Closet.superCategories[0])
-        val bottomsAdapter = ClosetAdapter(this, Closet.superCategories[1])
-        val accessoriesAdapter = ClosetAdapter(this, Closet.superCategories[2])
-        val shoesAdapter = ClosetAdapter(this, Closet.superCategories[3])
-        val fullBodyAdapter = ClosetAdapter(this, Closet.superCategories[4])
+        topsAdapter = ClosetAdapter(this, Closet.superCategories[0])
+        bottomsAdapter = ClosetAdapter(this, Closet.superCategories[1])
+        accessoriesAdapter = ClosetAdapter(this, Closet.superCategories[2])
+        shoesAdapter = ClosetAdapter(this, Closet.superCategories[3])
+        fullBodyAdapter = ClosetAdapter(this, Closet.superCategories[4])
+
+        topsAdapter.addListener(topsListener)
+        bottomsAdapter.addListener(bottomsListener)
+        accessoriesAdapter.addListener(accessoriesListener)
+        shoesAdapter.addListener(shoesListener)
+        fullBodyAdapter.addListener(fullBodyListener)
 
         binding.topsGrid.adapter = topsAdapter
         binding.bottomsGrid.adapter = bottomsAdapter
@@ -144,4 +165,12 @@ class ClosetFragment : Fragment() {
         }
     }
 
+    override fun onDestroyView(){
+        super.onDestroyView()
+        topsAdapter.removeListener(topsListener)
+        bottomsAdapter.removeListener(bottomsListener)
+        accessoriesAdapter.removeListener(accessoriesListener)
+        shoesAdapter.removeListener(shoesListener)
+        fullBodyAdapter.removeListener(fullBodyListener)
+    }
 }

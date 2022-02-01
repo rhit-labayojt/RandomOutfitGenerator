@@ -5,6 +5,7 @@ import android.content.DialogInterface
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.fragment.app.Fragment
@@ -15,6 +16,7 @@ import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentRandomizationBinding
 import edu.rosehulman.randomoutfitgenerator.models.Closet
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
+import edu.rosehulman.randomoutfitgenerator.models.UserViewModel
 import edu.rosehulman.randomoutfitgenerator.objects.Clothing
 import edu.rosehulman.randomoutfitgenerator.objects.Outfit
 import kotlin.random.Random
@@ -22,6 +24,7 @@ import kotlin.random.Random
 class RandomizationFragment: Fragment() {
     private lateinit var binding: FragmentRandomizationBinding
     private lateinit var model: ClosetViewModel
+    private lateinit var userModel: UserViewModel
 
     private var topType = ""
     private var bottomType = ""
@@ -30,14 +33,14 @@ class RandomizationFragment: Fragment() {
     private var styleType = ""
     private var weatherType = ""
 
-    private lateinit var accessoriesTypes: MutableSet<String>
+    private var accessoriesTypes = ArrayList<String>()
 
     private lateinit var checkedAcc: BooleanArray
     private lateinit var checkedStyles: BooleanArray
     private lateinit var checkedWeathers: BooleanArray
 
     private var views = ArrayList<View>()
-    private var lists = ArrayList<Map<String, Boolean>>()
+    private var lists = ArrayList<Array<String>>()
     private var itemClickListeners = ArrayList<AdapterView.OnItemClickListener>()
     private var onClickListeners = ArrayList<View.OnClickListener>()
 
@@ -53,7 +56,7 @@ class RandomizationFragment: Fragment() {
                 }
 
                 if(styleType == ""){
-                    styleType = model.closet.defaultStyle
+                    styleType = userModel.user!!.defaultStyle
                 }
 
                 if(binding.fullBodyOutfitToggle.isChecked){
@@ -78,6 +81,7 @@ class RandomizationFragment: Fragment() {
 
         binding = FragmentRandomizationBinding.inflate(inflater, container, false)
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
+        userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         setHasOptionsMenu(true)
 
         checkedAcc = BooleanArray(model.closet.accessoriesTags.size){false}
@@ -94,14 +98,13 @@ class RandomizationFragment: Fragment() {
         return binding.root
     }
 
-    private fun updateView(view: AutoCompleteTextView, list: MutableSet<String>){
+    private fun updateView(view: AutoCompleteTextView, list: ArrayList<String>){
         view.setTypeface(Typeface.DEFAULT_BOLD)
         view.setTextColor(MaterialColors.getColor(requireContext(), R.attr.colorPrimaryVariant, Color.BLUE))
         view.setText("${model.closet.toString(list)}")
     }
 
     private fun populateArrayLists(){
-        accessoriesTypes = mutableSetOf()
 
         views.add(binding.randomTop)
         views.add(binding.randomBottom)
@@ -111,13 +114,13 @@ class RandomizationFragment: Fragment() {
         views.add(binding.randomWeather)
         views.add(binding.randomAccessories)
 
-        lists.add(model.closet.topsTags)
-        lists.add(model.closet.bottomsTags)
-        lists.add(model.closet.fullBodyTags)
-        lists.add(model.closet.shoesTags)
-        lists.add(model.closet.styles)
+        lists.add(model.closet.topsTags as Array<String>)
+        lists.add(model.closet.bottomsTags as Array<String>)
+        lists.add(model.closet.fullBodyTags as Array<String>)
+        lists.add(model.closet.shoesTags as Array<String>)
+        lists.add(model.closet.styles as Array<String>)
         lists.add(Closet.weathers)
-        lists.add(model.closet.accessoriesTags)
+        lists.add(model.closet.accessoriesTags as Array<String>)
 
         itemClickListeners.add(TopTypeListener())
         itemClickListeners.add(BottomTypeListener())
@@ -130,11 +133,11 @@ class RandomizationFragment: Fragment() {
     }
 
     private fun setupDropdownViews(){
-        for(view in 0 until 5){
+        for(view in 0 until 6){
             val a = ArrayAdapter(
                 requireContext(),
                 R.layout.randomization_item_dropdown,
-                lists[view].keys.toTypedArray()
+                lists[view]
             )
 
             var item = views[view] as AutoCompleteTextView
@@ -144,9 +147,9 @@ class RandomizationFragment: Fragment() {
     }
 
     private fun setupAutoCompleteTextViewDialogs(){
-        for(view in 5 until 7){
+        for(view in 6 until 7){
             var item = views[view] as AutoCompleteTextView
-            item.setOnClickListener(onClickListeners[view - 4])
+            item.setOnClickListener(onClickListeners[view - 6])
         }
     }
 
@@ -164,13 +167,19 @@ class RandomizationFragment: Fragment() {
 
     private fun generateOutfit(){
 
+        Log.d("HELP","$topType, $bottomType, $shoesType, $weatherType, $styleType")
+
         var topOptions = getOptionsList(topType, Closet.superCategories[0])
         var bottomOptions = getOptionsList(bottomType, Closet.superCategories[1])
         var shoeOptions = getOptionsList(shoesType, Closet.superCategories[3])
 
         var accessoryOptions = ArrayList<List<Clothing>>()
 
-        accessoriesTypes.forEach { accessoryOptions.add(getOptionsList(it, Closet.superCategories[2])) }
+        if(accessoriesTypes.isEmpty()){
+            accessoryOptions.add(getOptionsList("", Closet.superCategories[2]))
+        }else{
+            accessoriesTypes.forEach { accessoryOptions.add(getOptionsList(it, Closet.superCategories[2])) }
+        }
 
         var outfitClothing = ArrayList<Clothing>()
 
@@ -189,8 +198,11 @@ class RandomizationFragment: Fragment() {
 
         var accessoryOptions = ArrayList<List<Clothing>>()
 
-        accessoriesTypes.forEach { accessoryOptions.add(getOptionsList(it, Closet.superCategories[2])) }
-
+        if(accessoriesTypes.isEmpty()){
+            accessoryOptions.add(getOptionsList("", Closet.superCategories[2]))
+        }else{
+            accessoriesTypes.forEach { accessoryOptions.add(getOptionsList(it, Closet.superCategories[2])) }
+        }
         var outfitClothing = ArrayList<Clothing>()
 
         outfitClothing.add(fullBodyOptions.get(Random.nextInt(fullBodyOptions.size)))
@@ -207,20 +219,20 @@ class RandomizationFragment: Fragment() {
     private fun getOptionsList(type: String, superCat: String): List<Clothing>{
         var list: List<Clothing>
 
-        if(model.closet.topsTags.keys.toTypedArray().contains(topType)){
+        if(model.closet.topsTags.contains(topType)){
             list = model.closet.clothing.filter{it: Clothing ->
-                it.getSubCat()==type
-                it.getStyles().contains(styleType)
+                it.getSubCat()==type &&
+                it.getStyles().contains(styleType) &&
                 it.getWeather().contains(weatherType)
             }
         }else{
             list = model.closet.clothing.filter{it: Clothing ->
-                it.getSuperCat() == superCat
-                it.getStyles().contains(styleType)
+                it.getSuperCat() == superCat &&
+                it.getStyles().contains(styleType) &&
                 it.getWeather().contains(weatherType)
             }
         }
-
+        Log.d("HELP","${list.toString()}")
         return list
     }
 
@@ -338,12 +350,12 @@ class RandomizationFragment: Fragment() {
 
             AlertDialog.Builder(requireContext())
                 .setTitle("Accessories Options")
-                .setMultiChoiceItems(model.closet.accessoriesTags.keys.toTypedArray(), checkedAcc, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
+                .setMultiChoiceItems(model.closet.accessoriesTags as Array<String>, checkedAcc, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
                     if(isChecked){
-                        accessoriesTypes.add(model.closet.accessoriesTags.keys.toTypedArray()[which])
+                        accessoriesTypes.add(model.closet.accessoriesTags.get(which))
                         checkedAcc[which] = true
                     }else{
-                        accessoriesTypes.remove(model.closet.accessoriesTags.keys.toTypedArray()[which])
+                        accessoriesTypes.remove(model.closet.accessoriesTags.get(which))
                         checkedAcc[which] = false
                     }
 

@@ -5,18 +5,15 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
-import edu.rosehulman.randomoutfitgenerator.objects.Clothing
-import edu.rosehulman.randomoutfitgenerator.ui.ClosetFragment
+import edu.rosehulman.randomoutfitgenerator.ui.OutfitFragment
 
-class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): RecyclerView.Adapter<ClosetAdapter.ClosetViewHolder>() {
+class OutfitAccessoriesAdapter(val fragment: OutfitFragment): RecyclerView.Adapter<OutfitAccessoriesAdapter.AccessoriesViewHolder>() {
     private val model = ViewModelProvider(fragment.requireActivity()).get(ClosetViewModel::class.java)
-    private val itemList = model.closet.clothing.filter { it.getSuperCat() == modelTag }
 
     /**
      * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
@@ -41,9 +38,9 @@ class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): Recycle
      * @see .getItemViewType
      * @see .onBindViewHolder
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClosetViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.closet_grid_view, parent, false)
-        return ClosetViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): OutfitAccessoriesAdapter.AccessoriesViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.accesory_layout, parent, true)
+        return AccessoriesViewHolder(view)
     }
 
     /**
@@ -67,8 +64,8 @@ class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): Recycle
      * item at the given position in the data set.
      * @param position The position of the item within the adapter's data set.
      */
-    override fun onBindViewHolder(holder: ClosetViewHolder, position: Int) {
-        holder.bind(itemList.get(position))
+    override fun onBindViewHolder(holder: OutfitAccessoriesAdapter.AccessoriesViewHolder, position: Int) {
+        holder.bind(model.currentOutfit!!.accessories.get(position))
     }
 
     /**
@@ -76,30 +73,13 @@ class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): Recycle
      *
      * @return The total number of items in this adapter.
      */
-    override fun getItemCount() = itemList.size
+    override fun getItemCount() = model.currentOutfit!!.accessories.size
 
-    fun addListener(fragmentName: String){
-        model.addClothingListener(fragmentName){
-            notifyDataSetChanged()
-        }
-    }
+    inner class AccessoriesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        private val accessoryImage: ImageView = itemView.findViewById<ImageView>(R.id.accessory_recycler_layout)
 
-    fun removeListener(fragmentName: String){
-        model.removeListener(fragmentName)
-    }
-
-    inner class ClosetViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        private val clothingImage: ImageView = itemView.findViewById<ImageView>(R.id.clothing_item)
-
-        init{
-            itemView.setOnClickListener {
-                model.updateCurrentItem(itemList[adapterPosition])
-                fragment.findNavController().navigate(R.id.nav_clothing_edit)
-            }
-        }
-
-        fun bind(clothes: Clothing){
-            clothingImage.load(clothes.getImage()){
+        fun bind(img: String){
+            accessoryImage.load(img){
                 crossfade(true)
                 transformations(RoundedCornersTransformation())
             }
