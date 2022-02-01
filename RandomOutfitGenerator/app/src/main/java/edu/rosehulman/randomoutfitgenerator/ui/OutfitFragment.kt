@@ -13,7 +13,6 @@ import coil.transform.RoundedCornersTransformation
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.OutfitAccessoriesAdapter
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentOutfitBinding
-import edu.rosehulman.randomoutfitgenerator.models.Closet
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
 
 class OutfitFragment: Fragment() {
@@ -27,7 +26,7 @@ class OutfitFragment: Fragment() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         return when(item.itemId){
-            R.id.delet_outfit -> {
+            R.id.delete_outfit -> {
                 deleteOutfit()
                 findNavController().navigate(R.id.nav_saved_outfits)
                 true
@@ -45,9 +44,11 @@ class OutfitFragment: Fragment() {
         binding = FragmentOutfitBinding.inflate(inflater, container, false)
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
 
-        images.put(binding.outfitTop, model.currentOutfit!!.top)
-        images.put(binding.outfitBottom, model.currentOutfit!!.bottom)
-        images.put(binding.outfitShoes, model.currentOutfit!!.shoes)
+        var currentOutfit = model.getCurrentRecentOutfit()!!
+
+        images.put(binding.outfitTop, currentOutfit.top)
+        images.put(binding.outfitBottom, currentOutfit.bottom)
+        images.put(binding.outfitShoes, currentOutfit.shoes)
 
         setupImages()
         setupText()
@@ -56,7 +57,7 @@ class OutfitFragment: Fragment() {
     }
 
     fun deleteOutfit(){
-        model.deleteCurrentOutfit()
+        model.deleteCurrentSavedOutfit()
     }
 
     private fun setupImages(){
@@ -76,11 +77,13 @@ class OutfitFragment: Fragment() {
     }
 
     private fun setupText(){
-        binding.outfitTopCat.text = "Top: ${model.currentOutfit!!.topCat}"
-        binding.outfitBottomCat.text = "Bottom: ${model.currentOutfit!!.bottomCat}"
-        binding.outfitShoeCat.text = "Shoes: ${model.currentOutfit!!.shoesCat}"
-        binding.outfitAccessoriesCat.text = "Accessories: ${model.closet.toString(model.currentOutfit!!.accessoriesCats)}"
-        binding.outfitWeather.text = "Weather: ${model.currentOutfit!!.weather}"
-        binding.outfitStyle.text = "Style: ${model.currentOutfit!!.style}"
+        var currentOutfit = model.getCurrentRecentOutfit()!!
+
+        binding.outfitTopCat.text = "Top: ${currentOutfit.topCat}"
+        binding.outfitBottomCat.text = "Bottom: ${currentOutfit.bottomCat}"
+        binding.outfitShoeCat.text = "Shoes: ${currentOutfit.shoesCat}"
+        binding.outfitAccessoriesCat.text = "Accessories: ${model.closet.toString(currentOutfit.accessoriesCats)}"
+        binding.outfitWeather.text = "Weather: ${currentOutfit.weather}"
+        binding.outfitStyle.text = "Style: ${currentOutfit.style}"
     }
 }

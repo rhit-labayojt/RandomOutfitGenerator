@@ -17,8 +17,15 @@ class ClosetViewModel: ViewModel() {
 
     var subscriptions = HashMap<String, ListenerRegistration>()
     var closet = Closet()
-    var currentItem: Clothing? = null
-    var currentOutfit: Outfit? = null
+
+    private var currentItemIndex = 0
+    private var currentSavedOutfitIndex = 0
+    private var currentRecentOutfitIndex = 0
+    private var recentOutfitIndexToAdd = 0
+
+    fun getCurrentItem() = closet.clothing.get(currentItemIndex)
+    fun getCurrentSavedOutfit() = closet.savedOutfits.get(currentSavedOutfitIndex)
+    fun getCurrentRecentOutfit() = closet.recentOutfits.get(currentRecentOutfitIndex)
 
     fun addClothingListener(fragmentName: String, observer: () -> Unit){
         val uid = Firebase.auth.currentUser!!.uid
@@ -88,24 +95,42 @@ class ClosetViewModel: ViewModel() {
         subscriptions.remove(fragmentName) // remove listener from HashMap
     }
 
-    fun updateCurrentItem(clothes: Clothing){
-        currentItem = clothes
+    fun updateCurrentItem(pos: Int){
+        currentItemIndex = pos
     }
 
     fun updateClothing(){
-        clothingRef.document(currentItem!!.id).set(currentItem!!)
+        var currentItem = getCurrentItem()
+        clothingRef.document(currentItem.id).set(currentItem)
     }
 
     fun deleteCurrentClothing(){
-        clothingRef.document(currentItem!!.id).delete()
+        clothingRef.document(getCurrentItem().id).delete()
     }
 
-    fun updateCurrentOutfit(fit: Outfit){
-        currentOutfit = fit
+    fun updateCurrentSavedOutfit(pos: Int){
+        currentSavedOutfitIndex = pos
     }
 
-    fun deleteCurrentOutfit(){
-        savedOutfitsRef.document(currentOutfit!!.id).delete()
+    fun deleteCurrentSavedOutfit(){
+        savedOutfitsRef.document(getCurrentItem().id).delete()
+    }
+
+    fun updateCurrentRecentOutfit(pos: Int){
+        currentRecentOutfitIndex = pos
+    }
+
+    fun addRecentOutfit(fit: Outfit){
+        if(recentOutfitIndexToAdd < 10){
+            closet.recentOutfits[recentOutfitIndexToAdd] = fit
+            currentRecentOutfitIndex = recentOutfitIndexToAdd
+            recentOutfitIndexToAdd++
+        }else{
+            recentOutfitIndexToAdd = 0
+            closet.recentOutfits[recentOutfitIndexToAdd] = fit
+            currentRecentOutfitIndex = recentOutfitIndexToAdd
+            recentOutfitIndexToAdd++
+        }
     }
 
 }

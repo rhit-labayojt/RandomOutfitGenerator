@@ -93,7 +93,7 @@ class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): Recycle
 
         init{
             itemView.setOnClickListener {
-                model.updateCurrentItem(itemList[adapterPosition])
+                model.updateCurrentItem(adapterPosition)
                 fragment.findNavController().navigate(R.id.nav_clothing_edit)
             }
         }

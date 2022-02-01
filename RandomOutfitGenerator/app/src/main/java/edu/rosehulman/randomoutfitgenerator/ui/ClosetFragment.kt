@@ -2,6 +2,7 @@ package edu.rosehulman.randomoutfitgenerator.ui
 
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import edu.rosehulman.randomoutfitgenerator.Constants
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.ClosetAdapter
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentClosetBinding
@@ -39,8 +41,12 @@ class ClosetFragment : Fragment() {
 
         binding = FragmentClosetBinding.inflate(inflater, container, false)
 
+        var model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
+        Log.d(Constants.TAG, model.closet.clothing.toString())
         setAdapters()
+        Log.d(Constants.TAG, model.closet.clothing.toString())
         setListeners()
+        Log.d(Constants.TAG, model.closet.clothing.toString())
 
         return binding.root
     }

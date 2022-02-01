@@ -189,7 +189,7 @@ class RandomizationFragment: Fragment() {
         accessoryOptions.forEach { outfitClothing.add(it.get(Random.nextInt(it.size))) }
 
         var newOutfit = Outfit(outfitClothing, styleType, weatherType, false)
-        model.updateCurrentOutfit(newOutfit)
+        model.addRecentOutfit(newOutfit)
     }
 
     private fun generateFullBodyOutfit(){
@@ -210,7 +210,7 @@ class RandomizationFragment: Fragment() {
         accessoryOptions.forEach { outfitClothing.add(it.get(Random.nextInt(it.size))) }
 
         var newOutfit = Outfit(outfitClothing, styleType, weatherType, true)
-        model.updateCurrentOutfit(newOutfit)
+        model.addRecentOutfit(newOutfit)
     }
 
     /**
