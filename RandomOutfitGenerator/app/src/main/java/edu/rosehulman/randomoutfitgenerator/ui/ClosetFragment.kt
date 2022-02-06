@@ -41,7 +41,6 @@ class ClosetFragment : Fragment() {
 
         binding = FragmentClosetBinding.inflate(inflater, container, false)
         binding.closetParentLayout.visibility = View.INVISIBLE
-        binding.loadingText.visibility = View.VISIBLE
 
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
         setAdapters()
@@ -56,7 +55,6 @@ class ClosetFragment : Fragment() {
             shoesAdapter.notifyDataSetChanged()
             fullBodyAdapter.filter()
             fullBodyAdapter.notifyDataSetChanged()
-            binding.loadingText.visibility = View.GONE
             binding.closetParentLayout.visibility = View.VISIBLE
         }
         setListeners()

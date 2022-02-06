@@ -19,6 +19,7 @@
     //-------------------Outfits-------------------
     <string name="outfit">My Outfit</string>
     <string name="save_outfit">Save</string>
+    <string name="dummy_string">Lorem Ipsum</string>
 
     //----------------------Settings---------------
     <string name="menu_settings">Settings</string>

@@ -78,9 +78,17 @@
     </style>
 
     <style name="outfit_text">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_margin">@dimen/outfit_text_margin</item>
+        <item name="android:text">@string/dummy_string</item>
+        <item name="android:textSize">@dimen/outfit_text_size</item>
+    </style>
+
+    <style name="accessory_layout">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">@dimen/outfit_accessory_height</item>
+        <item name="android:layout_margin">@dimen/outfit_accessory_margin</item>
     </style>
 
     //---------------------Saved Outfits Fragment Themes------------
@@ -166,13 +174,6 @@
         <item name="android:paddingLeft">@dimen/clothing_edit_spinner_padding_left</item>
         <item name="android:paddingRight">@dimen/clothing_edit_spinner_padding_right</item>
         <item name="android:paddingVertical">@dimen/clothing_edit_spinner_padding_vertical</item>
-    </style>
-
-    //------------Outfit View Themes------------
-    <style name="accessory_layout">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/outfit_accessory_height</item>
-        <item name="android:layout_margin">@dimen/outfit_accessory_margin</item>
     </style>
 
     //-----------Splash Fragment-------------------

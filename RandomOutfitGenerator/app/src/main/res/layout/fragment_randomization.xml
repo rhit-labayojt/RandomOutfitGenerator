@@ -7,10 +7,6 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <TextView android:id="@+id/loading_text"
-        style="@style/splash_text_view"
-        android:visibility="gone"/>
-
     <Switch android:id="@+id/full_body_outfit_toggle"
         style="@style/full_body_switch"/>
 
@@ -131,4 +127,5 @@
 
 
 </RelativeLayout>
+
 

@@ -88,10 +88,9 @@ class RandomizationFragment: Fragment() {
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
         userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         binding.randomParentLayout.visibility = View.INVISIBLE
-        binding.loadingText.visibility = View.VISIBLE
 
+        model.addRecentOutfitsListener(fragmentName){}
         model.addClothingListener(fragmentName){
-            binding.loadingText.visibility = View.GONE
             binding.randomParentLayout.visibility = View.VISIBLE
         }
 
@@ -443,8 +442,8 @@ class RandomizationFragment: Fragment() {
 
     }
 
-    override fun onDestroy(){
-        super.onDestroy()
+    override fun onDestroyView(){
+        super.onDestroyView()
         model.removeListener(fragmentName)
     }
 }
