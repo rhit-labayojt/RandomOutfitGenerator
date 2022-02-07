@@ -16,6 +16,7 @@ import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentClothingEditBinding
 import edu.rosehulman.randomoutfitgenerator.models.Closet
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
+import edu.rosehulman.randomoutfitgenerator.objects.Clothing
 
 class ClothingEditFragment: Fragment() {
     private lateinit var binding: FragmentClothingEditBinding
@@ -69,15 +70,28 @@ class ClothingEditFragment: Fragment() {
 
         setHasOptionsMenu(true)
 
-        binding.clothingEditImage.load(model.getCurrentItem().getImage()) {
-            crossfade(true)
-            transformations(RoundedCornersTransformation())
+        if(model.isNewImage) {
+            binding.clothingEditImage.load(model.newImageUri) {
+                crossfade(true)
+                transformations(RoundedCornersTransformation())
+            }
+            model.isNewImage = false
+        }else{
+            binding.clothingEditImage.load(model.getCurrentItem().getImage()) {
+                crossfade(true)
+                transformations(RoundedCornersTransformation())
+            }
         }
 
         setupSpinnerAdapters()
-        setInitialSpinnerValues()
-        addSpinnerListeners()
-        setupTextViews()
+
+        if(model.isNewImage){
+            binding.subCatSpinner.setSelection(0)
+        }else {
+            setInitialSpinnerValues()
+            addSpinnerListeners()
+            setupTextViews()
+        }
 
         return binding.root
     }
@@ -103,7 +117,11 @@ class ClothingEditFragment: Fragment() {
         superCatAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown)
         binding.superCatSpinner.adapter = superCatAdapter
 
-        setSubCatAdapter(model.getCurrentItem().getSuperCat())
+        if(model.isNewImage){
+            setSubCatAdapter(Closet.superCategories[0])
+        }else{
+            setSubCatAdapter(model.getCurrentItem().getSuperCat())
+        }
     }
 
     private fun setSubCatAdapter(superCat: String){
@@ -128,14 +146,21 @@ class ClothingEditFragment: Fragment() {
     }
 
     private fun saveClothing(){
-        model.getCurrentItem().setSuperCat(newSuperCat)
-        model.getCurrentItem().setSubCat(newSubCat)
 
-        stylesToAdd.forEach { model.getCurrentItem().addStyle(it) }
-        stylesToRemove.forEach { model.getCurrentItem().removeStyle(it) }
+        if(model.isNewImage){
+            var newItem = Clothing(newSuperCat, newSubCat, stylesToAdd, weathersToAdd, model.newImageUri)
+            model.updateCurrentItem(model.closet.clothing.indexOfFirst{it == newItem})
+        }else {
+            model.getCurrentItem().setSuperCat(newSuperCat)
+            model.getCurrentItem().setSubCat(newSubCat)
 
-        weathersToAdd.forEach { model.getCurrentItem().addWeather(it) }
-        weathersToRemove.forEach { model.getCurrentItem().removeWeather(it) }
+            stylesToAdd.forEach { model.getCurrentItem().addStyle(it) }
+            stylesToRemove.forEach { model.getCurrentItem().removeStyle(it) }
+
+            weathersToAdd.forEach { model.getCurrentItem().addWeather(it) }
+            weathersToRemove.forEach { model.getCurrentItem().removeWeather(it) }
+        }
+
         model.updateClothing()
     }
 
@@ -176,8 +201,10 @@ class ClothingEditFragment: Fragment() {
     }
 
     private fun findCheckedItems(clothingItems: ArrayList<String>, closetItems: Array<String>, itemsChecked: BooleanArray){
-        for(item in 0 until closetItems.size){
-            itemsChecked[item] = clothingItems.contains(closetItems[item])
+        if(!model.isNewImage) {
+            for (item in 0 until closetItems.size) {
+                itemsChecked[item] = clothingItems.contains(closetItems[item])
+            }
         }
     }
 
@@ -211,7 +238,11 @@ class ClothingEditFragment: Fragment() {
          * @param parent The AdapterView that now contains no selected item.
          */
         override fun onNothingSelected(parent: AdapterView<*>?) {
-            newSuperCat = model.getCurrentItem().getSuperCat()
+            if(model.isNewImage){
+                newSuperCat = Closet.superCategories[0]
+            }else {
+                newSuperCat = model.getCurrentItem().getSuperCat()
+            }
         }
 
 
@@ -246,7 +277,11 @@ class ClothingEditFragment: Fragment() {
          * @param parent The AdapterView that now contains no selected item.
          */
         override fun onNothingSelected(parent: AdapterView<*>?) {
-            newSubCat = model.getCurrentItem().getSubCat()
+            if(model.isNewImage){
+                newSubCat = model.closet.topsTags[0]
+            }else {
+                newSubCat = model.getCurrentItem().getSubCat()
+            }
         }
     }
 }

@@ -3,7 +3,8 @@ package edu.rosehulman.randomoutfitgenerator.models
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
-import androidx.activity.result.contract.ActivityResultContracts
+import androidx.activity.result.ActivityResultLauncher
+import edu.rosehulman.randomoutfitgenerator.BuildConfig
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
@@ -33,13 +34,15 @@ class ClosetViewModel: ViewModel() {
     var subscriptions = HashMap<String, ListenerRegistration>()
     var closet = Closet()
     var newImageUri = ""
+    var isNewImage = false
+    var latestTmpUri: Uri? = null
 
     private var currentItemIndex = 0
     private var currentSavedOutfitIndex = 0
     private var currentRecentOutfitIndex = 0
     private var recentOutfitIndexToAdd = 0
 
-    private var storageImagesRef = Firebase.storage
+    var storageImagesRef = Firebase.storage
         .reference
         .child("images")
 
@@ -118,7 +121,6 @@ class ClosetViewModel: ViewModel() {
 
     fun updateCurrentItem(pos: Int){
         currentItemIndex = pos
-
     }
 
     fun updateClothing(){
@@ -155,27 +157,7 @@ class ClosetViewModel: ViewModel() {
         }
     }
 
-    fun takePhoto(fragment: Fragment){
-        var latestTmpUri: Uri? = null
-
-        val takeImageResult =
-            fragment.registerForActivityResult(ActivityResultContracts.TakePicture()){isSuccess ->
-                if(isSuccess){
-                    latestTmpUri?.let{uri ->
-                        addPhotoFromUri(fragment, uri)
-                    }
-                }
-            }
-
-        fragment.lifecycleScope.launchWhenStarted{
-            getTmpFileUri(fragment).let { uri ->
-                latestTmpUri = uri
-                takeImageResult.launch(uri)
-            }
-        }
-    }
-
-    private fun getTmpFileUri(fragment: Fragment): Uri {
+    fun getTmpFileUri(fragment: Fragment): Uri {
         val storageDir: File = fragment.requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
         val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
         val tmpFile = File.createTempFile("JPEG_${timeStamp}_", ".png", storageDir).apply {
@@ -190,7 +172,7 @@ class ClosetViewModel: ViewModel() {
         )
     }
 
-    private fun addPhotoFromUri(fragment: Fragment, uri: Uri?){
+    fun addPhotoFromUri(fragment: Fragment, uri: Uri?){
         // Check for null uri
         if(uri == null){
             Log.e(Constants.TAG, "Uri is null. Not saving to storage")
@@ -223,7 +205,7 @@ class ClosetViewModel: ViewModel() {
                     fragment.findNavController().navigate(R.id.nav_clothing_edit)
                 }else{
                     Log.d(Constants.TAG, "Failed to retrieve download uri")
-                    fragment.findNavController().navigate(R.id.nav_home)
+                    fragment.findNavController().navigate(R.id.nav_closet)
                 }
             }
 
