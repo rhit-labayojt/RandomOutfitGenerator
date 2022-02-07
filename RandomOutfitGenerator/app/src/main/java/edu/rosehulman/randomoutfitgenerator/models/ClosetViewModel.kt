@@ -1,14 +1,29 @@
 package edu.rosehulman.randomoutfitgenerator.models
 
+import android.net.Uri
+import android.os.Environment
 import android.util.Log
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.FileProvider
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
+import androidx.navigation.fragment.findNavController
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.ktx.storage
 import edu.rosehulman.randomoutfitgenerator.Constants
+import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.objects.Clothing
 import edu.rosehulman.randomoutfitgenerator.objects.Outfit
+import java.lang.Math.abs
+import kotlin.random.Random
+import androidx.lifecycle.lifecycleScope
+import java.io.File
+import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.HashMap
 
 class ClosetViewModel: ViewModel() {
     lateinit var clothingRef: CollectionReference
@@ -17,11 +32,16 @@ class ClosetViewModel: ViewModel() {
 
     var subscriptions = HashMap<String, ListenerRegistration>()
     var closet = Closet()
+    var newImageUri = ""
 
     private var currentItemIndex = 0
     private var currentSavedOutfitIndex = 0
     private var currentRecentOutfitIndex = 0
     private var recentOutfitIndexToAdd = 0
+
+    private var storageImagesRef = Firebase.storage
+        .reference
+        .child("images")
 
     fun getCurrentItem() = closet.clothing.get(currentItemIndex)
     fun getCurrentSavedOutfit() = closet.savedOutfits.get(currentSavedOutfitIndex)
@@ -133,6 +153,80 @@ class ClosetViewModel: ViewModel() {
             currentRecentOutfitIndex = recentOutfitIndexToAdd
             recentOutfitIndexToAdd++
         }
+    }
+
+    fun takePhoto(fragment: Fragment){
+        var latestTmpUri: Uri? = null
+
+        val takeImageResult =
+            fragment.registerForActivityResult(ActivityResultContracts.TakePicture()){isSuccess ->
+                if(isSuccess){
+                    latestTmpUri?.let{uri ->
+                        addPhotoFromUri(fragment, uri)
+                    }
+                }
+            }
+
+        fragment.lifecycleScope.launchWhenStarted{
+            getTmpFileUri(fragment).let { uri ->
+                latestTmpUri = uri
+                takeImageResult.launch(uri)
+            }
+        }
+    }
+
+    private fun getTmpFileUri(fragment: Fragment): Uri {
+        val storageDir: File = fragment.requireActivity().getExternalFilesDir(Environment.DIRECTORY_PICTURES)!!
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(Date())
+        val tmpFile = File.createTempFile("JPEG_${timeStamp}_", ".png", storageDir).apply {
+            createNewFile()
+            deleteOnExit()
+        }
+
+        return FileProvider.getUriForFile(
+            fragment.requireContext(),
+            "${BuildConfig.APPLICATION_ID}.provider",
+            tmpFile
+        )
+    }
+
+    private fun addPhotoFromUri(fragment: Fragment, uri: Uri?){
+        // Check for null uri
+        if(uri == null){
+            Log.e(Constants.TAG, "Uri is null. Not saving to storage")
+            return
+        }
+
+        val stream = fragment.requireActivity().contentResolver.openInputStream(uri)
+
+        // Check for null stream
+        if(stream == null){
+            Log.e(Constants.TAG, "Stream is null. Not saving to storage")
+            return
+        }
+
+        val imageId = abs(Random.nextLong()).toString()
+
+        storageImagesRef.child(imageId).putStream(stream)
+            .continueWithTask { task ->
+                if(!task.isSuccessful){
+                    task.exception?.let{
+                        throw it
+                    }
+                }
+                storageImagesRef.child(imageId).downloadUrl
+            }
+            .addOnCompleteListener { task ->
+                if(task.isSuccessful){
+                    newImageUri = task.result.toString()
+                    Log.d(Constants.TAG,"Got download uri: $newImageUri")
+                    fragment.findNavController().navigate(R.id.nav_clothing_edit)
+                }else{
+                    Log.d(Constants.TAG, "Failed to retrieve download uri")
+                    fragment.findNavController().navigate(R.id.nav_home)
+                }
+            }
+
     }
 
 }
