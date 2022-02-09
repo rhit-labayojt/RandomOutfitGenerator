@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@+id/nav_splash">
 
     <fragment
         android:id="@+id/nav_home"
@@ -42,12 +42,6 @@
         tools.layout="@layout/fragment_randomization" />
 
     <fragment
-        android:id="@+id/nav_camera"
-        android:name="edu.rosehulman.randomoutfitgenerator.ui.CameraFragment"
-        android:label="@string/camera"
-        tools.layout="@layout/fragment_camera" />
-
-    <fragment
         android:id="@+id/nav_clothing_edit"
         android:name="edu.rosehulman.randomoutfitgenerator.ui.ClothingEditFragment"
         android:label="@string/clothing_edit"
@@ -57,5 +51,10 @@
         android:id="@+id/nav_splash"
         android:name="edu.rosehulman.randomoutfitgenerator.ui.SplashFragment"
         tools.layout="@layout/fragment_splash" />
+
+    <fragment
+        android:id="@+id/nav_user_edit"
+        android:name="edu.rosehulman.randomoutfitgenerator.ui.UserEditFragment"
+        tools.layout="@layout/fragment_user_edit" />
 
 </navigation>

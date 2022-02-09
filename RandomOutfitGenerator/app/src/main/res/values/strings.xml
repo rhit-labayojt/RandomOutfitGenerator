@@ -43,15 +43,24 @@
     <string name="randomization_weathers">Weathers</string>
     <string name="random_use_weather">By Weather</string>
 
-    //-----------------------Camera-----------------
-    <string name="camera">Camera</string>
-    <string name="clothing_edit">Edit Item</string>
-
     //----------------Clothing Edit---------------
     <string name="clothing_delete">Delete</string>
     <string name="clothing_save">Save</string>
+    <string name="clothing_edit">Edit Item</string>
 
     //--------------Splash Fragment----------------
     <string name="loading_text">Loading...</string>
+
+    //-----------------User Edit-------------------
+    <string name="user_edit_name_holder">John Doe</string>
+    <string name="login_text">Email: john.doe@rose.com</string>
+    <string name="user_edit_tags_label">Tags</string>
+    <string name="user_edit_logout">Logout</string>
+    <string name="user_edit">Edit</string>
+    <string name="tag_label">Tag</string>
+    <string name="user_edit_delete">Delete Tags</string>
+    <string name="user_edit_add">Add Tag</string>
+    <string name="set_default_style">Set Style As Default</string>
+    <string name="dummy_tag">tag</string>
 
 </resources>

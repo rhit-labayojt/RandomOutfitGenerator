@@ -1,23 +1,11 @@
 package edu.rosehulman.randomoutfitgenerator.adapters
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transform.RoundedCornersTransformation
-import edu.rosehulman.randomoutfitgenerator.R
-import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
-import edu.rosehulman.randomoutfitgenerator.objects.Clothing
-import edu.rosehulman.randomoutfitgenerator.ui.ClosetFragment
+import edu.rosehulman.randomoutfitgenerator.ui.UserEditFragment
 
-class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): RecyclerView.Adapter<ClosetAdapter.ClosetViewHolder>() {
-    private val model = ViewModelProvider(fragment.requireActivity()).get(ClosetViewModel::class.java)
-    private var itemList = listOf<Clothing>()
-
+class TagsHolderAdapter(val fragment: UserEditFragment, val tagTypes: Array<String>): RecyclerView.Adapter<TagsHolderAdapter.TagsHolderViewHolder>() {
     /**
      * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
      * an item.
@@ -41,9 +29,11 @@ class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): Recycle
      * @see .getItemViewType
      * @see .onBindViewHolder
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClosetViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.closet_grid_view, parent, false)
-        return ClosetViewHolder(view)
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): TagsHolderViewHolder {
+        TODO("Not yet implemented")
     }
 
     /**
@@ -67,8 +57,8 @@ class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): Recycle
      * item at the given position in the data set.
      * @param position The position of the item within the adapter's data set.
      */
-    override fun onBindViewHolder(holder: ClosetViewHolder, position: Int) {
-        holder.bind(itemList.get(position))
+    override fun onBindViewHolder(holder: TagsHolderViewHolder, position: Int) {
+        TODO("Not yet implemented")
     }
 
     /**
@@ -76,27 +66,17 @@ class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): Recycle
      *
      * @return The total number of items in this adapter.
      */
-    override fun getItemCount() = itemList.size
-
-    fun filter(){
-        itemList = model.closet.clothing.filter { it.getSuperCat() == modelTag }
+    override fun getItemCount(): Int {
+        TODO("Not yet implemented")
     }
 
-    inner class ClosetViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        private val clothingImage: ImageView = itemView.findViewById<ImageView>(R.id.clothing_item)
+    inner class TagsHolderViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        init {
 
-        init{
-            itemView.setOnClickListener {
-                model.updateCurrentItem(model.closet.clothing.indexOfFirst { it == itemList.get(adapterPosition) })
-                fragment.findNavController().navigate(R.id.nav_clothing_edit)
-            }
         }
 
-        fun bind(clothes: Clothing){
-            clothingImage.load(clothes.image){
-                crossfade(true)
-                transformations(RoundedCornersTransformation())
-            }
+        fun bind(){
+
         }
     }
 }

@@ -1,22 +1,17 @@
 package edu.rosehulman.randomoutfitgenerator.adapters
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
+import android.widget.CheckBox
+import android.widget.TextView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import coil.load
-import coil.transform.RoundedCornersTransformation
 import edu.rosehulman.randomoutfitgenerator.R
-import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
-import edu.rosehulman.randomoutfitgenerator.objects.Clothing
-import edu.rosehulman.randomoutfitgenerator.ui.ClosetFragment
+import edu.rosehulman.randomoutfitgenerator.models.UserViewModel
 
-class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): RecyclerView.Adapter<ClosetAdapter.ClosetViewHolder>() {
-    private val model = ViewModelProvider(fragment.requireActivity()).get(ClosetViewModel::class.java)
-    private var itemList = listOf<Clothing>()
+class TagsAdapter(val fragment: Fragment, val tagType: String, val tagList: ArrayList<String>): RecyclerView.Adapter<TagsAdapter.TagsViewHolder>() {
+    private val userModel = ViewModelProvider(fragment.requireActivity()).get(UserViewModel::class.java)
 
     /**
      * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
@@ -41,9 +36,8 @@ class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): Recycle
      * @see .getItemViewType
      * @see .onBindViewHolder
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ClosetViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.closet_grid_view, parent, false)
-        return ClosetViewHolder(view)
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagsViewHolder {
+        TODO("Not yet implemented")
     }
 
     /**
@@ -67,8 +61,8 @@ class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): Recycle
      * item at the given position in the data set.
      * @param position The position of the item within the adapter's data set.
      */
-    override fun onBindViewHolder(holder: ClosetViewHolder, position: Int) {
-        holder.bind(itemList.get(position))
+    override fun onBindViewHolder(holder: TagsViewHolder, position: Int) {
+        holder.bind(tagList.get(position))
     }
 
     /**
@@ -76,26 +70,32 @@ class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): Recycle
      *
      * @return The total number of items in this adapter.
      */
-    override fun getItemCount() = itemList.size
+    override fun getItemCount() = tagList.size
 
-    fun filter(){
-        itemList = model.closet.clothing.filter { it.getSuperCat() == modelTag }
-    }
-
-    inner class ClosetViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        private val clothingImage: ImageView = itemView.findViewById<ImageView>(R.id.clothing_item)
+    inner class TagsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        private val tagValue: TextView = TODO()
+        private val checkableTagValue: CheckBox = TODO()
 
         init{
-            itemView.setOnClickListener {
-                model.updateCurrentItem(model.closet.clothing.indexOfFirst { it == itemList.get(adapterPosition) })
-                fragment.findNavController().navigate(R.id.nav_clothing_edit)
+
+            if(userModel.editUser){
+                checkableTagValue = itemView.findViewById<CheckBox>(R.id.checkable_tag_value)
+
+                checkableTagValue.setOnClickListener {
+                    checkableTagValue.isChecked = !checkableTagValue.isChecked
+
+
+                }
+            }else{
+                tagValue = itemView.findViewById<TextView>(R.id.tag_value)
             }
+
         }
 
-        fun bind(clothes: Clothing){
-            clothingImage.load(clothes.image){
-                crossfade(true)
-                transformations(RoundedCornersTransformation())
+        fun bind(s: String){
+            if(userModel.editUser){
+                checkableTagValue.setText(s)
+
             }
         }
     }

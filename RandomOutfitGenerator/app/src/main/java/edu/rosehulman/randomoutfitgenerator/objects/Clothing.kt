@@ -12,7 +12,7 @@ class Clothing() {
     private var subCat = ""
     private var styles = ArrayList<String>()
     private var weathers = ArrayList<String>()
-    private var image = ""
+    var image = ""
 
     @get:Exclude
     var id = "" // firestore ID
@@ -50,14 +50,6 @@ class Clothing() {
         weathers.remove(w)
     }
 
-    fun setImage(i: String){
-        image = i
-    }
-
-    fun getImage(): String{
-        return image
-    }
-
     fun getSubCat(): String{
         return subCat
     }
@@ -80,6 +72,14 @@ class Clothing() {
 
     fun getStyles(): ArrayList<String>{
         return styles
+    }
+
+    fun resetWeathers(newWeathers: ArrayList<String>){
+        weathers = newWeathers
+    }
+
+    fun resetStyles(newStyles: ArrayList<String>){
+        styles = newStyles
     }
 
 }

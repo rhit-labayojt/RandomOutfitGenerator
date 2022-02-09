@@ -19,9 +19,6 @@ import java.util.logging.Handler
 class SplashFragment : Fragment() {
 
     private lateinit var binding: FragmentSplashBinding
-    private var counter = 0;
-    private lateinit var handler: Handler
-    private lateinit var runnable: Runnable
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,11 +27,6 @@ class SplashFragment : Fragment() {
     ): View? {
         binding = FragmentSplashBinding.inflate(inflater, container, false)
 
-//        lifecycleScope.launch(Dispatchers.Main){
-//            val millis = TimeUnit.MILLISECONDS.toMillis(1000)
-//
-//            if(millis % timeInterval == 0)
-//        }
 
         return binding.root
     }

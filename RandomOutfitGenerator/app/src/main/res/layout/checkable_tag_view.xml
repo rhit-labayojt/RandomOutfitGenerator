@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheckBox xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/checkable_tag_value"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="@string/dummy_tag"
+    android:textSize="@dimen/tag_text_size"
+    android:checked="false"
+    android:background="@color/platinum"
+    android:textColor="?attr/colorPrimaryVariant"
+    android:padding="@dimen/tags_holder_horizontal" />

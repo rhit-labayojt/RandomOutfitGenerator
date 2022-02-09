@@ -1,33 +1,19 @@
 package edu.rosehulman.randomoutfitgenerator.ui
 
-import android.content.pm.PackageManager
-import android.net.Uri
 import android.os.Bundle
-import android.os.Environment
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import edu.rosehulman.randomoutfitgenerator.BuildConfig
-import edu.rosehulman.randomoutfitgenerator.Constants
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.ClosetAdapter
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentClosetBinding
 import edu.rosehulman.randomoutfitgenerator.models.Closet
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
-import kotlinx.coroutines.flow.DEFAULT_CONCURRENCY_PROPERTY_NAME
-import java.io.File
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.random.Random
 
 class ClosetFragment : Fragment() {
     private lateinit var binding: FragmentClosetBinding
@@ -62,6 +48,7 @@ class ClosetFragment : Fragment() {
         binding.closetParentLayout.visibility = View.INVISIBLE
 
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
+        model.cameraTriggeredFragment = R.id.nav_closet
 
         setAdapters()
 

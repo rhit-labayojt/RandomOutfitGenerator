@@ -17,6 +17,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.ktx.auth
 import edu.rosehulman.randomoutfitgenerator.databinding.ActivityMainBinding
+import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
 import edu.rosehulman.randomoutfitgenerator.models.UserViewModel
 
 class MainActivity : AppCompatActivity() {
@@ -25,6 +26,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var binding: ActivityMainBinding
     private lateinit var navController: NavController
     private lateinit var authListener: FirebaseAuth.AuthStateListener
+    private lateinit var model: ClosetViewModel
+
     private val signinLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
     ){/*empty since the auth listener already responds */}
@@ -43,6 +46,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
+        model = ViewModelProvider(this).get(ClosetViewModel::class.java)
+
         setContentView(binding.root)
 
         initializeAuthListener()
@@ -59,7 +64,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_home,
                 R.id.nav_closet,
                 R.id.nav_saved_outfits,
-                R.id.nav_settings
+                R.id.nav_user_edit
             ), drawerLayout
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
@@ -80,7 +85,6 @@ class MainActivity : AppCompatActivity() {
             }else{
                 with(user){
                     val userModel = ViewModelProvider(this@MainActivity).get(UserViewModel::class.java)
-
                     userModel.getOrMakeUser{
                         if(userModel.hasCompletedSetup()){
                             val id = findNavController(

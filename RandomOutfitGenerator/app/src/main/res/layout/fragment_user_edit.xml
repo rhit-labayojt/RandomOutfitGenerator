@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="@color/platinum">
+
+    <TextView android:id="@+id/user_edit_user_name"
+        style="@style/user_edit_name"/>
+
+    <EditText android:id="@+id/user_edit_change_name"
+        style="@style/user_edit_name_edit_text"/>
+
+    <androidx.cardview.widget.CardView android:id="@+id/icon_holder"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:cardCornerRadius="@dimen/icon_radius"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/user_edit_user_name">
+
+        <ImageView android:id="@+id/user_id_app_icon"
+            style="@style/user_edit_icon"
+            android:layout_below="@id/user_edit_user_name"/>
+
+    </androidx.cardview.widget.CardView>
+
+    <TextView android:id="@+id/user_edit_login_method"
+        style="@style/user_edit_login_method"
+        android:layout_below="@id/icon_holder"/>
+
+    <TextView android:id="@+id/tags_label"
+        style="@style/tags_label"
+        android:layout_below="@id/user_edit_login_method"/>
+
+    <Button android:id="@+id/logout_button"
+        style="@style/user_edit_button"
+        android:text="@string/user_edit_logout"
+        android:layout_below="@id/user_edit_login_method"
+        android:layout_alignParentEnd="true"/>
+
+    <Button android:id="@+id/edit_button"
+        style="@style/user_edit_button"
+        android:text="@string/user_edit"
+        android:layout_below="@id/user_edit_login_method"
+        android:layout_toLeftOf="@id/logout_button"/>
+
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/user_edit_tags"
+        style="@style/tags_holder"
+        android:layout_below="@id/tags_label"/>
+
+</RelativeLayout>

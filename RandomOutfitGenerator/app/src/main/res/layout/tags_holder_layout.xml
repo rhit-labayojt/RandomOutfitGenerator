@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/platinum"
+    android:layout_centerInParent="true">
+
+    <TextView android:id="@+id/tag_label"
+        style="@style/user_edit_recycler_buttons"
+        android:layout_width="@dimen/tags_holder_label_width"
+        android:textSize="@dimen/tags_holder_label_size"
+        android:text="@string/tag_label"
+        android:textStyle="bold"/>
+
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/user_edit_tags"
+        style="@style/user_edit_recycler_buttons"
+        android:layout_toRightOf="@id/tag_label"/>
+
+    <Button android:id="@+id/delete_tag"
+        style="@style/user_edit_recycler_buttons"
+        android:text="@string/user_edit_delete"
+        android:layout_toRightOf="@id/user_edit_tags"
+        android:textSize="@dimen/tags_holder_button_text_size"/>
+
+    <Button android:id="@+id/add_tag"
+        style="@style/user_edit_recycler_buttons"
+        android:text="@string/user_edit_add"
+        android:layout_toRightOf="@id/delete_tag"
+        android:textSize="@dimen/tags_holder_button_text_size"/>
+
+    <EditText android:id="@+id/new_tag"
+        style="@style/user_edit_recycler_buttons"
+        android:layout_alignEnd="@id/add_tag"
+        android:layout_below="@id/delete_tag"
+        android:layout_width="@dimen/tags_holder_edit_text_width"/>
+
+    <Button android:id="@+id/set_default_style"
+        style="@style/user_edit_recycler_buttons"
+        android:text="@string/set_default_style"
+        android:layout_width="@dimen/tags_holder_edit_text_width"
+        android:layout_below="@id/new_tag"
+        android:layout_alignEnd="@id/add_tag"
+        android:visibility="gone"/>
+
+</RelativeLayout>

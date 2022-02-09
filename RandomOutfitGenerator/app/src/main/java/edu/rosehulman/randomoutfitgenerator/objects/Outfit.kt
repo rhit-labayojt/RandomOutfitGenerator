@@ -46,18 +46,18 @@ class Outfit {
         if(isFullBody){
             for (c in clothes) {
                 when (c.getSubCat()) {
-                    "Full Body" -> {fullBody = c.getImage(); fullBodyCat = c.getSubCat()}
-                    "Shoes" -> {shoes = c.getImage(); shoesCat = c.getSubCat()}
-                    else -> {accessories.add(c.getImage()); accessoriesCats.add(c.getSubCat())}
+                    "Full Body" -> {fullBody = c.image; fullBodyCat = c.getSubCat()}
+                    "Shoes" -> {shoes = c.image; shoesCat = c.getSubCat()}
+                    else -> {accessories.add(c.image); accessoriesCats.add(c.getSubCat())}
                 }
             }
         }else {
             for (c in clothes) {
                 when (c.getSubCat()) {
-                    "Top" -> {top = c.getImage(); topCat = c.getSubCat()}
-                    "Bottom" -> {bottom = c.getImage(); bottomCat = c.getSubCat()}
-                    "Shoes" -> {shoes = c.getImage(); shoesCat = c.getSubCat()}
-                    else -> {accessories.add(c.getImage()); accessoriesCats.add(c.getSubCat())}
+                    "Top" -> {top = c.image; topCat = c.getSubCat()}
+                    "Bottom" -> {bottom = c.image; bottomCat = c.getSubCat()}
+                    "Shoes" -> {shoes = c.image; shoesCat = c.getSubCat()}
+                    else -> {accessories.add(c.image); accessoriesCats.add(c.getSubCat())}
                 }
             }
         }
