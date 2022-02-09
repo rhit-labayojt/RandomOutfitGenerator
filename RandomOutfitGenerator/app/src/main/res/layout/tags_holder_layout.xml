@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/platinum"
     android:layout_centerInParent="true">
 
     <TextView android:id="@+id/tag_label"
@@ -14,7 +13,8 @@
 
     <androidx.recyclerview.widget.RecyclerView android:id="@+id/user_edit_tags"
         style="@style/user_edit_recycler_buttons"
-        android:layout_toRightOf="@id/tag_label"/>
+        android:layout_toRightOf="@id/tag_label"
+        android:layout_height="@dimen/tags_recycler_height"/>
 
     <Button android:id="@+id/delete_tag"
         style="@style/user_edit_recycler_buttons"
@@ -32,7 +32,8 @@
         style="@style/user_edit_recycler_buttons"
         android:layout_alignEnd="@id/add_tag"
         android:layout_below="@id/delete_tag"
-        android:layout_width="@dimen/tags_holder_edit_text_width"/>
+        android:layout_width="@dimen/tags_holder_edit_text_width"
+        android:hint="@string/new_tag_hint"/>
 
     <Button android:id="@+id/set_default_style"
         style="@style/user_edit_recycler_buttons"

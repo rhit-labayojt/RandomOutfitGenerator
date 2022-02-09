@@ -1,11 +1,23 @@
 package edu.rosehulman.randomoutfitgenerator.adapters
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
+import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import edu.rosehulman.randomoutfitgenerator.R
+import edu.rosehulman.randomoutfitgenerator.models.UserViewModel
 import edu.rosehulman.randomoutfitgenerator.ui.UserEditFragment
 
-class TagsHolderAdapter(val fragment: UserEditFragment, val tagTypes: Array<String>): RecyclerView.Adapter<TagsHolderAdapter.TagsHolderViewHolder>() {
+class TagsHolderAdapter(val fragment: UserEditFragment, val tagTypes: Array<String>, val tagsAdapters: ArrayList<TagsAdapter>): RecyclerView.Adapter<TagsHolderAdapter.TagsHolderViewHolder>() {
+   private val userModel = ViewModelProvider(fragment.requireActivity()).get(UserViewModel::class.java)
+
     /**
      * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
      * an item.
@@ -33,7 +45,8 @@ class TagsHolderAdapter(val fragment: UserEditFragment, val tagTypes: Array<Stri
         parent: ViewGroup,
         viewType: Int
     ): TagsHolderViewHolder {
-        TODO("Not yet implemented")
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.tags_holder_layout, parent, false)
+        return TagsHolderViewHolder(view)
     }
 
     /**
@@ -58,7 +71,7 @@ class TagsHolderAdapter(val fragment: UserEditFragment, val tagTypes: Array<Stri
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: TagsHolderViewHolder, position: Int) {
-        TODO("Not yet implemented")
+        holder.bind()
     }
 
     /**
@@ -66,16 +79,134 @@ class TagsHolderAdapter(val fragment: UserEditFragment, val tagTypes: Array<Stri
      *
      * @return The total number of items in this adapter.
      */
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getItemCount() = tagTypes.size
 
     inner class TagsHolderViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        private val tagLabel: TextView = itemView.findViewById<TextView>(R.id.tag_label)
+        private val userEditTags: RecyclerView = itemView.findViewById<RecyclerView>(R.id.user_edit_tags)
+        private val delete: Button = itemView.findViewById<Button>(R.id.delete_tag)
+        private val add: Button = itemView.findViewById<Button>(R.id.add_tag)
+        private val newTag: EditText = itemView.findViewById<EditText>(R.id.new_tag)
+        private val setDefaultStyle: Button = itemView.findViewById<Button>(R.id.set_default_style)
+
         init {
+            if(userModel.editUser){
+                delete.visibility = View.VISIBLE
+                add.visibility = View.VISIBLE
+                newTag.visibility = View.VISIBLE
+
+                if(tagTypes[adapterPosition] == "Styles") {
+                    setDefaultStyle.visibility = View.VISIBLE
+
+                    setDefaultStyle.setOnClickListener {
+                        setDefault()
+                    }
+                }else{
+                    setDefaultStyle.visibility = View.GONE
+                }
+
+                delete.setOnClickListener {
+                    deleteTags()
+                }
+
+                add.setOnClickListener{
+                    addTag()
+                }
+            }else{
+                delete.visibility = View.GONE
+                add.visibility = View.GONE
+                newTag.visibility = View.GONE
+                setDefaultStyle.visibility = View.GONE
+            }
 
         }
 
+        private fun addTag(){
+            if(newTag.text.toString() == ""){
+                Toast.makeText(fragment.requireContext(), "You did not enter a valid tag", Toast.LENGTH_LONG)
+            }
+
+            when(tagTypes[adapterPosition]){
+                "Tops" -> {
+                    if(userModel.user!!.topsTags.contains(newTag.text.toString())){
+                        Toast.makeText(fragment.requireContext(), "You already have this tag", Toast.LENGTH_LONG)
+                    }else{
+                        userModel.user!!.topsTags.add(newTag.text.toString())
+                    }
+                }
+
+                "Bottoms" -> {
+                    if(userModel.user!!.bottomsTags.contains(newTag.text.toString())){
+                        Toast.makeText(fragment.requireContext(), "You already have this tag", Toast.LENGTH_LONG)
+                    }else{
+                        userModel.user!!.bottomsTags.add(newTag.text.toString())
+                    }
+                }
+
+                "Shoes" -> {
+                    if(userModel.user!!.shoesTags.contains(newTag.text.toString())){
+                        Toast.makeText(fragment.requireContext(), "You already have this tag", Toast.LENGTH_LONG)
+                    }else{
+                        userModel.user!!.shoesTags.add(newTag.text.toString())
+                    }
+                }
+
+                "Accessories" -> {
+                    if(userModel.user!!.accessoriesTags.contains(newTag.text.toString())){
+                        Toast.makeText(fragment.requireContext(), "You already have this tag", Toast.LENGTH_LONG)
+                    }else{
+                        userModel.user!!.accessoriesTags.add(newTag.text.toString())
+                    }
+                }
+
+                else -> {
+                    if(userModel.user!!.fullBodyTags.contains(newTag.text.toString())){
+                        Toast.makeText(fragment.requireContext(), "You already have this tag", Toast.LENGTH_LONG)
+                    }else{
+                        userModel.user!!.fullBodyTags.add(newTag.text.toString())
+                    }
+                }
+            }
+        }
+
+        private fun deleteTags(){
+            when(tagTypes[adapterPosition]){
+                "Tops" -> {
+                    userModel.user!!.topsTags.removeAll(userModel.tagChanges.get("Tops")!!.toList())
+                }
+
+                "Bottoms" -> {
+                    userModel.user!!.topsTags.removeAll(userModel.tagChanges.get("Bottoms")!!.toList())
+                }
+
+                "Shoes" -> {
+                    userModel.user!!.topsTags.removeAll(userModel.tagChanges.get("Shoes")!!.toList())
+                }
+
+                "Accessories" -> {
+                    userModel.user!!.topsTags.removeAll(userModel.tagChanges.get("Accessories")!!.toList())
+                }
+
+                else -> {
+                    userModel.user!!.topsTags.removeAll(userModel.tagChanges.get("Full Body")!!.toList())
+                }
+            }
+        }
+
+        private fun setDefault(){
+            if(userModel.tagChanges.get("defaultStyle")!!.size > 1){
+                Toast.makeText(fragment.requireContext(), "You can only have one default style", Toast.LENGTH_LONG)
+            }else{
+                userModel.user!!.defaultStyle = userModel.tagChanges.get("defaultStyle")!!.get(0)
+            }
+        }
+
         fun bind(){
+            tagLabel.setText(tagTypes[adapterPosition])
+            userEditTags.adapter = tagsAdapters[adapterPosition]
+            userEditTags.layoutManager = LinearLayoutManager(fragment.requireContext())
+            userEditTags.setHasFixedSize(true)
+            userEditTags.addItemDecoration(DividerItemDecoration(fragment.requireContext(), DividerItemDecoration.VERTICAL))
 
         }
     }

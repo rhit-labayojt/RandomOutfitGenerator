@@ -63,7 +63,7 @@
     <dimen name="login_horizontal_margin">10dp</dimen>
     <dimen name="login_text_size">24sp</dimen>
     <dimen name="tags_vertical_margin">5dp</dimen>
-    <dimen name="user_edit_button_width">125dp</dimen>
+    <dimen name="user_edit_button_width">130dp</dimen>
     <dimen name="user_edit_button_text">20sp</dimen>
     <dimen name="tags_holder_item_width">85dp</dimen>
     <dimen name="tags_holder_text_size">14sp</dimen>
@@ -73,5 +73,6 @@
     <dimen name="tags_holder_edit_text_width">180dp</dimen>
     <dimen name="tags_holder_label_width">100dp</dimen>
     <dimen name="tag_text_size">12sp</dimen>
+    <dimen name="tags_recycler_height">200dp</dimen>
 
 </resources>

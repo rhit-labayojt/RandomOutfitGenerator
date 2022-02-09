@@ -11,6 +11,11 @@ class UserViewModel: ViewModel(){
 
     var user: User? = null
     var editUser = false
+    var tagChanges = mutableMapOf<String, ArrayList<String>>()
+
+    fun buildChangesMap(tag: String){
+        tagChanges.put(tag, ArrayList<String>())
+    }
 
     fun getOrMakeUser(observer: () -> Unit){
         ref = Firebase.firestore.collection(User.COLLECTION_PATH).document(Firebase.auth.uid!!)
@@ -41,22 +46,14 @@ class UserViewModel: ViewModel(){
 
     fun hasCompletedSetup(): Boolean = user?.hasCompletedSetup ?: false
 
-    fun update(newName: String, newDefaultStyle: String, newHasCompletedSetup: Boolean, newTops: ArrayList<String>,
-               newBottoms: ArrayList<String>, newShoes: ArrayList<String>, newAccessoris: ArrayList<String>,
-               newFullBody: ArrayList<String>){
+    fun update(newName: String, newHasCompletedSetup: Boolean){
 
         ref = Firebase.firestore.collection(User.COLLECTION_PATH).document(Firebase.auth.uid!!)
 
         if(user!=null){
             with(user!!){
                 name = newName
-                defaultStyle = newDefaultStyle
                 hasCompletedSetup = newHasCompletedSetup
-                topsTags = newTops
-                bottomsTags = newBottoms
-                shoesTags = newShoes
-                fullBodyTags = newFullBody
-                accessoriesTags = newAccessoris
                 ref.set(this)
             }
         }

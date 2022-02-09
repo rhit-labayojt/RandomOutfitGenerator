@@ -1,5 +1,6 @@
 package edu.rosehulman.randomoutfitgenerator.adapters
 
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.CheckBox
@@ -10,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.models.UserViewModel
 
-class TagsAdapter(val fragment: Fragment, val tagType: String, val tagList: ArrayList<String>): RecyclerView.Adapter<TagsAdapter.TagsViewHolder>() {
+class TagsAdapter(val fragment: Fragment, val layoutView: Int, val tagType: String, val tagList: ArrayList<String>): RecyclerView.Adapter<TagsAdapter.TagsViewHolder>() {
     private val userModel = ViewModelProvider(fragment.requireActivity()).get(UserViewModel::class.java)
 
     /**
@@ -37,7 +38,8 @@ class TagsAdapter(val fragment: Fragment, val tagType: String, val tagList: Arra
      * @see .onBindViewHolder
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagsViewHolder {
-        TODO("Not yet implemented")
+        val view = LayoutInflater.from(parent.context).inflate(layoutView, parent, false)
+        return TagsViewHolder(view)
     }
 
     /**
@@ -73,8 +75,8 @@ class TagsAdapter(val fragment: Fragment, val tagType: String, val tagList: Arra
     override fun getItemCount() = tagList.size
 
     inner class TagsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        private val tagValue: TextView = TODO()
-        private val checkableTagValue: CheckBox = TODO()
+        private lateinit var tagValue: TextView
+        private lateinit var checkableTagValue: CheckBox
 
         init{
 
@@ -84,7 +86,17 @@ class TagsAdapter(val fragment: Fragment, val tagType: String, val tagList: Arra
                 checkableTagValue.setOnClickListener {
                     checkableTagValue.isChecked = !checkableTagValue.isChecked
 
-
+                    if(checkableTagValue.isChecked) {
+                        userModel.tagChanges.get(tagType)!!.add(tagList.get(adapterPosition))
+                        if(tagType == "Styles"){
+                            userModel.tagChanges.get("defaultStyle")!!.add(tagList.get(adapterPosition))
+                        }
+                    }else{
+                        userModel.tagChanges.get(tagType)!!.remove(tagList.get(adapterPosition))
+                        if(tagType == "Styles"){
+                            userModel.tagChanges.get("defaultStyle")!!.remove(tagList.get(adapterPosition))
+                        }
+                    }
                 }
             }else{
                 tagValue = itemView.findViewById<TextView>(R.id.tag_value)
@@ -95,7 +107,8 @@ class TagsAdapter(val fragment: Fragment, val tagType: String, val tagList: Arra
         fun bind(s: String){
             if(userModel.editUser){
                 checkableTagValue.setText(s)
-
+            }else{
+                tagValue.setText(s)
             }
         }
     }
