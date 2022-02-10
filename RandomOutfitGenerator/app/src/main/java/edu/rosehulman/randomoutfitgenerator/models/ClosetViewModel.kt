@@ -36,6 +36,7 @@ class ClosetViewModel: ViewModel() {
     var latestTmpUri: Uri? = null
     var cameraTriggeredFragment = R.id.nav_closet
     var currentOutfit: Outfit? = null
+    var randomOutfit = true
 
     private var currentItemIndex = 0
     private var currentSavedOutfitIndex = 0
@@ -144,11 +145,17 @@ class ClosetViewModel: ViewModel() {
     }
 
     fun deleteCurrentOutfit(){
+        savedOutfitsRef.document(currentOutfit!!.id).delete()
+    }
 
+    fun saveCurrentOutfit(){
+        closet.savedOutfits.add(currentOutfit!!)
+        savedOutfitsRef.add(currentOutfit!!)
     }
 
     fun updateCurrentSavedOutfit(pos: Int){
         currentSavedOutfitIndex = pos
+        currentOutfit = closet.savedOutfits[currentSavedOutfitIndex]
     }
 
     fun updateCurrentRecentOutfit(idx: Int){
@@ -158,12 +165,20 @@ class ClosetViewModel: ViewModel() {
 
     fun addRecentOutfit(fit: Outfit){
         if(recentOutfitIndexToAdd < 10){
-            if(closet.recentOutfits[recentOutfitIndexToAdd] != null){
-                recentOutfitsRef.document(closet.recentOutfits[recentOutfitIndexToAdd]!!.id).delete()
+            if(closet.recentOutfits.size >= 10) {
+                if (closet.recentOutfits[recentOutfitIndexToAdd] != null) {
+                    recentOutfitsRef.document(closet.recentOutfits[recentOutfitIndexToAdd]!!.id)
+                        .delete()
+                }
+
+                closet.recentOutfits[recentOutfitIndexToAdd] = fit
+                currentRecentOutfitIndex = recentOutfitIndexToAdd
+                recentOutfitIndexToAdd++
+            }else{
+                closet.recentOutfits.add(fit)
+                currentRecentOutfitIndex = recentOutfitIndexToAdd
+                recentOutfitIndexToAdd++
             }
-            closet.recentOutfits[recentOutfitIndexToAdd] = fit
-            currentRecentOutfitIndex = recentOutfitIndexToAdd
-            recentOutfitIndexToAdd++
         }else{
             recentOutfitIndexToAdd = 0
             recentOutfitsRef.document(closet.recentOutfits[recentOutfitIndexToAdd]!!.id).delete()

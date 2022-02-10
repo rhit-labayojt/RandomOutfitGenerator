@@ -32,13 +32,14 @@
 
     //------------------Outfit Fragment-------------------------
     <dimen name="outfit_image_size">150dp</dimen>
-    <dimen name="outfit_image_margin">25dp</dimen>
+    <dimen name="outfit_image_margin">12dp</dimen>
     <dimen name="outfit_text_view_height">75dp</dimen>
     <dimen name="outfit_text_size">18sp</dimen>
     <dimen name="outfit_text_view_width">150dp</dimen>
     <dimen name="outfit_text_margin">12dp</dimen>
     <dimen name="outfit_accessory_height">100dp</dimen>
     <dimen name="outfit_accessory_margin">5dp</dimen>
+    <dimen name="outfit_fullBody_height">324dp</dimen>
 
     //-------------------Splash Fragment------------
     <dimen name="splash_text_size">36sp</dimen>

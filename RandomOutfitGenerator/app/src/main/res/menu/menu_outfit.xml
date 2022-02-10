@@ -2,7 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:id="@+id/delete_outfit"
-        android:title="Delete"
-        app:showAsAction="ifRoom" />
+        android:title="@string/delete_outfit"
+        android:icon="@drawable/ic_baseline_delete_24"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="200"/>
+
+    <item android:id="@+id/save_outfit"
+        android:title="@string/save_outfit"
+        android:icon="@drawable/ic_baseline_save_24"
+        app:showAsAction="ifRoom"
+        android:orderInCategory="100" />
+
 
 </menu>

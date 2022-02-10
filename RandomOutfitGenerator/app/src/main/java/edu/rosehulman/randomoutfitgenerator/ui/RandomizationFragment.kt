@@ -69,7 +69,6 @@ class RandomizationFragment: Fragment() {
                     generateFullBodyOutfit()
                 }else{
                     generateOutfit()
-                    findNavController().navigate(R.id.nav_outfit)
                 }
 
                 true
@@ -88,7 +87,7 @@ class RandomizationFragment: Fragment() {
         binding = FragmentRandomizationBinding.inflate(inflater, container, false)
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
         userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-        binding.randomParentLayout.visibility = View.INVISIBLE
+        binding.randomParentLayout.visibility = View.GONE
 
         model.addRecentOutfitsListener(fragmentNameRecent){}
         model.addClothingListener(fragmentNameClothes){
@@ -96,7 +95,7 @@ class RandomizationFragment: Fragment() {
         }
 
         setHasOptionsMenu(true)
-
+        model.randomOutfit = true
         checkedAcc = BooleanArray(userModel.user!!.accessoriesTags.size){false}
         checkedStyles = BooleanArray(userModel.user!!.styles.size){false}
         checkedWeathers = BooleanArray(Closet.weathers.size){false}
@@ -200,7 +199,7 @@ class RandomizationFragment: Fragment() {
             Log.d(Constants.TAG, "${accessoryOptions.size}")
         }
 
-        if((topOptions.size > 0) && (bottomOptions.size > 0) && (shoeOptions.size > 0) && (accessoryOptions.size > 0)){
+        if((topOptions.isNotEmpty()) && (bottomOptions.isNotEmpty()) && (shoeOptions.isNotEmpty()) && (accessoryOptions.size > 0)){
             var outfitClothing = ArrayList<Clothing>()
             outfitClothing.add(topOptions.get(Random.nextInt(topOptions.size)))
             outfitClothing.add(bottomOptions.get(Random.nextInt(bottomOptions.size)))
@@ -209,9 +208,9 @@ class RandomizationFragment: Fragment() {
 
             var newOutfit = Outfit(outfitClothing, styleType, weatherType, false)
             model.addRecentOutfit(newOutfit)
+            findNavController().navigate(R.id.nav_outfit)
         }else{
-            Toast.makeText(requireContext(), "You do not have any clothing matching these tags",Toast.LENGTH_LONG)
-            findNavController().navigate(R.id.nav_home)
+            Toast.makeText(requireContext(), "You do not have any clothing matching these tags",Toast.LENGTH_LONG).show()
         }
     }
 
@@ -228,14 +227,7 @@ class RandomizationFragment: Fragment() {
         }
         var outfitClothing = ArrayList<Clothing>()
 
-        outfitClothing.add(fullBodyOptions.get(Random.nextInt(fullBodyOptions.size)))
-        outfitClothing.add(shoeOptions.get(Random.nextInt(shoeOptions.size)))
-        accessoryOptions.forEach { outfitClothing.add(it.get(Random.nextInt(it.size))) }
-
-        var newOutfit = Outfit(outfitClothing, styleType, weatherType, true)
-        model.addRecentOutfit(newOutfit)
-
-        if((fullBodyOptions.size > 0) && (shoeOptions.size > 0) && (accessoryOptions.size > 0)){
+        if((fullBodyOptions.isNotEmpty()) && (shoeOptions.isNotEmpty()) && (accessoryOptions.size > 0)){
             var outfitClothing = ArrayList<Clothing>()
 
             outfitClothing.add(fullBodyOptions.get(Random.nextInt(fullBodyOptions.size)))
@@ -244,9 +236,9 @@ class RandomizationFragment: Fragment() {
 
             var newOutfit = Outfit(outfitClothing, styleType, weatherType, true)
             model.addRecentOutfit(newOutfit)
+            findNavController().navigate(R.id.nav_outfit)
         }else{
-            Toast.makeText(requireContext(), "You do not have any clothing matching these tags",Toast.LENGTH_LONG)
-            findNavController().navigate(R.id.nav_home)
+            Toast.makeText(requireContext(), "You do not have any clothing matching these tags",Toast.LENGTH_LONG).show()
         }
     }
 

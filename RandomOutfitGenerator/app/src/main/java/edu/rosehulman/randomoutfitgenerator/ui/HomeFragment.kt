@@ -29,6 +29,8 @@ class HomeFragment : Fragment() {
             findNavController().navigate(R.id.nav_randomization)
         }
 
+
+
         return binding.root
     }
 

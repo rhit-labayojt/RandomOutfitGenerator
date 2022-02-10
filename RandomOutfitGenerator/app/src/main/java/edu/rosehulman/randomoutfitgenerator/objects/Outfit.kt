@@ -36,7 +36,7 @@ class Outfit() {
     companion object{
         fun from(snapshot: DocumentSnapshot): Outfit{
             val fit = snapshot.toObject(Outfit::class.java)!!
-
+            fit.id = snapshot.id
             return fit
         }
     }
