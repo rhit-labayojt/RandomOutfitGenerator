@@ -1,5 +1,7 @@
 package edu.rosehulman.randomoutfitgenerator.adapters
 
+import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,12 +10,13 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.color.MaterialColors
+import edu.rosehulman.randomoutfitgenerator.Constants
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.models.UserViewModel
 
-class TagsAdapter(val fragment: Fragment, val layoutView: Int, val tagType: String, val tagList: ArrayList<String>): RecyclerView.Adapter<TagsAdapter.TagsViewHolder>() {
+class TagsAdapter(val fragment: Fragment, val tagType: String, val tagList: ArrayList<String>): RecyclerView.Adapter<TagsAdapter.TagsViewHolder>() {
     private val userModel = ViewModelProvider(fragment.requireActivity()).get(UserViewModel::class.java)
-
     /**
      * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
      * an item.
@@ -38,7 +41,7 @@ class TagsAdapter(val fragment: Fragment, val layoutView: Int, val tagType: Stri
      * @see .onBindViewHolder
      */
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TagsViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(layoutView, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.tag_view, parent, false)
         return TagsViewHolder(view)
     }
 
@@ -74,42 +77,70 @@ class TagsAdapter(val fragment: Fragment, val layoutView: Int, val tagType: Stri
      */
     override fun getItemCount() = tagList.size
 
+    fun update(){
+        //viewHolder.toggleEdit()
+        notifyDataSetChanged()
+    }
+
     inner class TagsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
-        private lateinit var tagValue: TextView
-        private lateinit var checkableTagValue: CheckBox
+        private val tagValue: TextView = itemView.findViewById<TextView>(R.id.tag_value)
+        private val checkableTagValue: CheckBox = itemView.findViewById<CheckBox>(R.id.checkable_tag_value)
 
         init{
+            checkableTagValue.setOnClickListener {
 
-            if(userModel.editUser){
-                checkableTagValue = itemView.findViewById<CheckBox>(R.id.checkable_tag_value)
-
-                checkableTagValue.setOnClickListener {
-                    checkableTagValue.isChecked = !checkableTagValue.isChecked
-
-                    if(checkableTagValue.isChecked) {
-                        userModel.tagChanges.get(tagType)!!.add(tagList.get(adapterPosition))
-                        if(tagType == "Styles"){
-                            userModel.tagChanges.get("defaultStyle")!!.add(tagList.get(adapterPosition))
-                        }
-                    }else{
-                        userModel.tagChanges.get(tagType)!!.remove(tagList.get(adapterPosition))
-                        if(tagType == "Styles"){
-                            userModel.tagChanges.get("defaultStyle")!!.remove(tagList.get(adapterPosition))
-                        }
+                if(checkableTagValue.isChecked) {
+                    userModel.tagChanges.get(tagType)!!.add(tagList.get(adapterPosition))
+                    if(tagType == "Styles"){
+                        userModel.tagChanges.get("defaultStyle")!!.add(tagList.get(adapterPosition))
+                    }
+                }else{
+                    userModel.tagChanges.get(tagType)!!.remove(tagList.get(adapterPosition))
+                    if(tagType == "Styles"){
+                        userModel.tagChanges.get("defaultStyle")!!.remove(tagList.get(adapterPosition))
                     }
                 }
+            }
+
+            if(userModel.editUser){
+                tagValue.visibility = View.GONE
+                checkableTagValue.visibility = View.VISIBLE
             }else{
-                tagValue = itemView.findViewById<TextView>(R.id.tag_value)
+                checkableTagValue.visibility = View.GONE
+                tagValue.visibility = View.VISIBLE
+            }
+        }
+
+        fun bind(s: String){
+            tagValue.setText(s)
+            checkableTagValue.setText(s)
+            Log.d(Constants.TAG, s)
+
+            if(s == userModel.user!!.defaultStyle){
+                tagValue.setTextColor(MaterialColors.getColor(fragment.requireContext(), R.attr.colorSecondary, Color.BLUE))
+                checkableTagValue.setTextColor(MaterialColors.getColor(fragment.requireContext(), R.attr.colorSecondary, Color.BLUE))
+            }
+
+            if(userModel.editUser){
+                tagValue.visibility = View.GONE
+                checkableTagValue.visibility = View.VISIBLE
+            }else{
+                checkableTagValue.visibility = View.GONE
+                tagValue.visibility = View.VISIBLE
             }
 
         }
 
-        fun bind(s: String){
+        fun toggleEdit(){
             if(userModel.editUser){
-                checkableTagValue.setText(s)
+                tagValue.visibility = View.GONE
+                checkableTagValue.visibility = View.VISIBLE
             }else{
-                tagValue.setText(s)
+                checkableTagValue.visibility = View.VISIBLE
+                tagValue.visibility = View.GONE
             }
+
+            notifyDataSetChanged()
         }
     }
 }

@@ -85,6 +85,7 @@
                 <AutoCompleteTextView android:id="@+id/random_accessories"
                     style="@style/randomize_theme"
                     android:text="@string/randomization_accessories"
+                    android:layout_width="match_parent"
                     />
             </com.google.android.material.textfield.TextInputLayout>
 

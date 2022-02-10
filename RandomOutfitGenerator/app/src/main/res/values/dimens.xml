@@ -54,9 +54,8 @@
 
     //----------------User Edit Fragment--------------------
     <dimen name="user_edit_name_text_size">36sp</dimen>
+    <dimen name="user_edit_edit_text_size">28sp</dimen>
     <dimen name="user_edit_name_margin">45dp</dimen>
-    <dimen name="user_edit_name_edit_text_height">36dp</dimen>
-    <dimen name="user_edit_name_edit_text_width">75dp</dimen>
     <dimen name="user_edit_icon_size">200dp</dimen>
     <dimen name="user_edit_icon_margin">10dp</dimen>
     <dimen name="icon_radius">150dp</dimen>
@@ -71,7 +70,7 @@
     <dimen name="tags_holder_horizontal">5sp</dimen>
     <dimen name="tags_holder_button_text_size">12sp</dimen>
     <dimen name="tags_holder_edit_text_width">180dp</dimen>
-    <dimen name="tags_holder_label_width">100dp</dimen>
+    <dimen name="tags_holder_label_width">125dp</dimen>
     <dimen name="tag_text_size">12sp</dimen>
     <dimen name="tags_recycler_height">200dp</dimen>
 

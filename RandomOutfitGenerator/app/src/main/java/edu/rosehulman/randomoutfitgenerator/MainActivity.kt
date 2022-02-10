@@ -95,7 +95,7 @@ class MainActivity : AppCompatActivity() {
                                     .navigate(R.id.nav_home)
                             }
                         }else{
-                            navController.navigate(R.id.nav_home)
+                            navController.navigate(R.id.nav_user_edit)
                         }
                     }
                 }

@@ -41,7 +41,7 @@ class RandomizationFragment: Fragment() {
     private lateinit var checkedWeathers: BooleanArray
 
     private var views = ArrayList<View>()
-    private var lists = ArrayList<Array<String>>()
+    private var lists = ArrayList<ArrayList<String>>()
     private var itemClickListeners = ArrayList<AdapterView.OnItemClickListener>()
     private var onClickListeners = ArrayList<View.OnClickListener>()
 
@@ -96,8 +96,8 @@ class RandomizationFragment: Fragment() {
 
         setHasOptionsMenu(true)
 
-        checkedAcc = BooleanArray(model.closet.accessoriesTags.size){false}
-        checkedStyles = BooleanArray(model.closet.styles.size){false}
+        checkedAcc = BooleanArray(userModel.user!!.accessoriesTags.size){false}
+        checkedStyles = BooleanArray(userModel.user!!.styles.size){false}
         checkedWeathers = BooleanArray(Closet.weathers.size){false}
 
         toggleVisibilities(binding.fullBodyOutfitToggle.isChecked)
@@ -126,13 +126,16 @@ class RandomizationFragment: Fragment() {
         views.add(binding.randomWeather)
         views.add(binding.randomAccessories)
 
-        lists.add(model.closet.topsTags.toTypedArray())
-        lists.add(model.closet.bottomsTags.toTypedArray())
-        lists.add(model.closet.fullBodyTags.toTypedArray())
-        lists.add(model.closet.shoesTags.toTypedArray())
-        lists.add(model.closet.styles.toTypedArray())
-        lists.add(Closet.weathers)
-        lists.add(model.closet.accessoriesTags.toTypedArray())
+        lists.add(userModel.user!!.topsTags)
+        lists.add(userModel.user!!.bottomsTags)
+        lists.add(userModel.user!!.fullBodyTags)
+        lists.add(userModel.user!!.shoesTags)
+        lists.add(userModel.user!!.styles)
+
+        var weathers = ArrayList<String>()
+        Closet.weathers.forEach{weathers.add(it)}
+        lists.add(weathers)
+        lists.add(userModel.user!!.accessoriesTags)
 
         itemClickListeners.add(TopTypeListener())
         itemClickListeners.add(BottomTypeListener())
@@ -182,7 +185,6 @@ class RandomizationFragment: Fragment() {
         Log.d(Constants.TAG,"$topType, $bottomType, $shoesType, $weatherType, $styleType")
 
         var topOptions = getOptionsList(topType, Closet.superCategories[0])
-        Log.d(Constants.TAG, "${topOptions.size}")
         var bottomOptions = getOptionsList(bottomType, Closet.superCategories[1])
         var shoeOptions = getOptionsList(shoesType, Closet.superCategories[3])
 
@@ -194,15 +196,19 @@ class RandomizationFragment: Fragment() {
             accessoriesTypes.forEach { accessoryOptions.add(getOptionsList(it, Closet.superCategories[2])) }
         }
 
-        var outfitClothing = ArrayList<Clothing>()
+        if((topOptions.size > 0) && (bottomOptions.size > 0) && (shoeOptions.size > 0) && (accessoryOptions.size > 0)){
+            var outfitClothing = ArrayList<Clothing>()
 
-        outfitClothing.add(topOptions.get(Random.nextInt(topOptions.size)))
-        outfitClothing.add(bottomOptions.get(Random.nextInt(bottomOptions.size)))
-        outfitClothing.add(shoeOptions.get(Random.nextInt(shoeOptions.size)))
-        accessoryOptions.forEach { outfitClothing.add(it.get(Random.nextInt(it.size))) }
+            outfitClothing.add(topOptions.get(Random.nextInt(topOptions.size)))
+            outfitClothing.add(bottomOptions.get(Random.nextInt(bottomOptions.size)))
+            outfitClothing.add(shoeOptions.get(Random.nextInt(shoeOptions.size)))
+            accessoryOptions.forEach { outfitClothing.add(it.get(Random.nextInt(it.size))) }
 
-        var newOutfit = Outfit(outfitClothing, styleType, weatherType, false)
-        model.addRecentOutfit(newOutfit)
+            var newOutfit = Outfit(outfitClothing, styleType, weatherType, false)
+            model.addRecentOutfit(newOutfit)
+        }else{
+            Toast.makeText(requireContext(), "You do not have any clothing matching these tags",Toast.LENGTH_LONG)
+        }
     }
 
     private fun generateFullBodyOutfit(){
@@ -224,6 +230,19 @@ class RandomizationFragment: Fragment() {
 
         var newOutfit = Outfit(outfitClothing, styleType, weatherType, true)
         model.addRecentOutfit(newOutfit)
+
+        if((fullBodyOptions.size > 0) && (shoeOptions.size > 0) && (accessoryOptions.size > 0)){
+            var outfitClothing = ArrayList<Clothing>()
+
+            outfitClothing.add(fullBodyOptions.get(Random.nextInt(fullBodyOptions.size)))
+            outfitClothing.add(shoeOptions.get(Random.nextInt(shoeOptions.size)))
+            accessoryOptions.forEach { outfitClothing.add(it.get(Random.nextInt(it.size))) }
+
+            var newOutfit = Outfit(outfitClothing, styleType, weatherType, true)
+            model.addRecentOutfit(newOutfit)
+        }else{
+            Toast.makeText(requireContext(), "You do not have any clothing matching these tags",Toast.LENGTH_LONG)
+        }
     }
 
     /**
@@ -232,19 +251,88 @@ class RandomizationFragment: Fragment() {
     private fun getOptionsList(type: String, superCat: String): List<Clothing>{
         var list: List<Clothing>
 
-        if(model.closet.topsTags.contains(topType)){
-            list = model.closet.clothing.filter{it: Clothing ->
-                it.getSubCat()==type &&
-                it.getStyles().contains(styleType) &&
-                it.getWeathers().contains(weatherType)
+        when(superCat){
+            Closet.superCategories[0] -> {
+                if(userModel.user!!.topsTags.contains(type)){
+                    list = model.closet.clothing.filter{it: Clothing ->
+                        it.getSubCat()==type &&
+                                it.getStyles().contains(styleType) &&
+                                it.getWeathers().contains(weatherType)
+                    }
+                }else{
+                    list = model.closet.clothing.filter{it: Clothing ->
+                        it.getSuperCat() == superCat &&
+                                it.getStyles().contains(styleType) &&
+                                it.getWeathers().contains(weatherType)
+                    }
+                }
             }
-        }else{
-            list = model.closet.clothing.filter{it: Clothing ->
-                it.getSuperCat() == superCat &&
-                it.getStyles().contains(styleType) &&
-                it.getWeathers().contains(weatherType)
+
+            Closet.superCategories[1] -> {
+                if(userModel.user!!.bottomsTags.contains(type)){
+                    list = model.closet.clothing.filter{it: Clothing ->
+                        it.getSubCat()==type &&
+                                it.getStyles().contains(styleType) &&
+                                it.getWeathers().contains(weatherType)
+                    }
+                }else{
+                    list = model.closet.clothing.filter{it: Clothing ->
+                        it.getSuperCat() == superCat &&
+                                it.getStyles().contains(styleType) &&
+                                it.getWeathers().contains(weatherType)
+                    }
+                }
+            }
+
+            Closet.superCategories[3] -> {
+                if(userModel.user!!.shoesTags.contains(type)){
+                    list = model.closet.clothing.filter{it: Clothing ->
+                        it.getSubCat()==type &&
+                                it.getStyles().contains(styleType) &&
+                                it.getWeathers().contains(weatherType)
+                    }
+                }else{
+                    list = model.closet.clothing.filter{it: Clothing ->
+                        it.getSuperCat() == superCat &&
+                                it.getStyles().contains(styleType) &&
+                                it.getWeathers().contains(weatherType)
+                    }
+                }
+            }
+
+            Closet.superCategories[2] -> {
+                if(userModel.user!!.accessoriesTags.contains(type)){
+                    list = model.closet.clothing.filter{it: Clothing ->
+                        it.getSubCat()==type &&
+                                it.getStyles().contains(styleType) &&
+                                it.getWeathers().contains(weatherType)
+                    }
+                }else{
+                    list = model.closet.clothing.filter{it: Clothing ->
+                        it.getSuperCat() == superCat &&
+                                it.getStyles().contains(styleType) &&
+                                it.getWeathers().contains(weatherType)
+                    }
+                }
+            }
+
+            else -> {
+                if(userModel.user!!.fullBodyTags.contains(type)){
+                    list = model.closet.clothing.filter{it: Clothing ->
+                        it.getSubCat()==type &&
+                                it.getStyles().contains(styleType) &&
+                                it.getWeathers().contains(weatherType)
+                    }
+                }else{
+                    list = model.closet.clothing.filter{it: Clothing ->
+                        it.getSuperCat() == superCat &&
+                                it.getStyles().contains(styleType) &&
+                                it.getWeathers().contains(weatherType)
+                    }
+                }
             }
         }
+
         Log.d(Constants.TAG, "${list.size}")
         return list
     }
@@ -360,15 +448,20 @@ class RandomizationFragment: Fragment() {
          * @param v The view that was clicked.
          */
         override fun onClick(v: View?) {
+            var accessories = Array<String>(userModel.user!!.accessoriesTags.size){""}
+            for(tag in 0 until userModel.user!!.accessoriesTags.size){
+                accessories[tag] = userModel.user!!.accessoriesTags.get(tag)
+            }
+
 
             AlertDialog.Builder(requireContext())
                 .setTitle("Accessories Options")
-                .setMultiChoiceItems(model.closet.accessoriesTags as Array<String>, checkedAcc, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
+                .setMultiChoiceItems(accessories, checkedAcc, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
                     if(isChecked){
-                        accessoriesTypes.add(model.closet.accessoriesTags.get(which))
+                        accessoriesTypes.add(userModel.user!!.accessoriesTags.get(which))
                         checkedAcc[which] = true
                     }else{
-                        accessoriesTypes.remove(model.closet.accessoriesTags.get(which))
+                        accessoriesTypes.remove(userModel.user!!.accessoriesTags.get(which))
                         checkedAcc[which] = false
                     }
 

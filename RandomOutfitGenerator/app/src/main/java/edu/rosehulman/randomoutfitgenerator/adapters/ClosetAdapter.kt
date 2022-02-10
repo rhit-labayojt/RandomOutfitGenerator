@@ -14,7 +14,7 @@ import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
 import edu.rosehulman.randomoutfitgenerator.objects.Clothing
 import edu.rosehulman.randomoutfitgenerator.ui.ClosetFragment
 
-class ClosetAdapter(val fragment: ClosetFragment, val modelTag: String): RecyclerView.Adapter<ClosetAdapter.ClosetViewHolder>() {
+class ClosetAdapter(val fragment: ClosetFragment, private val modelTag: String): RecyclerView.Adapter<ClosetAdapter.ClosetViewHolder>() {
     private val model = ViewModelProvider(fragment.requireActivity()).get(ClosetViewModel::class.java)
     private var itemList = listOf<Clothing>()
 

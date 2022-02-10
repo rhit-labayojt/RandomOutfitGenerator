@@ -108,18 +108,20 @@
         <item name="android:text">@string/user_edit_name_holder</item>
         <item name="android:layout_marginVertical">@dimen/user_edit_name_margin</item>
         <item name="android:textColor">?attr/colorSecondary</item>
+        <item name="android:layout_alignParentTop">true</item>
     </style>
 
     <style name="user_edit_name_edit_text">
-        <item name="android:layout_width">@dimen/user_edit_name_edit_text_width</item>
-        <item name="android:layout_height">@dimen/user_edit_name_edit_text_height</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_alignParentTop">true</item>
         <item name="android:inputType">text</item>
-        <item name="android:textSize">@dimen/user_edit_name_text_size</item>
+        <item name="android:textSize">@dimen/user_edit_edit_text_size</item>
         <item name="android:text">@string/user_edit_name_holder</item>
         <item name="android:layout_marginVertical">@dimen/user_edit_name_margin</item>
-        <item name="android:visibility">gone</item>
         <item name="android:textColor">?attr/colorPrimaryVariant</item>
+        <item name="android:visibility">gone</item>
     </style>
 
     <style name="user_edit_icon">

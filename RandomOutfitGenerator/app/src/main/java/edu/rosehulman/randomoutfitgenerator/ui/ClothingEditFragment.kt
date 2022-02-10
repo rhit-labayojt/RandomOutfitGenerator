@@ -69,6 +69,8 @@ class ClothingEditFragment: Fragment() {
                         if(model.isNewImage){
                             model.isNewImage = false
                             Log.d(Constants.TAG, "New Item not Saved")
+                        }else{
+                            model.deleteCurrentClothing()
                         }
                         findNavController().popBackStack()
                     }
@@ -100,9 +102,8 @@ class ClothingEditFragment: Fragment() {
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
         userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
-        setupTags()
         model.cameraTriggeredFragment = R.id.nav_clothing_edit
-        checkedStyles = BooleanArray(model.closet.styles.size){false}
+        checkedStyles = BooleanArray(userModel.user!!.styles.size){false}
 
         if(model.isNewImage){
             newItem = Clothing(
@@ -157,26 +158,19 @@ class ClothingEditFragment: Fragment() {
             binding.superCatSpinner.setSelection(0)
             binding.subCatSpinner.setSelection(0)
         }else {
+            Log.d(Constants.TAG, "${model.getCurrentItem().getSubCat()}")
+            Log.d(Constants.TAG, "Tag Indes = ${userModel.user!!.topsTags.indexOf(model.getCurrentItem().getSubCat())}")
+            var currentItem = model.getCurrentItem()
             binding.superCatSpinner.setSelection(Closet.superCategories.indexOfFirst {
-                it == model.getCurrentItem().getSuperCat()
-            })
+                it == currentItem.getSuperCat()
+            }, true)
 
             when (model.getCurrentItem().getSuperCat()) {
-                Closet.superCategories[0] -> binding.subCatSpinner.setSelection(model.closet.topsTags.indexOfFirst {
-                    it == model.getCurrentItem().getSubCat()
-                })
-                Closet.superCategories[1] -> binding.subCatSpinner.setSelection(model.closet.bottomsTags.indexOfFirst {
-                    it == model.getCurrentItem().getSubCat()
-                })
-                Closet.superCategories[2] -> binding.subCatSpinner.setSelection(model.closet.accessoriesTags.indexOfFirst {
-                    it == model.getCurrentItem().getSubCat()
-                })
-                Closet.superCategories[3] -> binding.subCatSpinner.setSelection(model.closet.shoesTags.indexOfFirst {
-                    it == model.getCurrentItem().getSubCat()
-                })
-                else -> binding.subCatSpinner.setSelection(model.closet.fullBodyTags.indexOfFirst {
-                    it == model.getCurrentItem().getSubCat()
-                })
+                Closet.superCategories[0] -> binding.subCatSpinner.setSelection(userModel.user!!.topsTags.indexOf(currentItem.getSubCat()))
+                Closet.superCategories[1] -> binding.subCatSpinner.setSelection(userModel.user!!.bottomsTags.indexOf(currentItem.getSubCat()))
+                Closet.superCategories[2] -> binding.subCatSpinner.setSelection(userModel.user!!.accessoriesTags.indexOf(currentItem.getSubCat()))
+                Closet.superCategories[3] -> binding.subCatSpinner.setSelection(userModel.user!!.shoesTags.indexOf(currentItem.getSubCat()))
+                else -> binding.subCatSpinner.setSelection(userModel.user!!.fullBodyTags.indexOf(currentItem.getSubCat()))
             }
         }
     }
@@ -202,11 +196,11 @@ class ClothingEditFragment: Fragment() {
             requireContext(),
             R.layout.spinner_item_selected,
             when(superCat){
-                Closet.superCategories[0] -> model.closet.topsTags
-                Closet.superCategories[1] -> model.closet.bottomsTags
-                Closet.superCategories[2] -> model.closet.accessoriesTags
-                Closet.superCategories[3]-> model.closet.shoesTags
-                else -> model.closet.fullBodyTags
+                Closet.superCategories[0] -> userModel.user!!.topsTags
+                Closet.superCategories[1] -> userModel.user!!.bottomsTags
+                Closet.superCategories[2] -> userModel.user!!.accessoriesTags
+                Closet.superCategories[3]-> userModel.user!!.shoesTags
+                else -> userModel.user!!.fullBodyTags
             }
         )
         subCatAdapter.setDropDownViewResource(R.layout.spinner_item_dropdown)
@@ -223,25 +217,29 @@ class ClothingEditFragment: Fragment() {
             newItem.setSuperCat(newSuperCat)
             newItem.setSubCat(newSubCat)
         }else {
+            if(newSuperCat == ""){
+                newSuperCat = model.getCurrentItem().getSuperCat()
+            }
             model.getCurrentItem().setSuperCat(newSuperCat)
             model.getCurrentItem().setSubCat(newSubCat)
         }
-
         model.updateClothing(newItem)
     }
 
     private fun setupTextViews(){
-
-        Log.d(Constants.TAG, "${model.closet.styles.toTypedArray().size}")
+        var styles = Array<String>(userModel.user!!.styles.size){""}
+        for(i in 0 until userModel.user!!.styles.size){
+            styles[i] = userModel.user!!.styles[i]
+        }
 
         if(model.isNewImage){
-            findCheckedItems(newItem.getStyles(), model.closet.styles.toTypedArray(), checkedStyles)
+            findCheckedItems(newItem.getStyles(), styles, checkedStyles)
             findCheckedItems(newItem.getWeathers(), Closet.weathers, checkedWeathers)
 
             binding.stylesOptions.text = "Styles: ${model.closet.toString(newItem.getStyles())}"
             binding.weatherOptions.text = "Weathers: ${model.closet.toString(newItem.getWeathers())}"
         }else {
-            findCheckedItems(model.getCurrentItem().getStyles(), model.closet.styles.toTypedArray(), checkedStyles)
+            findCheckedItems(model.getCurrentItem().getStyles(), styles, checkedStyles)
             findCheckedItems(model.getCurrentItem().getWeathers(), Closet.weathers, checkedWeathers)
 
             binding.stylesOptions.text = "Styles: ${model.closet.toString(model.getCurrentItem().getStyles())}"
@@ -251,22 +249,22 @@ class ClothingEditFragment: Fragment() {
         binding.stylesOptions.setOnClickListener {
             AlertDialog.Builder(requireContext())
                 .setTitle("Styles")
-                .setMultiChoiceItems(model.closet.styles.toTypedArray(), checkedStyles, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
+                .setMultiChoiceItems(styles, checkedStyles, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
 
                     if(model.isNewImage){
                         if (isChecked) {
-                            newItem.addStyle(model.closet.styles[which])
+                            newItem.addStyle(userModel.user!!.styles[which])
                         } else {
-                            newItem.removeStyle(model.closet.styles[which])
+                            newItem.removeStyle(userModel.user!!.styles[which])
                         }
 
                         binding.stylesOptions.text =
                             "Styles: ${model.closet.toString(newItem.getStyles())}"
                     }else {
                         if (isChecked) {
-                            model.getCurrentItem().addStyle(model.closet.styles[which])
+                            model.getCurrentItem().addStyle(userModel.user!!.styles[which])
                         } else {
-                            model.getCurrentItem().removeStyle(model.closet.styles[which])
+                            model.getCurrentItem().removeStyle(userModel.user!!.styles[which])
                         }
 
                         binding.stylesOptions.text =
@@ -281,7 +279,6 @@ class ClothingEditFragment: Fragment() {
             AlertDialog.Builder(requireContext())
                 .setTitle("Weathers")
                 .setMultiChoiceItems(Closet.weathers, checkedWeathers, DialogInterface.OnMultiChoiceClickListener { dialog, which, isChecked ->
-                    Log.d(Constants.TAG, "${model.currentItemIndex}")
 
                     if (model.isNewImage) {
                         if (isChecked) {
@@ -323,17 +320,6 @@ class ClothingEditFragment: Fragment() {
                 takeImageResult.launch(uri)
             }
         }
-    }
-
-    private fun setupTags(){
-        model.closet.topsTags = userModel.user!!.topsTags
-        model.closet.bottomsTags = userModel.user!!.bottomsTags
-        model.closet.accessoriesTags = userModel.user!!.accessoriesTags
-        model.closet.shoesTags = userModel.user!!.shoesTags
-        model.closet.fullBodyTags = userModel.user!!.fullBodyTags
-        model.closet.styles = userModel.user!!.styles
-
-        Log.d(Constants.TAG, "Tags have been set")
     }
 
     inner class SuperCatListener: AdapterView.OnItemSelectedListener{

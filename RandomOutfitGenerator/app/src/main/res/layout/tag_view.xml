@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tag_value"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:text="@string/dummy_tag"
-    android:textSize="@dimen/tag_text_size"
-    android:background="@color/platinum"
-    android:textColor="?attr/colorPrimaryVariant"
-    android:padding="@dimen/tags_holder_horizontal"/>
+    android:layout_centerInParent="true">
+
+    <TextView
+        android:id="@+id/tag_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dummy_tag"
+        android:textSize="@dimen/tag_text_size"
+        android:textColor="?attr/colorPrimaryVariant"
+        android:padding="@dimen/tags_holder_horizontal"
+        android:layout_alignParentStart="true" />
+
+    <CheckBox
+        android:id="@+id/checkable_tag_value"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/dummy_tag"
+        android:textSize="@dimen/tag_text_size"
+        android:checked="false"
+        android:textColor="?attr/colorPrimaryVariant"
+        android:padding="@dimen/tags_holder_horizontal"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true" />
+
+
+
+</RelativeLayout>

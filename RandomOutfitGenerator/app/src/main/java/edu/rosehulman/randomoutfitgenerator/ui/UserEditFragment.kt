@@ -1,6 +1,7 @@
 package edu.rosehulman.randomoutfitgenerator.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import edu.rosehulman.randomoutfitgenerator.Constants
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.TagsAdapter
 import edu.rosehulman.randomoutfitgenerator.adapters.TagsHolderAdapter
@@ -21,10 +23,8 @@ class UserEditFragment: Fragment() {
     private lateinit var binding: FragmentUserEditBinding
     private lateinit var userModel: UserViewModel
     private var tagTypes = arrayOf("Styles", "Tops", "Bottoms", "Shoes", "Full Body", "Accessories")
-    private lateinit var editableTagHolderAdapter: TagsHolderAdapter
-    private lateinit var viewableTagHolderAdapter: TagsHolderAdapter
-    private var editableTagsAdapters = arrayListOf<TagsAdapter>()
-    private var viewableTagsAdapters = arrayListOf<TagsAdapter>()
+    private lateinit var tagHolderAdapter: TagsHolderAdapter
+    private var tagsAdapters = arrayListOf<TagsAdapter>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,14 +34,29 @@ class UserEditFragment: Fragment() {
         binding = FragmentUserEditBinding.inflate(inflater, container, false)
         userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
+        binding.userEditUserName.setText(userModel.user!!.name)
         binding.userEditChangeName.setText(binding.userEditUserName.text)
+        binding.userEditChangeName.setHint("Enter a name")
 
-        if(userModel.editUser){
-            binding.userEditUserName.visibility = View.GONE
+        if(userModel.editUser || !userModel.user!!.hasCompletedSetup){
+            if(!userModel.editUser){
+                userModel.editUser = true
+            }
+            binding.userEditUserName.visibility = View.INVISIBLE
+            binding.logoutButton.visibility = View.INVISIBLE
+            binding.logoutButton.isClickable = false
             binding.userEditChangeName.visibility = View.VISIBLE
+
+            binding.userEditChangeName.setText(userModel.user!!.name)
+            binding.editButton.setText("Done")
         }else{
             binding.userEditChangeName.visibility = View.GONE
+            binding.logoutButton.visibility = View.VISIBLE
+            binding.logoutButton.isClickable = true
             binding.userEditUserName.visibility = View.VISIBLE
+
+            binding.userEditUserName.setText(userModel.user!!.name)
+            binding.editButton.setText("Edit")
         }
 
         tagTypes.forEach{ userModel.buildChangesMap(it) }
@@ -50,11 +65,12 @@ class UserEditFragment: Fragment() {
         if(Firebase.auth.currentUser!!.email != null){
             binding.userEditLoginMethod.setText("Email: ${Firebase.auth.currentUser!!.email}")
         }else if(Firebase.auth.currentUser!!.phoneNumber != null){
-            binding.userEditLoginMethod.setText("Email: ${Firebase.auth.currentUser!!.phoneNumber}")
+            binding.userEditLoginMethod.setText("Phone Number: ${Firebase.auth.currentUser!!.phoneNumber}")
         }
 
         makeAdapters()
         setup()
+        Log.d(Constants.TAG, "Setup Done")
 
         return binding.root
     }
@@ -62,35 +78,28 @@ class UserEditFragment: Fragment() {
     private fun makeAdapters(){
         tagTypes.forEach{
             when(it){
+                "Styles" -> {
+                    tagsAdapters.add(TagsAdapter(this, it, userModel.user!!.styles))
+                }
                 "Tops" -> {
-                    editableTagsAdapters.add(TagsAdapter(this, R.layout.checkable_tag_view, it, userModel.user!!.topsTags))
-                    viewableTagsAdapters.add(TagsAdapter(this, R.layout.tag_view, it, userModel.user!!.topsTags))
+                    tagsAdapters.add(TagsAdapter(this, it, userModel.user!!.topsTags))
                 }
                 "Bottoms" -> {
-                    editableTagsAdapters.add(TagsAdapter(this, R.layout.checkable_tag_view, it, userModel.user!!.bottomsTags))
-                    viewableTagsAdapters.add(TagsAdapter(this, R.layout.tag_view, it, userModel.user!!.bottomsTags))
+                    tagsAdapters.add(TagsAdapter(this, it, userModel.user!!.bottomsTags))
                 }
                 "Shoes" -> {
-                    editableTagsAdapters.add(TagsAdapter(this, R.layout.checkable_tag_view, it, userModel.user!!.shoesTags))
-                    viewableTagsAdapters.add(TagsAdapter(this, R.layout.tag_view, it, userModel.user!!.shoesTags))
+                    tagsAdapters.add(TagsAdapter(this, it, userModel.user!!.shoesTags))
                 }
-                "Styles" -> {
-                    editableTagsAdapters.add(TagsAdapter(this, R.layout.checkable_tag_view, it, userModel.user!!.styles))
-                    viewableTagsAdapters.add(TagsAdapter(this, R.layout.tag_view, it, userModel.user!!.styles))
-                }
-                "Accessories" -> {
-                    editableTagsAdapters.add(TagsAdapter(this, R.layout.checkable_tag_view, it, userModel.user!!.accessoriesTags))
-                    viewableTagsAdapters.add(TagsAdapter(this, R.layout.tag_view, it, userModel.user!!.accessoriesTags))
+                "Full Body" -> {
+                    tagsAdapters.add(TagsAdapter(this, it, userModel.user!!.fullBodyTags))
                 }
                 else -> {
-                    editableTagsAdapters.add(TagsAdapter(this, R.layout.checkable_tag_view, it, userModel.user!!.fullBodyTags))
-                    viewableTagsAdapters.add(TagsAdapter(this, R.layout.tag_view, it, userModel.user!!.fullBodyTags))
+                    tagsAdapters.add(TagsAdapter(this, it, userModel.user!!.accessoriesTags))
                 }
             }
         }
 
-        editableTagHolderAdapter = TagsHolderAdapter(this, tagTypes, editableTagsAdapters)
-        viewableTagHolderAdapter = TagsHolderAdapter(this, tagTypes, viewableTagsAdapters)
+        tagHolderAdapter = TagsHolderAdapter(this, tagTypes, tagsAdapters)
     }
 
     private fun setup(){
@@ -109,12 +118,7 @@ class UserEditFragment: Fragment() {
             userModel.user = null
         }
 
-        if(userModel.editUser){
-            binding.userEditTags.adapter = editableTagHolderAdapter
-        }else{
-            binding.userEditTags.adapter = viewableTagHolderAdapter
-        }
-
+        binding.userEditTags.adapter = tagHolderAdapter
         binding.userEditTags.layoutManager = LinearLayoutManager(requireContext())
         binding.userEditTags.setHasFixedSize(true)
         binding.userEditTags.addItemDecoration(DividerItemDecoration(requireContext(), DividerItemDecoration.VERTICAL))
@@ -122,22 +126,26 @@ class UserEditFragment: Fragment() {
 
     private fun updateView(){
         if(userModel.editUser){
-            binding.userEditUserName.visibility = View.GONE
+            Log.d(Constants.TAG,"Edit Button Pressed")
+            binding.userEditUserName.visibility = View.INVISIBLE
             binding.logoutButton.visibility = View.INVISIBLE
+            binding.logoutButton.isClickable = false
             binding.userEditChangeName.visibility = View.VISIBLE
 
             binding.userEditChangeName.setText(userModel.user!!.name)
             binding.editButton.setText("Done")
-            binding.userEditTags.adapter = viewableTagHolderAdapter
         }else{
+            Log.d(Constants.TAG,"Done Button Pressed")
             binding.userEditChangeName.visibility = View.GONE
             binding.logoutButton.visibility = View.VISIBLE
+            binding.logoutButton.isClickable = true
             binding.userEditUserName.visibility = View.VISIBLE
 
             binding.userEditUserName.setText(userModel.user!!.name)
             binding.editButton.setText("Edit")
-            binding.userEditTags.adapter = editableTagHolderAdapter
         }
+
+        (binding.userEditTags.adapter as TagsHolderAdapter).update()
     }
 
 }
