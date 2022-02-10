@@ -108,7 +108,7 @@ class ClothingEditFragment: Fragment() {
         if(model.isNewImage){
             newItem = Clothing(
                 Closet.superCategories[0],
-                model.closet.topsTags[0],
+                userModel.user!!.topsTags[0],
                 arrayListOf<String>(),
                 arrayListOf<String>(),
                 model.newImageUri

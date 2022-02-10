@@ -1,56 +1,60 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent" >
 
-    <ImageView android:id="@+id/outfit_top"
-        style="@style/outfit_view" />
+    <RelativeLayout android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <ImageView android:id="@+id/outfit_bottom"
-        style="@style/outfit_view"
-        android:layout_below="@id/outfit_top"/>
+        <ImageView android:id="@+id/outfit_top"
+            style="@style/outfit_view" />
 
-    <ImageView android:id="@+id/outfit_shoes"
-        style="@style/outfit_view"
-        android:layout_below="@id/outfit_top"
-        android:layout_toRightOf="@id/outfit_bottom"/>
+        <ImageView android:id="@+id/outfit_bottom"
+            style="@style/outfit_view"
+            android:layout_below="@id/outfit_top"/>
 
-    <androidx.recyclerview.widget.RecyclerView android:id="@+id/outfit_accessories"
-        style="@style/outfit_view"
-        android:layout_toRightOf="@id/outfit_top"/>
+        <ImageView android:id="@+id/outfit_shoes"
+            style="@style/outfit_view"
+            android:layout_below="@id/outfit_top"
+            android:layout_toRightOf="@id/outfit_bottom"/>
 
-    <TextView android:id="@+id/outfit_style"
-        style="@style/outfit_text"
-        android:layout_width="@dimen/outfit_text_view_width"
-        android:layout_below="@id/outfit_bottom"
-        android:textStyle="bold"/>
+        <androidx.recyclerview.widget.RecyclerView android:id="@+id/outfit_accessories"
+            style="@style/outfit_view"
+            android:layout_toRightOf="@id/outfit_top"/>
 
-    <TextView android:id="@+id/outfit_weather"
-        style="@style/outfit_text"
-        android:layout_width="@dimen/outfit_text_view_width"
-        android:layout_below="@id/outfit_bottom"
-        android:layout_alignParentEnd="true"
-        android:textStyle="bold"/>
+        <TextView android:id="@+id/outfit_style"
+            style="@style/outfit_text"
+            android:layout_width="@dimen/outfit_text_view_width"
+            android:layout_below="@id/outfit_bottom"
+            android:textStyle="bold"/>
 
-    <LinearLayout android:id="@+id/outfit_text_labels"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/outfit_weather"
-        android:layout_margin="@dimen/outfit_image_margin"
-        android:orientation="vertical">
+        <TextView android:id="@+id/outfit_weather"
+            style="@style/outfit_text"
+            android:layout_width="@dimen/outfit_text_view_width"
+            android:layout_below="@id/outfit_bottom"
+            android:layout_alignParentEnd="true"
+            android:textStyle="bold"/>
 
-        <TextView android:id="@+id/outfit_top_cat"
-            style="@style/outfit_text"/>
+        <LinearLayout android:id="@+id/outfit_text_labels"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/outfit_weather"
+            android:layout_margin="@dimen/outfit_image_margin"
+            android:orientation="vertical">
 
-        <TextView android:id="@+id/outfit_bottom_cat"
-            style="@style/outfit_text"/>
+            <TextView android:id="@+id/outfit_top_cat"
+                style="@style/outfit_text"/>
 
-        <TextView android:id="@+id/outfit_shoe_cat"
-            style="@style/outfit_text"/>
+            <TextView android:id="@+id/outfit_bottom_cat"
+                style="@style/outfit_text"/>
 
-        <TextView android:id="@+id/outfit_accessories_cat"
-            style="@style/outfit_text"/>
+            <TextView android:id="@+id/outfit_shoe_cat"
+                style="@style/outfit_text"/>
 
-    </LinearLayout>
+            <TextView android:id="@+id/outfit_accessories_cat"
+                style="@style/outfit_text"/>
 
-</RelativeLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+</ScrollView>

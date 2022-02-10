@@ -1,6 +1,7 @@
 package edu.rosehulman.randomoutfitgenerator.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.ImageView
 import androidx.fragment.app.Fragment
@@ -10,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import edu.rosehulman.randomoutfitgenerator.Constants
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.OutfitAccessoriesAdapter
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentOutfitBinding
@@ -31,6 +33,7 @@ class OutfitFragment: Fragment() {
                 findNavController().navigate(R.id.nav_saved_outfits)
                 true
             }
+
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -44,8 +47,8 @@ class OutfitFragment: Fragment() {
         binding = FragmentOutfitBinding.inflate(inflater, container, false)
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
 
-        var currentOutfit = model.getCurrentRecentOutfit()!!
-
+        var currentOutfit = model.currentOutfit!!
+        Log.d(Constants.TAG, "${currentOutfit.top}")
         images.put(binding.outfitTop, currentOutfit.top)
         images.put(binding.outfitBottom, currentOutfit.bottom)
         images.put(binding.outfitShoes, currentOutfit.shoes)
@@ -57,7 +60,13 @@ class OutfitFragment: Fragment() {
     }
 
     fun deleteOutfit(){
-        model.deleteCurrentSavedOutfit()
+        var outfit = model.currentOutfit!!
+        model.deleteCurrentOutfit()
+        if(model.closet.recentOutfits.contains(outfit)){
+            findNavController().navigate(R.id.nav_home)
+        }else{
+            findNavController().navigate(R.id.nav_saved_outfits)
+        }
     }
 
     private fun setupImages(){
@@ -77,7 +86,7 @@ class OutfitFragment: Fragment() {
     }
 
     private fun setupText(){
-        var currentOutfit = model.getCurrentRecentOutfit()!!
+        var currentOutfit = model.currentOutfit!!
 
         binding.outfitTopCat.text = "Top: ${currentOutfit.topCat}"
         binding.outfitBottomCat.text = "Bottom: ${currentOutfit.bottomCat}"

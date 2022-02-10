@@ -35,8 +35,9 @@ class ClosetViewModel: ViewModel() {
     var isNewImage = false
     var latestTmpUri: Uri? = null
     var cameraTriggeredFragment = R.id.nav_closet
+    var currentOutfit: Outfit? = null
 
-     var currentItemIndex = 0
+    private var currentItemIndex = 0
     private var currentSavedOutfitIndex = 0
     private var currentRecentOutfitIndex = 0
     private var recentOutfitIndexToAdd = 0
@@ -46,12 +47,6 @@ class ClosetViewModel: ViewModel() {
         .child("images")
 
     fun getCurrentItem() = closet.clothing.get(currentItemIndex)
-    fun getCurrentSavedOutfit() = closet.savedOutfits.get(currentSavedOutfitIndex)
-    fun getCurrentRecentOutfit() = closet.recentOutfits.get(currentRecentOutfitIndex)
-
-    fun addOptionsListener(fragmentName: String, observer: () -> Unit){
-
-    }
 
     fun addClothingListener(fragmentName: String, observer: () -> Unit){
         val uid = Firebase.auth.currentUser!!.uid
@@ -111,6 +106,7 @@ class ClosetViewModel: ViewModel() {
                 snapshot?.documents?.forEach {
                     closet.recentOutfits[idx] = Outfit.from(it)
                 }
+                recentOutfitIndexToAdd = closet.recentOutfits.size
                 observer()
             }
 
@@ -124,11 +120,6 @@ class ClosetViewModel: ViewModel() {
 
     fun updateCurrentItem(pos: Int){
         currentItemIndex = pos
-    }
-
-    fun addClothing(c: Clothing){
-        closet.addClothing(c)
-        clothingRef.add(c)
     }
 
     fun updateClothing(item: Clothing){
@@ -152,29 +143,37 @@ class ClosetViewModel: ViewModel() {
         }
     }
 
+    fun deleteCurrentOutfit(){
+
+    }
+
     fun updateCurrentSavedOutfit(pos: Int){
         currentSavedOutfitIndex = pos
     }
 
-    fun deleteCurrentSavedOutfit(){
-        savedOutfitsRef.document(getCurrentItem().id).delete()
-    }
-
-    fun updateCurrentRecentOutfit(pos: Int){
-        currentRecentOutfitIndex = pos
+    fun updateCurrentRecentOutfit(idx: Int){
+        currentRecentOutfitIndex = idx
+        currentOutfit = closet.recentOutfits[currentRecentOutfitIndex]
     }
 
     fun addRecentOutfit(fit: Outfit){
         if(recentOutfitIndexToAdd < 10){
+            if(closet.recentOutfits[recentOutfitIndexToAdd] != null){
+                recentOutfitsRef.document(closet.recentOutfits[recentOutfitIndexToAdd]!!.id).delete()
+            }
             closet.recentOutfits[recentOutfitIndexToAdd] = fit
             currentRecentOutfitIndex = recentOutfitIndexToAdd
             recentOutfitIndexToAdd++
         }else{
             recentOutfitIndexToAdd = 0
+            recentOutfitsRef.document(closet.recentOutfits[recentOutfitIndexToAdd]!!.id).delete()
             closet.recentOutfits[recentOutfitIndexToAdd] = fit
             currentRecentOutfitIndex = recentOutfitIndexToAdd
             recentOutfitIndexToAdd++
         }
+
+        recentOutfitsRef.add(fit)
+        currentOutfit = fit
     }
 
     fun getTmpFileUri(fragment: Fragment): Uri {

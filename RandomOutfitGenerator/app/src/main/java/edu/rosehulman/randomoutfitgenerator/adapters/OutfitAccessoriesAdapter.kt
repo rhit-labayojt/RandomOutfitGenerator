@@ -65,7 +65,7 @@ class OutfitAccessoriesAdapter(val fragment: OutfitFragment): RecyclerView.Adapt
      * @param position The position of the item within the adapter's data set.
      */
     override fun onBindViewHolder(holder: OutfitAccessoriesAdapter.AccessoriesViewHolder, position: Int) {
-        holder.bind(model.getCurrentRecentOutfit()!!.accessories.get(position))
+        holder.bind(model.currentOutfit!!.accessories.get(position))
     }
 
     /**
@@ -73,7 +73,7 @@ class OutfitAccessoriesAdapter(val fragment: OutfitFragment): RecyclerView.Adapt
      *
      * @return The total number of items in this adapter.
      */
-    override fun getItemCount() = model.getCurrentRecentOutfit()!!.accessories.size
+    override fun getItemCount() = model.currentOutfit!!.accessories.size
 
     inner class AccessoriesViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         private val accessoryImage: ImageView = itemView.findViewById<ImageView>(R.id.accessory_recycler_layout)

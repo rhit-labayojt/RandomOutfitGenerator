@@ -46,7 +46,8 @@ class RandomizationFragment: Fragment() {
     private var onClickListeners = ArrayList<View.OnClickListener>()
 
     companion object{
-        const val fragmentName = "Randomization Fragment"
+        const val fragmentNameClothes = "RandomizationFragmentClothes"
+        const val fragmentNameRecent = "RandomizationFragmentRecent"
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -89,8 +90,8 @@ class RandomizationFragment: Fragment() {
         userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         binding.randomParentLayout.visibility = View.INVISIBLE
 
-        model.addRecentOutfitsListener(fragmentName){}
-        model.addClothingListener(fragmentName){
+        model.addRecentOutfitsListener(fragmentNameRecent){}
+        model.addClothingListener(fragmentNameClothes){
             binding.randomParentLayout.visibility = View.VISIBLE
         }
 
@@ -193,12 +194,14 @@ class RandomizationFragment: Fragment() {
         if(accessoriesTypes.isEmpty()){
             accessoryOptions.add(getOptionsList("", Closet.superCategories[2]))
         }else{
-            accessoriesTypes.forEach { accessoryOptions.add(getOptionsList(it, Closet.superCategories[2])) }
+            accessoriesTypes.forEach {
+                accessoryOptions.add(getOptionsList(it, Closet.superCategories[2]))
+            }
+            Log.d(Constants.TAG, "${accessoryOptions.size}")
         }
 
         if((topOptions.size > 0) && (bottomOptions.size > 0) && (shoeOptions.size > 0) && (accessoryOptions.size > 0)){
             var outfitClothing = ArrayList<Clothing>()
-
             outfitClothing.add(topOptions.get(Random.nextInt(topOptions.size)))
             outfitClothing.add(bottomOptions.get(Random.nextInt(bottomOptions.size)))
             outfitClothing.add(shoeOptions.get(Random.nextInt(shoeOptions.size)))
@@ -208,6 +211,7 @@ class RandomizationFragment: Fragment() {
             model.addRecentOutfit(newOutfit)
         }else{
             Toast.makeText(requireContext(), "You do not have any clothing matching these tags",Toast.LENGTH_LONG)
+            findNavController().navigate(R.id.nav_home)
         }
     }
 
@@ -242,6 +246,7 @@ class RandomizationFragment: Fragment() {
             model.addRecentOutfit(newOutfit)
         }else{
             Toast.makeText(requireContext(), "You do not have any clothing matching these tags",Toast.LENGTH_LONG)
+            findNavController().navigate(R.id.nav_home)
         }
     }
 
@@ -537,6 +542,7 @@ class RandomizationFragment: Fragment() {
 
     override fun onDestroyView(){
         super.onDestroyView()
-        model.removeListener(fragmentName)
+        model.removeListener(fragmentNameClothes)
+        model.removeListener(fragmentNameRecent)
     }
 }

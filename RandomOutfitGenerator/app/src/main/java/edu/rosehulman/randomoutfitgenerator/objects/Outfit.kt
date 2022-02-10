@@ -3,11 +3,11 @@ package edu.rosehulman.randomoutfitgenerator.objects
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
 
-class Outfit {
+class Outfit() {
 
     var top: String = ""
     var bottom: String = ""
-    var fullBody: String = ""
+    var fullBodyImage: String = ""
     var shoes: String = ""
     var style: String = ""
     var weather: String = ""
@@ -20,12 +20,12 @@ class Outfit {
     var accessoriesCats = arrayListOf<String>()
 
     var isSaved = false
-    var isFullBody: Boolean
+    var isFullBody = false
 
     @get:Exclude
     var id = "" // Firestore ID
 
-    constructor(clothing: ArrayList<Clothing>, style: String, weather: String, fullBody: Boolean){
+    constructor(clothing: ArrayList<Clothing>, style: String, weather: String, fullBody: Boolean) : this() {
         this.style = style
         this.weather = weather
         this.isFullBody = fullBody
@@ -45,15 +45,15 @@ class Outfit {
 
         if(isFullBody){
             for (c in clothes) {
-                when (c.getSubCat()) {
-                    "Full Body" -> {fullBody = c.image; fullBodyCat = c.getSubCat()}
+                when (c.getSuperCat()) {
+                    "Full Body" -> {fullBodyImage = c.image; fullBodyCat = c.getSubCat()}
                     "Shoes" -> {shoes = c.image; shoesCat = c.getSubCat()}
                     else -> {accessories.add(c.image); accessoriesCats.add(c.getSubCat())}
                 }
             }
         }else {
             for (c in clothes) {
-                when (c.getSubCat()) {
+                when (c.getSuperCat()) {
                     "Top" -> {top = c.image; topCat = c.getSubCat()}
                     "Bottom" -> {bottom = c.image; bottomCat = c.getSubCat()}
                     "Shoes" -> {shoes = c.image; shoesCat = c.getSubCat()}

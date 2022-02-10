@@ -12,13 +12,7 @@ class Closet() {
 
     var clothing: ArrayList<Clothing> = ArrayList()
     var savedOutfits: ArrayList<Outfit> = ArrayList()
-    var recentOutfits: Array<Outfit?> = Array(10){null; null; null; null; null; null; null; null; null; null}
-    var topsTags = arrayListOf<String>()
-    var bottomsTags = arrayListOf<String>()
-    var accessoriesTags = arrayListOf<String>()
-    var shoesTags = arrayListOf<String>()
-    var fullBodyTags = arrayListOf<String>()
-    var styles = arrayListOf<String>()
+    var recentOutfits: Array<Outfit?> = Array(10){null}
 
     companion object{
         var weathers = arrayOf("Hot", "Warm", "Moderate", "Cool", "Cold")
