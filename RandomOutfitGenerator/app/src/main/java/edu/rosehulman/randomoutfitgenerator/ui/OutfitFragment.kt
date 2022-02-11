@@ -23,7 +23,8 @@ class OutfitFragment: Fragment() {
     private var images = mutableMapOf<ImageView, String>()
 
     companion object{
-        const val fragmentName = "OutfitFragment"
+        const val fragmentSavedName = "SavedOutfit"
+        const val fragmentRecentName = "RecentOutfit"
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater){
@@ -58,7 +59,10 @@ class OutfitFragment: Fragment() {
                 true
             }
 
-            else -> super.onOptionsItemSelected(item)
+            else -> {
+                findNavController().navigate(R.id.nav_home)
+                super.onOptionsItemSelected(item)
+            }
         }
     }
 
@@ -71,7 +75,8 @@ class OutfitFragment: Fragment() {
         binding = FragmentOutfitBinding.inflate(inflater, container, false)
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
         binding.outfitViewFragment.visibility = View.GONE
-        model.addSavedOutfitsListener(fragmentName){
+        model.addRecentOutfitsListener(fragmentRecentName){}
+        model.addSavedOutfitsListener(fragmentSavedName){
             binding.outfitViewFragment.visibility = View.VISIBLE
         }
 
@@ -160,6 +165,7 @@ class OutfitFragment: Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
-        model.removeListener(fragmentName)
+        model.removeListener(fragmentSavedName)
+        model.removeListener(fragmentRecentName)
     }
 }

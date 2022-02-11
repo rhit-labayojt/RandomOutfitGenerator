@@ -4,12 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.HomeFragment">
+    tools:context=".ui.HomeFragment"
+    android:background="@color/platinum">
 
     <androidx.recyclerview.widget.RecyclerView android:id="@+id/outfit_carousel"
         android:layout_width="@dimen/carousel_width"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:background="@color/platinum"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/random_outfit_fab"

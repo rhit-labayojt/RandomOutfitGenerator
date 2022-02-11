@@ -39,7 +39,6 @@
 
         <TextView android:id="@+id/outfit_weather"
             style="@style/outfit_text"
-            android:layout_width="@dimen/outfit_text_view_width"
             android:layout_below="@id/outfit_bottom"
             android:layout_alignParentEnd="true"
             android:textStyle="bold"/>

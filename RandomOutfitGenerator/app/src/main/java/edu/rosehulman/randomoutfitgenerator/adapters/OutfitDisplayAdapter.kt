@@ -1,6 +1,5 @@
 package edu.rosehulman.randomoutfitgenerator.adapters
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,12 +11,11 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
-import edu.rosehulman.randomoutfitgenerator.Constants
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
 import edu.rosehulman.randomoutfitgenerator.objects.Outfit
 
-class CarouselAdapter(val fragment: Fragment): RecyclerView.Adapter<CarouselAdapter.CarouselViewHolder>() {
+class OutfitDisplayAdapter(val fragment: Fragment, val itemList: ArrayList<Outfit?>): RecyclerView.Adapter<OutfitDisplayAdapter.CarouselViewHolder>() {
     private val model = ViewModelProvider(fragment.requireActivity()).get(ClosetViewModel::class.java)
     /**
      * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
@@ -45,8 +43,8 @@ class CarouselAdapter(val fragment: Fragment): RecyclerView.Adapter<CarouselAdap
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
-    ): CarouselAdapter.CarouselViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.carousel_layout, parent, false)
+    ): OutfitDisplayAdapter.CarouselViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.outfit_image_view, parent, false)
         return CarouselViewHolder(view)
     }
 
@@ -71,8 +69,8 @@ class CarouselAdapter(val fragment: Fragment): RecyclerView.Adapter<CarouselAdap
      * item at the given position in the data set.
      * @param position The position of the item within the adapter's data set.
      */
-    override fun onBindViewHolder(holder: CarouselAdapter.CarouselViewHolder, position: Int) {
-        holder.bind(model.closet.recentOutfits[position])
+    override fun onBindViewHolder(holder: OutfitDisplayAdapter.CarouselViewHolder, position: Int) {
+        holder.bind(itemList[position])
     }
 
     /**
@@ -80,7 +78,7 @@ class CarouselAdapter(val fragment: Fragment): RecyclerView.Adapter<CarouselAdap
      *
      * @return The total number of items in this adapter.
      */
-    override fun getItemCount() = model.closet.recentOutfits.size
+    override fun getItemCount() = itemList.size
 
     inner class CarouselViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         private val layout: RelativeLayout = itemView.findViewById<RelativeLayout>(R.id.carousel_holder)
@@ -92,8 +90,13 @@ class CarouselAdapter(val fragment: Fragment): RecyclerView.Adapter<CarouselAdap
 
         init{
             layout.setOnClickListener{
-                model.updateCurrentRecentOutfit(adapterPosition)
-                model.randomOutfit = true
+                if(model.closet.savedOutfits.contains(itemList[adapterPosition])){
+                    model.updateCurrentSavedOutfit(model.closet.savedOutfits.indexOfFirst{it.id == itemList[adapterPosition]!!.id})
+                    model.randomOutfit = false
+                }else {
+                    model.updateCurrentRecentOutfit(model.closet.recentOutfits.indexOfFirst{it!!.id == itemList[adapterPosition]!!.id})
+                    model.randomOutfit = true
+                }
                 fragment.findNavController().navigate(R.id.nav_outfit)
             }
         }

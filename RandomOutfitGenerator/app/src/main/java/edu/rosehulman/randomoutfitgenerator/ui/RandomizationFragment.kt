@@ -208,6 +208,9 @@ class RandomizationFragment: Fragment() {
 
             var newOutfit = Outfit(outfitClothing, styleType, weatherType, false)
             model.addRecentOutfit(newOutfit)
+
+            resetFields()
+
             findNavController().navigate(R.id.nav_outfit)
         }else{
             Toast.makeText(requireContext(), "You do not have any clothing matching these tags",Toast.LENGTH_LONG).show()
@@ -332,6 +335,24 @@ class RandomizationFragment: Fragment() {
 
         Log.d(Constants.TAG, "${list.size}")
         return list
+    }
+
+    private fun resetFields(){
+        binding.randomTop.setText("Top")
+        binding.randomBottom.setText("Bottom")
+        binding.randomShoes.setText("Shoes")
+        binding.randomAccessories.setText("Accessories")
+        binding.randomFullBody.setText("Full Body")
+        binding.randomStyle.setText("Style")
+        binding.randomWeather.setText("Weather")
+
+        topType = ""
+        bottomType =""
+        shoesType = ""
+        weatherType = ""
+        styleType = ""
+        fullBodyType = ""
+        accessoriesTypes.clear()
     }
 
     inner class TopTypeListener: AdapterView.OnItemClickListener{

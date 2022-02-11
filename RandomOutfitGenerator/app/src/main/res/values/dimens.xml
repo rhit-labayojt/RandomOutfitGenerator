@@ -31,13 +31,13 @@
     <dimen name="clothing_edit_styles_left">25dp</dimen>
 
     //------------------Outfit Fragment-------------------------
-    <dimen name="outfit_image_size">150dp</dimen>
+    <dimen name="outfit_image_size">250dp</dimen>
     <dimen name="outfit_image_margin">12dp</dimen>
     <dimen name="outfit_text_view_height">75dp</dimen>
     <dimen name="outfit_text_size">18sp</dimen>
     <dimen name="outfit_text_view_width">150dp</dimen>
     <dimen name="outfit_text_margin">12dp</dimen>
-    <dimen name="outfit_accessory_height">100dp</dimen>
+    <dimen name="outfit_accessory_height">225dp</dimen>
     <dimen name="outfit_accessory_margin">5dp</dimen>
     <dimen name="outfit_fullBody_height">324dp</dimen>
 
@@ -80,5 +80,6 @@
     <dimen name="carousel_padding">5dp</dimen>
     <dimen name="carousel_image_size">200dp</dimen>
     <dimen name="carousel_full_body_height">400dp</dimen>
+    <dimen name="carousel_margin">3dp</dimen>
 
 </resources>

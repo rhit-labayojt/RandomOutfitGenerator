@@ -48,6 +48,7 @@
         <item name="android:layout_width">@dimen/carousel_image_size</item>
         <item name="android:layout_height">@dimen/carousel_image_size</item>
         <item name="android:padding">@dimen/carousel_padding</item>
+        <item name="android:layout_margin">@dimen/carousel_margin</item>
     </style>
 
     //----------------------Closet Fragment Themes-----------------
@@ -98,8 +99,6 @@
         <item name="android:layout_height">@dimen/outfit_accessory_height</item>
         <item name="android:layout_margin">@dimen/outfit_accessory_margin</item>
     </style>
-
-    //---------------------Saved Outfits Fragment Themes------------
 
     //---------------------Settings Fragment Themes-------------------
 

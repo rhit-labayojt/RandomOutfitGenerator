@@ -103,10 +103,9 @@ class ClosetViewModel: ViewModel() {
                     return@addSnapshotListener
                 }
 
-                var idx = 0
+                closet.recentOutfits.clear()
                 snapshot?.documents?.forEach {
                     closet.recentOutfits.add(Outfit.from(it))
-                    idx++
                 }
                 recentOutfitIndexToAdd = closet.recentOutfits.size
                 observer()
