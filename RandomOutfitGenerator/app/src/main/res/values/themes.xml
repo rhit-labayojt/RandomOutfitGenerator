@@ -44,6 +44,11 @@
     </style>
 
     //--------------------Home Fragment Themes--------------------
+    <style name="carousel_image_theme">
+        <item name="android:layout_width">@dimen/carousel_image_size</item>
+        <item name="android:layout_height">@dimen/carousel_image_size</item>
+        <item name="android:padding">@dimen/carousel_padding</item>
+    </style>
 
     //----------------------Closet Fragment Themes-----------------
     <style name="closet_header_theme">

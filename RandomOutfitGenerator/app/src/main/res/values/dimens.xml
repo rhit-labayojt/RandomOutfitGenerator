@@ -75,4 +75,10 @@
     <dimen name="tag_text_size">12sp</dimen>
     <dimen name="tags_recycler_height">200dp</dimen>
 
+    //-----------------Home Fragment---------------
+    <dimen name="carousel_width">425dp</dimen>
+    <dimen name="carousel_padding">5dp</dimen>
+    <dimen name="carousel_image_size">200dp</dimen>
+    <dimen name="carousel_full_body_height">400dp</dimen>
+
 </resources>

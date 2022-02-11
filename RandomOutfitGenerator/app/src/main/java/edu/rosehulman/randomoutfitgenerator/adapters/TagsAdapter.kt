@@ -78,7 +78,6 @@ class TagsAdapter(val fragment: Fragment, val tagType: String, val tagList: Arra
     override fun getItemCount() = tagList.size
 
     fun update(){
-        //viewHolder.toggleEdit()
         notifyDataSetChanged()
     }
 
@@ -131,16 +130,5 @@ class TagsAdapter(val fragment: Fragment, val tagType: String, val tagList: Arra
 
         }
 
-        fun toggleEdit(){
-            if(userModel.editUser){
-                tagValue.visibility = View.GONE
-                checkableTagValue.visibility = View.VISIBLE
-            }else{
-                checkableTagValue.visibility = View.VISIBLE
-                tagValue.visibility = View.GONE
-            }
-
-            notifyDataSetChanged()
-        }
     }
 }

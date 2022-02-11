@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     tools:context=".ui.HomeFragment">
 
-    <androidx.constraintlayout.helper.widget.Carousel
-        android:id="@+id/outfit_carousel"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/outfit_carousel"
+        android:layout_width="@dimen/carousel_width"
+        android:layout_height="wrap_content"
         android:layout_centerInParent="true" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -29,4 +28,5 @@
         android:scaleX="3"
         android:scaleY="3"
         android:src="@drawable/ic_baseline_cloud_24" />
+
 </RelativeLayout>

@@ -1,16 +1,24 @@
 package edu.rosehulman.randomoutfitgenerator.adapters
 
+import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.constraintlayout.helper.widget.Carousel
+import android.widget.ImageView
+import android.widget.RelativeLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
+import coil.load
+import coil.transform.RoundedCornersTransformation
+import edu.rosehulman.randomoutfitgenerator.Constants
+import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
+import edu.rosehulman.randomoutfitgenerator.objects.Outfit
 
 class CarouselAdapter(val fragment: Fragment): RecyclerView.Adapter<CarouselAdapter.CarouselViewHolder>() {
-    private var model = ViewModelProvider(fragment.requireActivity()).get(ClosetViewModel::class.java)
-
+    private val model = ViewModelProvider(fragment.requireActivity()).get(ClosetViewModel::class.java)
     /**
      * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
      * an item.
@@ -34,8 +42,12 @@ class CarouselAdapter(val fragment: Fragment): RecyclerView.Adapter<CarouselAdap
      * @see .getItemViewType
      * @see .onBindViewHolder
      */
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CarouselViewHolder {
-        TODO("Not yet implemented")
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): CarouselAdapter.CarouselViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.carousel_layout, parent, false)
+        return CarouselViewHolder(view)
     }
 
     /**
@@ -59,8 +71,8 @@ class CarouselAdapter(val fragment: Fragment): RecyclerView.Adapter<CarouselAdap
      * item at the given position in the data set.
      * @param position The position of the item within the adapter's data set.
      */
-    override fun onBindViewHolder(holder: CarouselViewHolder, position: Int) {
-        TODO("Not yet implemented")
+    override fun onBindViewHolder(holder: CarouselAdapter.CarouselViewHolder, position: Int) {
+        holder.bind(model.closet.recentOutfits[position])
     }
 
     /**
@@ -68,11 +80,63 @@ class CarouselAdapter(val fragment: Fragment): RecyclerView.Adapter<CarouselAdap
      *
      * @return The total number of items in this adapter.
      */
-    override fun getItemCount(): Int {
-        TODO("Not yet implemented")
-    }
+    override fun getItemCount() = model.closet.recentOutfits.size
 
     inner class CarouselViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
+        private val layout: RelativeLayout = itemView.findViewById<RelativeLayout>(R.id.carousel_holder)
+        private val top: ImageView = itemView.findViewById<ImageView>(R.id.home_top)
+        private val bottom: ImageView = itemView.findViewById<ImageView>(R.id.home_bottom)
+        private val shoes: ImageView = itemView.findViewById<ImageView>(R.id.home_shoes)
+        private val accessories: ImageView = itemView.findViewById<ImageView>(R.id.home_accessories)
+        private val fullBody: ImageView = itemView.findViewById<ImageView>(R.id.home_full_body)
 
+        init{
+            layout.setOnClickListener{
+                model.updateCurrentRecentOutfit(adapterPosition)
+                model.randomOutfit = true
+                fragment.findNavController().navigate(R.id.nav_outfit)
+            }
+        }
+
+        fun bind(fit: Outfit?){
+            setImages(fit!!)
+        }
+
+        private fun setImages(fit: Outfit){
+            if(fit.isFullBody){
+                top.visibility = View.INVISIBLE
+                bottom.visibility = View.INVISIBLE
+                fullBody.visibility = View.VISIBLE
+
+                fullBody.load(fit.fullBodyImage) {
+                    crossfade(true)
+                    transformations(RoundedCornersTransformation())
+                }
+            }else{
+                top.visibility = View.VISIBLE
+                bottom.visibility = View.VISIBLE
+                fullBody.visibility = View.INVISIBLE
+
+                top.load(fit.top) {
+                    crossfade(true)
+                    transformations(RoundedCornersTransformation())
+                }
+
+                bottom.load(fit.bottom) {
+                    crossfade(true)
+                    transformations(RoundedCornersTransformation())
+                }
+            }
+
+            accessories.load(fit.accessories[0]) {
+                crossfade(true)
+                transformations(RoundedCornersTransformation())
+            }
+
+            shoes.load(fit.shoes) {
+                crossfade(true)
+                transformations(RoundedCornersTransformation())
+            }
+        }
     }
 }

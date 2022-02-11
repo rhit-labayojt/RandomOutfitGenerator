@@ -75,6 +75,7 @@ class OutfitFragment: Fragment() {
             binding.outfitViewFragment.visibility = View.VISIBLE
         }
 
+        setHasOptionsMenu(true)
 
         var currentOutfit = model.currentOutfit!!
 
@@ -141,7 +142,7 @@ class OutfitFragment: Fragment() {
             binding.outfitTopCat.visibility = View.GONE
             binding.outfitBottomCat.visibility = View.GONE
 
-            binding.outfitTopCat.text = "Top: ${currentOutfit.fullBodyCat}"
+            binding.outfitFullBodyCat.text = "Full Body: ${currentOutfit.fullBodyCat}"
         }else{
             binding.outfitFullBodyCat.visibility = View.GONE
             binding.outfitTopCat.visibility = View.VISIBLE

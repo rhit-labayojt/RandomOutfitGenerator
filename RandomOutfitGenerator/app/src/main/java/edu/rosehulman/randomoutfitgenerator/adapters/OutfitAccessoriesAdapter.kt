@@ -4,15 +4,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
 import coil.transform.RoundedCornersTransformation
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
-import edu.rosehulman.randomoutfitgenerator.ui.OutfitFragment
 
-class OutfitAccessoriesAdapter(val fragment: OutfitFragment): RecyclerView.Adapter<OutfitAccessoriesAdapter.AccessoriesViewHolder>() {
+class OutfitAccessoriesAdapter(val fragment: Fragment): RecyclerView.Adapter<OutfitAccessoriesAdapter.AccessoriesViewHolder>() {
     private val model = ViewModelProvider(fragment.requireActivity()).get(ClosetViewModel::class.java)
 
     /**
