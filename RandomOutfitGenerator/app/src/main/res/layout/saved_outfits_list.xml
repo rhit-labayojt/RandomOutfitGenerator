@@ -8,6 +8,7 @@
         android:text="@string/tops" />
 
     <androidx.recyclerview.widget.RecyclerView android:id="@+id/outfit_grid"
-        style="@style/closet_recycler_view_theme" />
+        style="@style/closet_recycler_view_theme"
+        android:layout_below="@id/outfit_style"/>
 
 </RelativeLayout>

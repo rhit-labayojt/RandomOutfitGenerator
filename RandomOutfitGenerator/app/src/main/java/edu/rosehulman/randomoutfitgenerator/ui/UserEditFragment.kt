@@ -17,14 +17,22 @@ import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.TagsAdapter
 import edu.rosehulman.randomoutfitgenerator.adapters.TagsHolderAdapter
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentUserEditBinding
+import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
 import edu.rosehulman.randomoutfitgenerator.models.UserViewModel
 
 class UserEditFragment: Fragment() {
     private lateinit var binding: FragmentUserEditBinding
     private lateinit var userModel: UserViewModel
+    private lateinit var model: ClosetViewModel
     private var tagTypes = arrayOf("Styles", "Tops", "Bottoms", "Shoes", "Full Body", "Accessories")
     private lateinit var tagHolderAdapter: TagsHolderAdapter
     private var tagsAdapters = arrayListOf<TagsAdapter>()
+
+    companion object{
+        const val savedOutfitsListener = "SavedOutfitsUserEdit"
+        const val recentOutfitsListener = "RecentOutfitsUserEdit"
+        const val clothingListener = "ClothingUserEdit"
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -33,44 +41,53 @@ class UserEditFragment: Fragment() {
     ): View? {
         binding = FragmentUserEditBinding.inflate(inflater, container, false)
         userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
 
-        binding.userEditUserName.setText(userModel.user!!.name)
-        binding.userEditChangeName.setText(binding.userEditUserName.text)
-        binding.userEditChangeName.setHint("Enter a name")
+        binding.userEditPage.visibility = View.GONE // Hide page until all clothing has been loaded
 
-        if(userModel.editUser || !userModel.user!!.hasCompletedSetup){
-            if(!userModel.editUser){
-                userModel.editUser = true
-            }
-            binding.userEditUserName.visibility = View.INVISIBLE
-            binding.logoutButton.visibility = View.INVISIBLE
-            binding.logoutButton.isClickable = false
-            binding.userEditChangeName.visibility = View.VISIBLE
-
-            binding.userEditChangeName.setText(userModel.user!!.name)
-            binding.editButton.setText("Done")
-        }else{
-            binding.userEditChangeName.visibility = View.GONE
-            binding.logoutButton.visibility = View.VISIBLE
-            binding.logoutButton.isClickable = true
-            binding.userEditUserName.visibility = View.VISIBLE
+        model.addRecentOutfitsListener(recentOutfitsListener){}
+        model.addSavedOutfitsListener(savedOutfitsListener){}
+        model.addClothingListener(clothingListener){
+            binding.userEditPage.visibility = View.VISIBLE // Show the user_edit page after all clothing has been loaded
 
             binding.userEditUserName.setText(userModel.user!!.name)
-            binding.editButton.setText("Edit")
+            binding.userEditChangeName.setText(binding.userEditUserName.text)
+            binding.userEditChangeName.setHint("Enter a name")
+
+            if(userModel.editUser || !userModel.user!!.hasCompletedSetup){
+                if(!userModel.editUser){
+                    userModel.editUser = true
+                }
+                binding.userEditUserName.visibility = View.INVISIBLE
+                binding.logoutButton.visibility = View.INVISIBLE
+                binding.logoutButton.isClickable = false
+                binding.userEditChangeName.visibility = View.VISIBLE
+
+                binding.userEditChangeName.setText(userModel.user!!.name)
+                binding.editButton.setText("Done")
+            }else{
+                binding.userEditChangeName.visibility = View.GONE
+                binding.logoutButton.visibility = View.VISIBLE
+                binding.logoutButton.isClickable = true
+                binding.userEditUserName.visibility = View.VISIBLE
+
+                binding.userEditUserName.setText(userModel.user!!.name)
+                binding.editButton.setText("Edit")
+            }
+
+            tagTypes.forEach{ userModel.buildChangesMap(it) }
+            userModel.buildChangesMap("defaultStyle")
+
+            if(Firebase.auth.currentUser!!.email != null){
+                binding.userEditLoginMethod.setText("Email: ${Firebase.auth.currentUser!!.email}")
+            }else if(Firebase.auth.currentUser!!.phoneNumber != null){
+                binding.userEditLoginMethod.setText("Phone Number: ${Firebase.auth.currentUser!!.phoneNumber}")
+            }
+
+            makeAdapters()
+            setup()
+            Log.d(Constants.TAG, "Setup Done")
         }
-
-        tagTypes.forEach{ userModel.buildChangesMap(it) }
-        userModel.buildChangesMap("defaultStyle")
-
-        if(Firebase.auth.currentUser!!.email != null){
-            binding.userEditLoginMethod.setText("Email: ${Firebase.auth.currentUser!!.email}")
-        }else if(Firebase.auth.currentUser!!.phoneNumber != null){
-            binding.userEditLoginMethod.setText("Phone Number: ${Firebase.auth.currentUser!!.phoneNumber}")
-        }
-
-        makeAdapters()
-        setup()
-        Log.d(Constants.TAG, "Setup Done")
 
         return binding.root
     }
@@ -146,6 +163,13 @@ class UserEditFragment: Fragment() {
         }
 
         (binding.userEditTags.adapter as TagsHolderAdapter).update()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        model.removeListener(recentOutfitsListener)
+        model.removeListener(savedOutfitsListener)
+        model.removeListener(clothingListener)
     }
 
 }

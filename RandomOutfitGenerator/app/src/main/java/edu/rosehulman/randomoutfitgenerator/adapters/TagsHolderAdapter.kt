@@ -11,11 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.randomoutfitgenerator.Constants
 import edu.rosehulman.randomoutfitgenerator.R
+import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
 import edu.rosehulman.randomoutfitgenerator.models.UserViewModel
 import edu.rosehulman.randomoutfitgenerator.ui.UserEditFragment
 
 class TagsHolderAdapter(val fragment: UserEditFragment, val tagTypes: Array<String>, val tagsAdapters: ArrayList<TagsAdapter>): RecyclerView.Adapter<TagsHolderAdapter.TagsHolderViewHolder>() {
    private val userModel = ViewModelProvider(fragment.requireActivity()).get(UserViewModel::class.java)
+    private val model = ViewModelProvider(fragment.requireActivity()).get(ClosetViewModel::class.java)
     /**
      * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
      * an item.
@@ -81,7 +83,6 @@ class TagsHolderAdapter(val fragment: UserEditFragment, val tagTypes: Array<Stri
 
     fun update(){
         notifyDataSetChanged()
-        //viewHolder.update()
         tagsAdapters.forEach { it.update() }
     }
 
@@ -262,6 +263,8 @@ class TagsHolderAdapter(val fragment: UserEditFragment, val tagTypes: Array<Stri
                 }
             }
 
+            deleteTagsFromModel(tagTypes[adapterPosition])
+
             notifyDataSetChanged()
         }
 
@@ -304,19 +307,36 @@ class TagsHolderAdapter(val fragment: UserEditFragment, val tagTypes: Array<Stri
 
         }
 
-        fun update(){
-            if(userModel.editUser){
-                delete.visibility = View.VISIBLE
-                add.visibility = View.VISIBLE
-                newTag.visibility = View.VISIBLE
-            }else{
-                delete.visibility = View.GONE
-                add.visibility = View.GONE
-                newTag.visibility = View.GONE
-                setDefaultStyle.visibility = View.GONE
-            }
+        fun deleteTagsFromModel(tag: String){
+            when(tag){
+                "Styles" -> {
+                    userModel.tagChanges.get(tag)!!.forEach { style: String ->
+                        model.closet.savedOutfits.forEach { it.style = "Other" }
+                        model.closet.recentOutfits.forEach { it!!.style = "Other" }
+                        model.closet.clothing.forEach { it.getStyles().remove((style)) }
+                    }
+                }
 
-            notifyDataSetChanged()
+                "Tops" -> userModel.tagChanges.get(tag)!!.forEach {
+                    model.closet.clothing.filter{it.getSuperCat() == tag}.forEach { it.setSubCat(userModel.user!!.topsTags[0]) }
+                }
+
+                "Bottoms" -> userModel.tagChanges.get(tag)!!.forEach {
+                    model.closet.clothing.filter{it.getSuperCat() == tag}.forEach { it.setSubCat(userModel.user!!.bottomsTags[0]) }
+                }
+
+                "Shoes" -> userModel.tagChanges.get(tag)!!.forEach {
+                    model.closet.clothing.filter{it.getSuperCat() == tag}.forEach { it.setSubCat(userModel.user!!.shoesTags[0]) }
+                }
+
+                "Accessories" -> userModel.tagChanges.get(tag)!!.forEach {
+                    model.closet.clothing.filter{it.getSuperCat() == tag}.forEach { it.setSubCat(userModel.user!!.accessoriesTags[0]) }
+                }
+
+                else -> userModel.tagChanges.get(tag)!!.forEach {
+                    model.closet.clothing.filter{it.getSuperCat() == tag}.forEach { it.setSubCat(userModel.user!!.fullBodyTags[0]) }
+                }
+            }
         }
     }
 }

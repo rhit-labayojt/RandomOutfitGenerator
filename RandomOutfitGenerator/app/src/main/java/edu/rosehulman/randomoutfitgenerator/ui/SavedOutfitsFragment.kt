@@ -12,6 +12,7 @@ import edu.rosehulman.randomoutfitgenerator.adapters.SavedOutfitsAdapter
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentSavedOutfitsBinding
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
 import edu.rosehulman.randomoutfitgenerator.models.UserViewModel
+import edu.rosehulman.randomoutfitgenerator.objects.SavedOutfitStyles
 
 class SavedOutfitsFragment: Fragment() {
     private lateinit var binding: FragmentSavedOutfitsBinding
@@ -37,9 +38,9 @@ class SavedOutfitsFragment: Fragment() {
             binding.savedOutfits.visibility = View.VISIBLE
         }
 
-        var styles = ArrayList<String>()
-        styles.addAll(userModel.user!!.styles)
-        styles.add("Other")
+        var styles = ArrayList<SavedOutfitStyles>()
+        userModel.user!!.styles.forEach { styles.add(SavedOutfitStyles(it, false)) }
+        styles.add(SavedOutfitStyles("Other", false))
 
         binding.savedOutfits.adapter = SavedOutfitsAdapter(this, styles)
         binding.savedOutfits.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)

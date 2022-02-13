@@ -13,8 +13,9 @@ import edu.rosehulman.randomoutfitgenerator.Constants
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
 import edu.rosehulman.randomoutfitgenerator.objects.Outfit
+import edu.rosehulman.randomoutfitgenerator.objects.SavedOutfitStyles
 
-class SavedOutfitsAdapter(val fragment: Fragment, val styles: ArrayList<String>): RecyclerView.Adapter<SavedOutfitsAdapter.SavedOutfitsViewHolder>() {
+class SavedOutfitsAdapter(val fragment: Fragment, val styles: ArrayList<SavedOutfitStyles>): RecyclerView.Adapter<SavedOutfitsAdapter.SavedOutfitsViewHolder>() {
     private val model = ViewModelProvider(fragment.requireActivity()).get(ClosetViewModel::class.java)
     /**
      * Called when RecyclerView needs a new [ViewHolder] of the given type to represent
@@ -88,36 +89,44 @@ class SavedOutfitsAdapter(val fragment: Fragment, val styles: ArrayList<String>)
 
         init{
             style.setOnClickListener{
-                Log.d(Constants.TAG, "Clicked ${styles[adapterPosition]}")
+                Log.d(Constants.TAG, "Clicked ${styles[adapterPosition].style}")
                 toggleVisibility()
-
                 notifyDataSetChanged()
             }
 
-            outfits.visibility = View.GONE
+//            outfits.visibility = View.GONE
         }
 
-        fun bind(styleString: String){
-            style.setText(styleString)
-
-            var outfitList = model.closet.savedOutfits.filter{it.style == styleString}
+        fun bind(currentStyle: SavedOutfitStyles){
+            var outfitList = model.closet.savedOutfits.filter{it.style == currentStyle.style}
             Log.d(Constants.TAG, "${outfitList.size}")
-            var adapter = OutfitDisplayAdapter(fragment, outfitList as ArrayList<Outfit?>)
-            outfits.adapter = adapter
-            outfits.layoutManager = GridLayoutManager(fragment.requireContext(), 3, GridLayoutManager.VERTICAL, false)
-            outfits.setHasFixedSize(true)
+
+            if(outfitList.isEmpty()){
+                Log.d(Constants.TAG, "${currentStyle.style} is GONE")
+                style.visibility = View.GONE
+                outfits.visibility = View.GONE
+            }else{
+                Log.d(Constants.TAG, "${currentStyle.style} is VISIBLE")
+                style.visibility = View.VISIBLE
+
+                if(currentStyle.isVisible){
+                    outfits.visibility = View.VISIBLE
+                }else{
+                    outfits.visibility = View.GONE
+                }
+
+                style.setText(currentStyle.style)
+                var adapter = OutfitDisplayAdapter(fragment, outfitList as ArrayList<Outfit?>)
+                outfits.adapter = adapter
+                outfits.layoutManager = GridLayoutManager(fragment.requireContext(), 3, GridLayoutManager.VERTICAL, false)
+                outfits.setHasFixedSize(true)
+            }
+
 
         }
 
         private fun toggleVisibility(){
-            Log.d(Constants.TAG, "Visibility: ${outfits.visibility == View.GONE}")
-            if(outfits.visibility == View.GONE) {
-                Log.d(Constants.TAG, "Make Visible")
-                outfits.visibility = View.VISIBLE
-            }else{
-                Log.d(Constants.TAG, "Disappear")
-                outfits.visibility = View.GONE
-            }
+            styles[adapterPosition].isVisible = !styles[adapterPosition].isVisible
         }
     }
 }
