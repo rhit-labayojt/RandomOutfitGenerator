@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.DividerItemDecoration
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentSettingsBinding
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
@@ -24,8 +25,7 @@ class SettingsFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSettingsBinding.inflate(inflater, container, false)
-
-        binding.testEdit.setOnClickListener {
+        binding.userEdit.setOnClickListener {
             findNavController().navigate(R.id.nav_user_edit)
         }
 

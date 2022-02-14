@@ -39,7 +39,7 @@
     <dimen name="outfit_text_margin">12dp</dimen>
     <dimen name="outfit_accessory_height">225dp</dimen>
     <dimen name="outfit_accessory_margin">5dp</dimen>
-    <dimen name="outfit_fullBody_height">324dp</dimen>
+    <dimen name="outfit_fullBody_height">524dp</dimen>
 
     //-------------------Splash Fragment------------
     <dimen name="splash_text_size">36sp</dimen>
@@ -81,5 +81,8 @@
     <dimen name="carousel_image_size">200dp</dimen>
     <dimen name="carousel_full_body_height">400dp</dimen>
     <dimen name="carousel_margin">3dp</dimen>
+
+    //----------Settings Fragment------------------
+    <dimen name="settings_button_text_size">36sp</dimen>
 
 </resources>

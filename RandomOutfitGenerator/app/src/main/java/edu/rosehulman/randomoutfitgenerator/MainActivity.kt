@@ -1,6 +1,7 @@
 package edu.rosehulman.randomoutfitgenerator
 
 import android.os.Bundle
+import android.widget.TextView
 import com.google.android.material.navigation.NavigationView
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var authListener: FirebaseAuth.AuthStateListener
     private lateinit var model: ClosetViewModel
+//    private lateinit var myUser: UserViewModel
 
     private val signinLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -67,6 +69,7 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_settings
             ), drawerLayout
         )
+
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
     }
@@ -91,6 +94,18 @@ class MainActivity : AppCompatActivity() {
                                 R.id.nav_host_fragment_content_main).currentDestination!!.id
 
                             if(id == R.id.nav_splash){
+
+                                        var username = findViewById<TextView>(R.id.nav_drawer_name)
+                                        var login = findViewById<TextView>(R.id.nav_drawer_login_info)
+
+                                        username.setText(userModel.user!!.name)
+
+                                        if(Firebase.auth.currentUser!!.email != null){
+                                            login.setText("Email: ${Firebase.auth.currentUser!!.email}")
+                                        }else{
+                                            login.setText("Phone: ${Firebase.auth.currentUser!!.phoneNumber}")
+                                        }
+
                                 findNavController(R.id.nav_host_fragment_content_main)
                                     .navigate(R.id.nav_home)
                             }

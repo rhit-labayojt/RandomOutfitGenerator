@@ -57,9 +57,6 @@ class RandomizationFragment: Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         return when(item.itemId){
             R.id.generate_outfit ->{
-                if(weatherType == ""){
-                    weatherType = Closet.weathers[2]
-                }
 
                 if(styleType == ""){
                     styleType = userModel.user!!.defaultStyle
@@ -206,7 +203,12 @@ class RandomizationFragment: Fragment() {
             outfitClothing.add(shoeOptions.get(Random.nextInt(shoeOptions.size)))
             accessoryOptions.forEach { outfitClothing.add(it.get(Random.nextInt(it.size))) }
 
-            var newOutfit = Outfit(outfitClothing, styleType, weatherType, false)
+            var newOutfit: Outfit
+            if(weatherType == ""){
+                newOutfit = Outfit(outfitClothing, styleType, "Any", false)
+            }else{
+                newOutfit = Outfit(outfitClothing, styleType, weatherType, false)
+            }
             model.addRecentOutfit(newOutfit)
 
             resetFields()
@@ -237,7 +239,12 @@ class RandomizationFragment: Fragment() {
             outfitClothing.add(shoeOptions.get(Random.nextInt(shoeOptions.size)))
             accessoryOptions.forEach { outfitClothing.add(it.get(Random.nextInt(it.size))) }
 
-            var newOutfit = Outfit(outfitClothing, styleType, weatherType, true)
+            var newOutfit: Outfit
+            if(weatherType == ""){
+                newOutfit = Outfit(outfitClothing, styleType, "Any", true)
+            }else{
+                newOutfit = Outfit(outfitClothing, styleType, weatherType, true)
+            }
             model.addRecentOutfit(newOutfit)
             findNavController().navigate(R.id.nav_outfit)
         }else{
@@ -251,83 +258,131 @@ class RandomizationFragment: Fragment() {
     private fun getOptionsList(type: String, superCat: String): List<Clothing>{
         var list: List<Clothing>
 
-        when(superCat){
-            Closet.superCategories[0] -> {
-                if(userModel.user!!.topsTags.contains(type)){
-                    list = model.closet.clothing.filter{it: Clothing ->
-                        it.getSubCat()==type &&
-                                it.getStyles().contains(styleType) &&
-                                it.getWeathers().contains(weatherType)
+        if(weatherType == ""){
+            when (superCat) {
+                Closet.superCategories[0] -> {
+                    if (userModel.user!!.topsTags.contains(type)) {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSubCat() == type &&
+                                    it.getStyles().contains(styleType) }
+                    } else {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSuperCat() == superCat &&
+                                    it.getStyles().contains(styleType)}
                     }
-                }else{
-                    list = model.closet.clothing.filter{it: Clothing ->
-                        it.getSuperCat() == superCat &&
-                                it.getStyles().contains(styleType) &&
-                                it.getWeathers().contains(weatherType)
+                }
+
+                Closet.superCategories[1] -> {
+                    if (userModel.user!!.bottomsTags.contains(type)) {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSubCat() == type &&
+                                    it.getStyles().contains(styleType)}
+                    } else {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSuperCat() == superCat &&
+                                    it.getStyles().contains(styleType)}
+                    }
+                }
+
+                Closet.superCategories[3] -> {
+                    if (userModel.user!!.shoesTags.contains(type)) {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSubCat() == type &&
+                                    it.getStyles().contains(styleType)}
+                    } else {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSuperCat() == superCat &&
+                                    it.getStyles().contains(styleType)}
+                    }
+                }
+
+                Closet.superCategories[2] -> {
+                    if (userModel.user!!.accessoriesTags.contains(type)) {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSubCat() == type &&
+                                    it.getStyles().contains(styleType)}
+                    } else {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSuperCat() == superCat &&
+                                    it.getStyles().contains(styleType)}
+                    }
+                }
+
+                else -> {
+                    if (userModel.user!!.fullBodyTags.contains(type)) {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSubCat() == type &&
+                                    it.getStyles().contains(styleType)}
+                    } else {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSuperCat() == superCat &&
+                                    it.getStyles().contains(styleType)}
                     }
                 }
             }
-
-            Closet.superCategories[1] -> {
-                if(userModel.user!!.bottomsTags.contains(type)){
-                    list = model.closet.clothing.filter{it: Clothing ->
-                        it.getSubCat()==type &&
-                                it.getStyles().contains(styleType) &&
-                                it.getWeathers().contains(weatherType)
-                    }
-                }else{
-                    list = model.closet.clothing.filter{it: Clothing ->
-                        it.getSuperCat() == superCat &&
-                                it.getStyles().contains(styleType) &&
-                                it.getWeathers().contains(weatherType)
+        }else {
+            when (superCat) {
+                Closet.superCategories[0] -> {
+                    if (userModel.user!!.topsTags.contains(type)) {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSubCat() == type &&
+                                    it.getStyles().contains(styleType)}
+                    } else {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSuperCat() == superCat &&
+                                    it.getStyles().contains(styleType)}
                     }
                 }
-            }
 
-            Closet.superCategories[3] -> {
-                if(userModel.user!!.shoesTags.contains(type)){
-                    list = model.closet.clothing.filter{it: Clothing ->
-                        it.getSubCat()==type &&
-                                it.getStyles().contains(styleType) &&
-                                it.getWeathers().contains(weatherType)
-                    }
-                }else{
-                    list = model.closet.clothing.filter{it: Clothing ->
-                        it.getSuperCat() == superCat &&
-                                it.getStyles().contains(styleType) &&
-                                it.getWeathers().contains(weatherType)
+                Closet.superCategories[1] -> {
+                    if (userModel.user!!.bottomsTags.contains(type)) {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSubCat() == type &&
+                                    it.getStyles().contains(styleType) &&
+                                    it.getWeathers().contains(weatherType)
+                        }
+                    } else {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSuperCat() == superCat &&
+                                    it.getStyles().contains(styleType)}
                     }
                 }
-            }
 
-            Closet.superCategories[2] -> {
-                if(userModel.user!!.accessoriesTags.contains(type)){
-                    list = model.closet.clothing.filter{it: Clothing ->
-                        it.getSubCat()==type &&
-                                it.getStyles().contains(styleType) &&
-                                it.getWeathers().contains(weatherType)
-                    }
-                }else{
-                    list = model.closet.clothing.filter{it: Clothing ->
-                        it.getSuperCat() == superCat &&
-                                it.getStyles().contains(styleType) &&
-                                it.getWeathers().contains(weatherType)
+                Closet.superCategories[3] -> {
+                    if (userModel.user!!.shoesTags.contains(type)) {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSubCat() == type &&
+                                    it.getStyles().contains(styleType) &&
+                                    it.getWeathers().contains(weatherType)
+                        }
+                    } else {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSuperCat() == superCat &&
+                                    it.getStyles().contains(styleType)}
                     }
                 }
-            }
 
-            else -> {
-                if(userModel.user!!.fullBodyTags.contains(type)){
-                    list = model.closet.clothing.filter{it: Clothing ->
-                        it.getSubCat()==type &&
-                                it.getStyles().contains(styleType) &&
-                                it.getWeathers().contains(weatherType)
+                Closet.superCategories[2] -> {
+                    if (userModel.user!!.accessoriesTags.contains(type)) {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSubCat() == type &&
+                                    it.getStyles().contains(styleType)}
+                    } else {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSuperCat() == superCat &&
+                                    it.getStyles().contains(styleType)}
                     }
-                }else{
-                    list = model.closet.clothing.filter{it: Clothing ->
-                        it.getSuperCat() == superCat &&
-                                it.getStyles().contains(styleType) &&
-                                it.getWeathers().contains(weatherType)
+                }
+
+                else -> {
+                    if (userModel.user!!.fullBodyTags.contains(type)) {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSubCat() == type &&
+                                    it.getStyles().contains(styleType) }
+                    } else {
+                        list = model.closet.clothing.filter { it: Clothing ->
+                            it.getSuperCat() == superCat &&
+                                    it.getStyles().contains(styleType)}
                     }
                 }
             }

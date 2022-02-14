@@ -9,6 +9,8 @@
         <item name="colorSecondary">@color/spanish_gray</item>
         <item name="colorSecondaryVariant">@color/blizzard_blue</item>
         <item name="colorOnSecondary">@color/white</item>
+        <!-- Background Color. -->
+        <item name="colorOnBackground">@color/platinum</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
@@ -101,6 +103,14 @@
     </style>
 
     //---------------------Settings Fragment Themes-------------------
+    <style name="settings_button">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/settings_button_text_size</item>
+        <item name="android:backgroundTint">?attr/colorOnBackground</item>
+        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:gravity">left|center_vertical</item>
+    </style>
 
     //----------------------User Edit Themes-------------------------
     <style name="user_edit_name">
@@ -210,7 +220,7 @@
         <item name="android:layout_width">@dimen/clothing_edit_spinner_width</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/clothing_edit_text</item>
-        <item name="android:background">@color/platinum</item>
+        <item name="android:background">?attr/colorOnBackground</item>
         <item name="android:textColor">?attr/colorPrimaryVariant</item>
         <item name="android:paddingLeft">@dimen/clothing_edit_spinner_padding_left</item>
         <item name="android:paddingRight">@dimen/clothing_edit_spinner_padding_right</item>
@@ -256,7 +266,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/randomization_dropdown_text_size</item>
-        <item name="android:background">@color/platinum</item>
+        <item name="android:background">?attr/colorOnBackground</item>
         <item name="android:textColor">?attr/colorPrimaryVariant</item>
         <item name="android:textStyle">bold</item>
         <item name="android:paddingLeft">@dimen/clothing_edit_spinner_padding_left</item>

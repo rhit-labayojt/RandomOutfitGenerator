@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -59,9 +60,13 @@ class HomeFragment : Fragment(), SensorEventListener {
             binding.outfitCarousel.adapter = OutfitDisplayAdapter(this, model.closet.recentOutfits)
         }
 
-        binding.outfitCarousel.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
-        binding.outfitCarousel.setHasFixedSize(true)
-        binding.outfitCarousel.addItemDecoration(DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL))
+        binding.outfitCarousel.apply{
+            layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
+            setHasFixedSize(true)
+            var itemDecoration = DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL)
+            itemDecoration.setDrawable(getDrawable(requireContext(), R.drawable.thick_divider)!!)
+            addItemDecoration(itemDecoration)
+        }
 
         binding.randomOutfitFab.setOnClickListener {
             findNavController().navigate(R.id.nav_randomization)
