@@ -5,8 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.appcompat.content.res.AppCompatResources
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import edu.rosehulman.randomoutfitgenerator.Constants
@@ -94,10 +96,11 @@ class SavedOutfitsAdapter(val fragment: Fragment, val styles: ArrayList<SavedOut
                 notifyDataSetChanged()
             }
 
-//            outfits.visibility = View.GONE
+            outfits.visibility = View.GONE
         }
 
         fun bind(currentStyle: SavedOutfitStyles){
+
             var outfitList = model.closet.savedOutfits.filter{it.style == currentStyle.style}
             Log.d(Constants.TAG, "${outfitList.size}")
 
@@ -109,17 +112,22 @@ class SavedOutfitsAdapter(val fragment: Fragment, val styles: ArrayList<SavedOut
                 Log.d(Constants.TAG, "${currentStyle.style} is VISIBLE")
                 style.visibility = View.VISIBLE
 
+                style.setText(currentStyle.style)
+                var adapter = OutfitDisplayAdapter(fragment, outfitList as ArrayList<Outfit?>)
+                outfits.adapter = adapter
+                outfits.layoutManager = GridLayoutManager(fragment.requireContext(), 3, GridLayoutManager.VERTICAL, false)
+                var verticalItemDecoration = DividerItemDecoration(fragment.requireContext(), DividerItemDecoration.HORIZONTAL)
+                var horizontalItemDecoration = DividerItemDecoration(fragment.requireContext(), DividerItemDecoration.VERTICAL)
+                horizontalItemDecoration.setDrawable(AppCompatResources.getDrawable(fragment.requireContext(), R.drawable.thick_divider_horizontal)!!)
+                verticalItemDecoration.setDrawable(AppCompatResources.getDrawable(fragment.requireContext(), R.drawable.thick_divider_vertical)!!)
+                outfits.addItemDecoration(verticalItemDecoration)
+                outfits.addItemDecoration(horizontalItemDecoration)
+
                 if(currentStyle.isVisible){
                     outfits.visibility = View.VISIBLE
                 }else{
                     outfits.visibility = View.GONE
                 }
-
-                style.setText(currentStyle.style)
-                var adapter = OutfitDisplayAdapter(fragment, outfitList as ArrayList<Outfit?>)
-                outfits.adapter = adapter
-                outfits.layoutManager = GridLayoutManager(fragment.requireContext(), 3, GridLayoutManager.VERTICAL, false)
-                outfits.setHasFixedSize(true)
             }
 
 

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.HomeFragment"
-    android:background="@color/platinum">
+    android:background="?attr/colorOnBackground">
 
     <androidx.recyclerview.widget.RecyclerView android:id="@+id/outfit_carousel"
         android:layout_width="@dimen/carousel_width"

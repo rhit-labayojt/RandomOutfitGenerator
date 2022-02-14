@@ -1,17 +1,13 @@
 package edu.rosehulman.randomoutfitgenerator.ui
 
 import android.content.Context
-import android.hardware.Sensor
-import android.hardware.SensorEvent
-import android.hardware.SensorEventListener
-import android.hardware.SensorManager
+import android.hardware.*
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -22,14 +18,13 @@ import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.OutfitDisplayAdapter
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentHomeBinding
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
-import java.lang.Math.abs
 
 class HomeFragment : Fragment(), SensorEventListener {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var model: ClosetViewModel
     private lateinit var sensorManager: SensorManager
-    private var temperature: Sensor? = null
+//    private var temperature: Sensor? = null
     private var currentTemp: Float = 0.0F
 
     companion object{
@@ -46,7 +41,7 @@ class HomeFragment : Fragment(), SensorEventListener {
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
 
         sensorManager = requireActivity().getSystemService(Context.SENSOR_SERVICE) as SensorManager
-        temperature = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT)
+//        temperature = sensorManager.getDefaultSensor(Sensor.TYPE_AMBIENT_TEMPERATURE)
 
         binding.randomOutfitFab.visibility = View.GONE
         binding.weatherWidget.visibility = View.GONE
@@ -64,17 +59,17 @@ class HomeFragment : Fragment(), SensorEventListener {
             layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
             setHasFixedSize(true)
             var itemDecoration = DividerItemDecoration(context, DividerItemDecoration.HORIZONTAL)
-            itemDecoration.setDrawable(getDrawable(requireContext(), R.drawable.thick_divider)!!)
+            itemDecoration.setDrawable(getDrawable(requireContext(), R.drawable.thick_divider_vertical)!!)
             addItemDecoration(itemDecoration)
         }
 
         binding.randomOutfitFab.setOnClickListener {
             findNavController().navigate(R.id.nav_randomization)
-//            sensorManager.requestTriggerSensor()
+//            sensorManager.requestTriggerSensor(Trigger(), temperature)
         }
 
         binding.weatherWidget.setText("Current Temperature: $currentTemp defF")
-
+        Log.d(Constants.TAG,"${sensorManager.getSensorList(Sensor.TYPE_AMBIENT_TEMPERATURE)}")
         return binding.root
     }
 
@@ -96,7 +91,7 @@ class HomeFragment : Fragment(), SensorEventListener {
     override fun onResume() {
         // Register a listener for the sensor.
         super.onResume()
-        sensorManager.registerListener(this, temperature, SensorManager.SENSOR_DELAY_NORMAL)
+//        sensorManager.registerListener(this, temperature, SensorManager.SENSOR_DELAY_NORMAL)
     }
 
     override fun onPause() {
@@ -108,6 +103,20 @@ class HomeFragment : Fragment(), SensorEventListener {
     override fun onDestroyView(){
         super.onDestroyView()
         model.removeListener(fragmentName)
+    }
+
+    inner class Trigger(): TriggerEventListener() {
+        /**
+         * The method that will be called when the sensor
+         * is triggered. Override this method in your implementation
+         * of this class.
+         *
+         * @param event The details of the event.
+         */
+        override fun onTrigger(event: TriggerEvent?) {
+            Log.d(Constants.TAG, "${event!!.values[0]}")
+            binding.weatherWidget.setText("Temp: ${event!!.values[0]}")
+        }
     }
 
 

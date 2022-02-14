@@ -9,6 +9,8 @@
 
     <androidx.recyclerview.widget.RecyclerView android:id="@+id/outfit_grid"
         style="@style/closet_recycler_view_theme"
-        android:layout_below="@id/outfit_style"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/outfit_style"
+        android:scrollbars="vertical"/>
 
 </RelativeLayout>

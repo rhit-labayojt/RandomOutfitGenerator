@@ -80,9 +80,12 @@
     <dimen name="carousel_padding">5dp</dimen>
     <dimen name="carousel_image_size">200dp</dimen>
     <dimen name="carousel_full_body_height">400dp</dimen>
-    <dimen name="carousel_margin">3dp</dimen>
+    <dimen name="carousel_margin">0dp</dimen>
 
     //----------Settings Fragment------------------
     <dimen name="settings_button_text_size">36sp</dimen>
 
+    //-------------Divider-------------------------
+    <dimen name="divider_thickness">10dp</dimen>
+    <dimen name="divider_length">1dp</dimen>
 </resources>

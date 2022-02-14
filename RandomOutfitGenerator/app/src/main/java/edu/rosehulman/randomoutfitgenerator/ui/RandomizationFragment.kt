@@ -589,7 +589,7 @@ class RandomizationFragment: Fragment() {
             binding.randomWeather.setTextColor(MaterialColors.getColor(requireContext(), R.attr.colorPrimaryVariant, Color.BLUE))
             binding.randomWeather.setTypeface(Typeface.DEFAULT_BOLD)
 
-            val type = binding.randomStyle.adapter.getItem(position)
+            val type = binding.randomWeather.adapter.getItem(position)
             weatherType = type as String
         }
 

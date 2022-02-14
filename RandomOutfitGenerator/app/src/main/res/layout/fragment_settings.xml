@@ -8,5 +8,5 @@
 
     <Button android:id="@+id/user_edit"
         style="@style/settings_button"
-        android:text="User Edit" />
+        android:text="@string/settings_profile" />
 </RelativeLayout>

@@ -45,6 +45,8 @@ class UserEditFragment: Fragment() {
 
         binding.userEditPage.visibility = View.GONE // Hide page until all clothing has been loaded
 
+        setHasOptionsMenu(true)
+
         model.addRecentOutfitsListener(recentOutfitsListener){}
         model.addSavedOutfitsListener(savedOutfitsListener){}
         model.addClothingListener(clothingListener){
