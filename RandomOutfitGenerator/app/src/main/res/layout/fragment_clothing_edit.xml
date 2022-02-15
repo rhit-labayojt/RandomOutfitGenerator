@@ -1,38 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
-    
-    <ImageView android:id="@+id/clothing_edit_image"
-        android:layout_width="@dimen/clothing_edit_image_width"
-        android:layout_height="@dimen/clothing_edit_image_height"
-        android:layout_centerHorizontal="true"
-        android:layout_marginVertical="@dimen/clothing_edit_image_margin"/>
+    android:background="?attr/colorOnBackground"
+    android:fillViewport="true">
 
-    <Spinner android:id="@+id/super_cat_spinner"
-        style="@style/clothing_edit_spinner_theme"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/clothing_edit_image" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?attr/colorOnBackground">
 
-    <Spinner android:id="@+id/sub_cat_spinner"
-        style="@style/clothing_edit_spinner_theme"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@id/clothing_edit_image"/>
+        <ImageView android:id="@+id/clothing_edit_image"
+            android:layout_width="@dimen/clothing_edit_image_width"
+            android:layout_height="@dimen/clothing_edit_image_height"
+            android:layout_centerHorizontal="true"
+            android:layout_marginVertical="@dimen/clothing_edit_image_margin"/>
 
-    <TextView android:id="@+id/styles_options"
-        style="@style/spinner_item_selected"
-        android:layout_below="@id/sub_cat_spinner"
-        android:layout_marginTop="@dimen/clothing_edit_top_margin"
-        android:background="@color/platinum"
-        android:layout_marginLeft="@dimen/clothing_edit_styles_left"/>
+        <androidx.cardview.widget.CardView android:id="@+id/super_cat_cardview"
+            style="@style/clothing_edit_cardview"
+            app:cardCornerRadius="@dimen/clothing_edit_cardview_radius"
+            android:layout_below="@+id/clothing_edit_image">
 
-    <TextView android:id="@+id/weather_options"
-        style="@style/spinner_item_selected"
-        android:layout_below="@id/sub_cat_spinner"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="@dimen/clothing_edit_top_margin"
-        android:layout_marginRight="@dimen/clothing_edit_weather_margin_right"/>
+            <Spinner android:id="@+id/super_cat_spinner"
+                style="@style/clothing_edit_spinner_theme"
+                android:layout_below="@+id/clothing_edit_image" />
 
-</RelativeLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView android:id="@+id/sub_cat_cardview"
+            style="@style/clothing_edit_cardview"
+            app:cardCornerRadius="@dimen/clothing_edit_cardview_radius"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/clothing_edit_image">
+
+            <Spinner android:id="@+id/sub_cat_spinner"
+                style="@style/clothing_edit_spinner_theme" />
+
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView android:id="@+id/styles_cardview"
+            style="@style/clothing_edit_cardview"
+            app:cardCornerRadius="@dimen/clothing_edit_cardview_radius"
+            android:layout_alignParentStart="true"
+            android:layout_below="@id/sub_cat_cardview"
+            android:layout_marginTop="@dimen/clothing_edit_top_margin"
+            android:layout_marginLeft="@dimen/clothing_edit_styles_left">
+
+            <TextView android:id="@+id/styles_options"
+                style="@style/spinner_item_selected"/>
+
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView android:id="@+id/weather_cardview"
+            style="@style/clothing_edit_cardview"
+            app:cardCornerRadius="@dimen/clothing_edit_cardview_radius"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/sub_cat_cardview"
+            android:layout_marginTop="@dimen/clothing_edit_top_margin"
+            android:layout_marginRight="@dimen/clothing_edit_weather_margin_right">
+
+            <TextView android:id="@+id/weather_options"
+                style="@style/spinner_item_selected"/>
+
+        </androidx.cardview.widget.CardView>
+
+    </RelativeLayout>
+
+</ScrollView>

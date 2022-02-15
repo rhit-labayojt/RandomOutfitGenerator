@@ -19,9 +19,9 @@
     <dimen name="clothing_edit_image_height">300dp</dimen>
     <dimen name="clothing_edit_image_width">300dp</dimen>
     <dimen name="clothing_edit_image_margin">40dp</dimen>
-    <dimen name="clothing_edit_spinner_width">200dp</dimen>
+    <dimen name="clothing_edit_spinner_width">150dp</dimen>
     <dimen name="clothing_edit_text">20sp</dimen>
-    <dimen name="clothing_edit_spinner_margin">15dp</dimen>
+    <dimen name="clothing_edit_spinner_margin">10dp</dimen>
     <dimen name="clothing_edit_spinner_padding_left">10dp</dimen>
     <dimen name="clothing_edit_spinner_padding_right">40dp</dimen>
     <dimen name="clothing_edit_spinner_padding_vertical">10dp</dimen>
@@ -29,6 +29,10 @@
     <dimen name="clothing_edit_top_margin">40dp</dimen>
     <dimen name="clothing_edit_weather_margin_right">55dp</dimen>
     <dimen name="clothing_edit_styles_left">25dp</dimen>
+    <dimen name="clothing_edit_cardview_radius">50dp</dimen>
+    <dimen name="clothing_edit_cardview_padding">5dp</dimen>
+    <dimen name="clothing_edit_textview_margin">20dp</dimen>
+    <dimen name="styles_weather_width">300dp</dimen>
 
     //------------------Outfit Fragment-------------------------
     <dimen name="outfit_image_size">250dp</dimen>

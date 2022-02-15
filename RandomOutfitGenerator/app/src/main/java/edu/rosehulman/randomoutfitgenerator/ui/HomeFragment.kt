@@ -36,9 +36,11 @@ class HomeFragment : Fragment() {
         binding.randomOutfitFab.visibility = View.GONE
         binding.outfitCarousel.visibility = View.GONE
         binding.emptyCarouselImage.visibility = View.GONE
+        binding.recentOutfitsLabel.visibility = View.GONE
 
         model.addRecentOutfitsListener(fragmentName){
             binding.randomOutfitFab.visibility = View.VISIBLE
+            binding.recentOutfitsLabel.visibility = View.VISIBLE
 
             binding.outfitCarousel.adapter = OutfitDisplayAdapter(this, model.closet.recentOutfits)
 

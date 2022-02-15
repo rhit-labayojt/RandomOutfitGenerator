@@ -201,15 +201,24 @@
     </style>
 
     //---------------------Clothing Edit Themes---------------------
-    <style name="clothing_edit_spinner_theme">
+    <style name="clothing_edit_spinner_theme" parent="Widget.AppCompat.Spinner">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/clothing_edit_text</item>
         <item name="android:textColor">?attr/colorPrimaryVariant</item>
-        <item name="android:layout_marginHorizontal">@dimen/clothing_edit_spinner_margin</item>
         <item name="android:paddingLeft">@dimen/clothing_edit_spinner_padding_left</item>
         <item name="android:paddingRight">@dimen/clothing_edit_spinner_padding_right</item>
         <item name="android:paddingVertical">@dimen/clothing_edit_spinner_padding_vertical</item>
+        <item name="android:layout_margin">@dimen/clothing_edit_spinner_margin</item>
+        <item name="android:text">@string/dummy_string</item>
+    </style>
+
+    <style name="clothing_edit_cardview">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">?attr/colorPrimaryVariant</item>
+        <item name="android:layout_marginHorizontal">@dimen/clothing_edit_spinner_margin</item>
+        <item name="android:padding">@dimen/clothing_edit_cardview_padding</item>
     </style>
 
     <style name="spinner_item_dropdown">
@@ -227,11 +236,12 @@
         <item name="android:layout_width">@dimen/clothing_edit_spinner_width</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/clothing_edit_text</item>
-        <item name="android:background">?attr/colorOnBackground</item>
-        <item name="android:textColor">?attr/colorPrimaryVariant</item>
+        <item name="android:background">?attr/colorSecondaryVariant</item>
+        <item name="android:textColor">?attr/colorSecondary</item>
         <item name="android:paddingLeft">@dimen/clothing_edit_spinner_padding_left</item>
         <item name="android:paddingRight">@dimen/clothing_edit_spinner_padding_right</item>
         <item name="android:paddingVertical">@dimen/clothing_edit_spinner_padding_vertical</item>
+        <item name="android:layout_margin">@dimen/clothing_edit_textview_margin</item>
     </style>
 
     //----------------Randomization Themes------------------
