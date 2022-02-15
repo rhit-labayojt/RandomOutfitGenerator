@@ -76,16 +76,25 @@
     <dimen name="tags_recycler_height">200dp</dimen>
 
     //-----------------Home Fragment---------------
-    <dimen name="carousel_width">425dp</dimen>
     <dimen name="carousel_padding">5dp</dimen>
     <dimen name="carousel_image_size">200dp</dimen>
     <dimen name="carousel_full_body_height">400dp</dimen>
     <dimen name="carousel_margin">0dp</dimen>
+    <dimen name="outfit_view_margin">15dp</dimen>
+    <dimen name="home_cardview_radius">500dp</dimen>
+    <dimen name="outfit_label_text_size">48sp</dimen>
+    <dimen name="outfits_margin_horizontal">50dp</dimen>
 
     //----------Settings Fragment------------------
     <dimen name="settings_button_text_size">36sp</dimen>
+    <dimen name="settings_cardview_horizontal_margin">15dp</dimen>
+    <dimen name="settings_cardview_vertical_margin">1dp</dimen>
+    <dimen name="settings_cardview_radius">150dp</dimen>
 
     //-------------Divider-------------------------
-    <dimen name="divider_thickness">10dp</dimen>
+    <dimen name="divider_thickness">20dp</dimen>
     <dimen name="divider_length">1dp</dimen>
+
+    //--------------Saved Outfits-------------------
+    <dimen name="saved_outfits_margin">5dp</dimen>
 </resources>

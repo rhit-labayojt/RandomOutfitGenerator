@@ -7,6 +7,16 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/saved_outfits"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/saved_outfits_margin"/>
+
+    <TextView android:id="@+id/no_saved_outfits"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="@string/no_saved_outfits"
+        android:textColor="?attr/colorPrimaryVariant"
+        android:textSize="@dimen/closet_header_text"
+        android:textStyle="bold" />
 
 </RelativeLayout>

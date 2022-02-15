@@ -36,17 +36,26 @@ class SavedOutfitsFragment: Fragment() {
         userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
         binding.savedOutfits.visibility = View.GONE
+        binding.noSavedOutfits.visibility = View.GONE
+
         model.addSavedOutfitsListener(fragmentName){
-            binding.savedOutfits.visibility = View.VISIBLE
+            if(model.closet.savedOutfits.isEmpty()){
+                binding.savedOutfits.visibility = View.GONE
+                binding.noSavedOutfits.visibility =View.VISIBLE
+            }else {
+                binding.noSavedOutfits.visibility = View.GONE
+                binding.savedOutfits.visibility = View.VISIBLE
+
+                var styles = ArrayList<SavedOutfitStyles>()
+                userModel.user!!.styles.forEach { styles.add(SavedOutfitStyles(it, false)) }
+                styles.add(SavedOutfitStyles("Other", false))
+
+                binding.savedOutfits.adapter = SavedOutfitsAdapter(this, styles)
+                binding.savedOutfits.layoutManager =
+                    LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+                binding.savedOutfits.setHasFixedSize(true)
+            }
         }
-
-        var styles = ArrayList<SavedOutfitStyles>()
-        userModel.user!!.styles.forEach { styles.add(SavedOutfitStyles(it, false)) }
-        styles.add(SavedOutfitStyles("Other", false))
-
-        binding.savedOutfits.adapter = SavedOutfitsAdapter(this, styles)
-        binding.savedOutfits.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.savedOutfits.setHasFixedSize(true)
 
         return binding.root
     }

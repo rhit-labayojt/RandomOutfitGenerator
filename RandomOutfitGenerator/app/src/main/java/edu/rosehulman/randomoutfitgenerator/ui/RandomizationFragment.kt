@@ -196,7 +196,7 @@ class RandomizationFragment: Fragment() {
             Log.d(Constants.TAG, "${accessoryOptions.size}")
         }
 
-        if((topOptions.isNotEmpty()) && (bottomOptions.isNotEmpty()) && (shoeOptions.isNotEmpty()) && (accessoryOptions.size > 0)){
+        if((topOptions.isNotEmpty()) && (bottomOptions.isNotEmpty()) && (shoeOptions.isNotEmpty()) && (accessoryOptions.isNotEmpty())){
             var outfitClothing = ArrayList<Clothing>()
             outfitClothing.add(topOptions.get(Random.nextInt(topOptions.size)))
             outfitClothing.add(bottomOptions.get(Random.nextInt(bottomOptions.size)))
@@ -230,9 +230,8 @@ class RandomizationFragment: Fragment() {
         }else{
             accessoriesTypes.forEach { accessoryOptions.add(getOptionsList(it, Closet.superCategories[2])) }
         }
-        var outfitClothing = ArrayList<Clothing>()
 
-        if((fullBodyOptions.isNotEmpty()) && (shoeOptions.isNotEmpty()) && (accessoryOptions.size > 0)){
+        if((fullBodyOptions.isNotEmpty()) && (shoeOptions.isNotEmpty()) && (accessoryOptions.isNotEmpty())){
             var outfitClothing = ArrayList<Clothing>()
 
             outfitClothing.add(fullBodyOptions.get(Random.nextInt(fullBodyOptions.size)))

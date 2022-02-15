@@ -105,11 +105,18 @@
     //---------------------Settings Fragment Themes-------------------
     <style name="settings_button">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
         <item name="android:textSize">@dimen/settings_button_text_size</item>
-        <item name="android:backgroundTint">?attr/colorOnBackground</item>
-        <item name="android:textColor">?attr/colorPrimary</item>
+        <item name="android:backgroundTint">?attr/colorPrimaryVariant</item>
+        <item name="android:textColor">@color/white</item>
         <item name="android:gravity">left|center_vertical</item>
+    </style>
+
+    <style name="settings_cardview">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginHorizontal">@dimen/settings_cardview_horizontal_margin</item>
+        <item name="android:layout_marginVertical">@dimen/settings_cardview_vertical_margin</item>
     </style>
 
     //----------------------User Edit Themes-------------------------

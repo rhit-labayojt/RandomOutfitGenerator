@@ -6,7 +6,16 @@
     android:layout_height="match_parent"
     tools:context=".ui.SettingsFragment">
 
-    <Button android:id="@+id/user_edit"
-        style="@style/settings_button"
-        android:text="@string/settings_profile" />
+    <androidx.cardview.widget.CardView android:id="@+id/settings_profile_button_holder"
+        style="@style/settings_cardview"
+        app:cardCornerRadius="@dimen/settings_cardview_radius"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
+
+        <Button android:id="@+id/user_edit"
+            style="@style/settings_button"
+            android:text="@string/settings_profile" />
+
+    </androidx.cardview.widget.CardView>
+
 </RelativeLayout>

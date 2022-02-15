@@ -76,6 +76,7 @@ class ClosetViewModel: ViewModel() {
         savedOutfitsRef = Firebase.firestore.collection(User.COLLECTION_PATH).document(uid).collection(Closet.SAVED_OUTFITS_COLLECTION_PATH)
 
         val subscription = savedOutfitsRef
+            .orderBy(Outfit.CREATED_KEY, Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot: QuerySnapshot?, e: FirebaseFirestoreException? ->
                 e?.let{
                     Log.d(Constants.TAG, "ERROR: $e")
@@ -97,6 +98,7 @@ class ClosetViewModel: ViewModel() {
         recentOutfitsRef = Firebase.firestore.collection(User.COLLECTION_PATH).document(uid).collection(Closet.RECENT_OUTFITS_COLLECTION_PATH)
 
         val subscription = recentOutfitsRef
+            .orderBy(Outfit.CREATED_KEY, Query.Direction.DESCENDING)
             .addSnapshotListener { snapshot: QuerySnapshot?, e: FirebaseFirestoreException? ->
                 e?.let{
                     Log.d(Constants.TAG, "ERROR: $e")

@@ -1,31 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.HomeFragment"
     android:background="?attr/colorOnBackground">
 
-    <androidx.recyclerview.widget.RecyclerView android:id="@+id/outfit_carousel"
-        android:layout_width="@dimen/carousel_width"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/home_outfits"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@id/outfit_holder"
+        android:textSize="@dimen/outfit_label_text_size"
+        android:textStyle="bold"
+        android:textColor="?attr/colorPrimaryVariant"/>
+
+    <androidx.cardview.widget.CardView android:id="@+id/outfit_holder"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:background="?attr/colorOnBackground"/>
+        android:layout_marginHorizontal="@dimen/outfits_margin_horizontal"
+        app:cardCornerRadius="@dimen/home_cardview_radius">
+
+        <ImageView android:id="@+id/empty_carousel_image"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@mipmap/ic_launcher" />
+
+    <androidx.recyclerview.widget.RecyclerView android:id="@+id/outfit_carousel"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:background="?attr/colorPrimaryVariant"
+        />
+
+    </androidx.cardview.widget.CardView>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/random_outfit_fab"
         style="@style/fab_theme"
         android:src="@drawable/ic_baseline_shuffle_24" />
-
-    <TextView
-        android:id="@+id/weather_widget"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="35dp"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginBottom="30dp" />
 
 </RelativeLayout>

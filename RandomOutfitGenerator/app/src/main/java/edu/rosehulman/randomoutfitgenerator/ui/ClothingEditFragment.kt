@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import coil.load
+import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import edu.rosehulman.randomoutfitgenerator.Constants
@@ -127,7 +128,7 @@ class ClothingEditFragment: Fragment() {
 
             binding.clothingEditImage.load(model.getCurrentItem().image) {
                 crossfade(true)
-                transformations(RoundedCornersTransformation())
+                transformations(CircleCropTransformation())
             }
         }
 

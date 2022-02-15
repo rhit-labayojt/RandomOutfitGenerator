@@ -1,7 +1,9 @@
 package edu.rosehulman.randomoutfitgenerator.objects
 
+import com.google.firebase.Timestamp
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.Exclude
+import com.google.firebase.firestore.ServerTimestamp
 
 class Outfit() {
 
@@ -25,6 +27,9 @@ class Outfit() {
     @get:Exclude
     var id = "" // Firestore ID
 
+    @ServerTimestamp
+    var created: Timestamp? = null
+
     constructor(clothing: ArrayList<Clothing>, style: String, weather: String, fullBody: Boolean) : this() {
         this.style = style
         this.weather = weather
@@ -34,6 +39,8 @@ class Outfit() {
     }
 
     companion object{
+        const val CREATED_KEY = "created"
+
         fun from(snapshot: DocumentSnapshot): Outfit{
             val fit = snapshot.toObject(Outfit::class.java)!!
             fit.id = snapshot.id

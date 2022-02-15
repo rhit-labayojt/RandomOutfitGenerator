@@ -29,9 +29,11 @@
 
     //--------------------------Home--------------------
     <string name="menu_home">Home</string>
+    <string name="home_outfits">Recent Outfits</string>
 
     //----------------Saved Outfits-------------------
     <string name="menu_saved_outfits">Saved Outfits</string>
+    <string name="no_saved_outfits">You have no saved outfits</string>
 
     //-------------------------Randomization---------------------
     <string name="randomization_title">Customization</string>

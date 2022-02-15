@@ -116,12 +116,6 @@ class SavedOutfitsAdapter(val fragment: Fragment, val styles: ArrayList<SavedOut
                 var adapter = OutfitDisplayAdapter(fragment, outfitList as ArrayList<Outfit?>)
                 outfits.adapter = adapter
                 outfits.layoutManager = GridLayoutManager(fragment.requireContext(), 3, GridLayoutManager.VERTICAL, false)
-                var verticalItemDecoration = DividerItemDecoration(fragment.requireContext(), DividerItemDecoration.HORIZONTAL)
-                var horizontalItemDecoration = DividerItemDecoration(fragment.requireContext(), DividerItemDecoration.VERTICAL)
-                horizontalItemDecoration.setDrawable(AppCompatResources.getDrawable(fragment.requireContext(), R.drawable.thick_divider_horizontal)!!)
-                verticalItemDecoration.setDrawable(AppCompatResources.getDrawable(fragment.requireContext(), R.drawable.thick_divider_vertical)!!)
-                outfits.addItemDecoration(verticalItemDecoration)
-                outfits.addItemDecoration(horizontalItemDecoration)
 
                 if(currentStyle.isVisible){
                     outfits.visibility = View.VISIBLE

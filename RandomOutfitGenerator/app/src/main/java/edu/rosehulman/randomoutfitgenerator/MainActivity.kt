@@ -22,6 +22,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.ktx.auth
 import edu.rosehulman.randomoutfitgenerator.databinding.ActivityMainBinding
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
+import edu.rosehulman.randomoutfitgenerator.models.User
 import edu.rosehulman.randomoutfitgenerator.models.UserViewModel
 import java.util.concurrent.TimeUnit
 
@@ -32,7 +33,52 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var authListener: FirebaseAuth.AuthStateListener
     private lateinit var model: ClosetViewModel
-//    private lateinit var myUser: UserViewModel
+    private var myUser: User? = null
+    private var curTheme: Int = 0
+
+    var callbacks =
+        object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+
+            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
+                // This callback will be invoked in two situations:
+                // 1 - Instant verification. In some cases the phone number can be instantly
+                //     verified without needing to send or enter a verification code.
+                // 2 - Auto-retrieval. On some devices Google Play services can automatically
+                //     detect the incoming verification SMS and perform verification without
+                //     user action.
+                Log.d(Constants.TAG, "onVerificationCompleted:$credential")
+                signInWithPhoneAuthCredential(credential)
+            }
+
+            override fun onVerificationFailed(e: FirebaseException) {
+                // This callback is invoked in an invalid request for verification is made,
+                // for instance if the the phone number format is not valid.
+                Log.w(Constants.TAG, "onVerificationFailed", e)
+
+                if (e is FirebaseAuthInvalidCredentialsException) {
+                    // Invalid request
+                } else if (e is FirebaseTooManyRequestsException) {
+                    // The SMS quota for the project has been exceeded
+                }
+
+                // Show a message and update the UI
+            }
+
+            override fun onCodeSent(
+                verificationId: String,
+                token: PhoneAuthProvider.ForceResendingToken
+            ) {
+                // The SMS verification code has been sent to the provided phone number, we
+                // now need to ask the user to enter the code and then construct a credential
+                // by combining the code with a verification ID.
+                Log.d(Constants.TAG, "onCodeSent:$verificationId")
+
+                // Save verification ID and resending token so we can use them later
+                var storedVerificationId = verificationId
+                var resendToken = token
+//                val credential = PhoneAuthProvider.getCredential(storedVerificationId, code)
+            }
+        }
 
     private val signinLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -43,20 +89,33 @@ class MainActivity : AppCompatActivity() {
         Firebase.auth.addAuthStateListener(authListener)
     }
 
+    override fun setTheme(themeId: Int){
+        super.setTheme(themeId)
+        curTheme = themeId
+    }
+
     override fun onStop(){
         super.onStop()
         Firebase.auth.removeAuthStateListener(authListener)
     }
 
+//    override fun recreate(){
+//        finish();
+//        overridePendingTransition(R.anim.anime_fade_in,
+//            R.anim.anime_fade_out);
+//        startActivity(getIntent());
+//        overridePendingTransition(R.anim.anime_fade_in,
+//            R.anim.anime_fade_out);
+//    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
+        initializeAuthListener()
+
         super.onCreate(savedInstanceState)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         model = ViewModelProvider(this).get(ClosetViewModel::class.java)
-
         setContentView(binding.root)
-
-        initializeAuthListener()
 
         setSupportActionBar(binding.appBarMain.toolbar)
 
@@ -76,6 +135,15 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        if(myUser != null){
+            setTheme(myUser!!.theme)
+            if(curTheme != myUser!!.theme){
+                recreate()
+            }
+        }else{
+            setTheme(R.style.Theme_RandomOutfitGenerator)
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -90,49 +158,6 @@ class MainActivity : AppCompatActivity() {
             if(user == null){
                 setupAuthUI()
                 if(Firebase.auth.currentUser!!.phoneNumber != null) {
-                    var callbacks =
-                        object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
-                            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                                // This callback will be invoked in two situations:
-                                // 1 - Instant verification. In some cases the phone number can be instantly
-                                //     verified without needing to send or enter a verification code.
-                                // 2 - Auto-retrieval. On some devices Google Play services can automatically
-                                //     detect the incoming verification SMS and perform verification without
-                                //     user action.
-                                Log.d(Constants.TAG, "onVerificationCompleted:$credential")
-                                signInWithPhoneAuthCredential(credential)
-                            }
-
-                            override fun onVerificationFailed(e: FirebaseException) {
-                                // This callback is invoked in an invalid request for verification is made,
-                                // for instance if the the phone number format is not valid.
-                                Log.w(Constants.TAG, "onVerificationFailed", e)
-
-                                if (e is FirebaseAuthInvalidCredentialsException) {
-                                    // Invalid request
-                                } else if (e is FirebaseTooManyRequestsException) {
-                                    // The SMS quota for the project has been exceeded
-                                }
-
-                                // Show a message and update the UI
-                            }
-
-                            override fun onCodeSent(
-                                verificationId: String,
-                                token: PhoneAuthProvider.ForceResendingToken
-                            ) {
-                                // The SMS verification code has been sent to the provided phone number, we
-                                // now need to ask the user to enter the code and then construct a credential
-                                // by combining the code with a verification ID.
-                                Log.d(Constants.TAG, "onCodeSent:$verificationId")
-
-                                // Save verification ID and resending token so we can use them later
-                                var storedVerificationId = verificationId
-                                var resendToken = token
-//                                val credential = PhoneAuthProvider.getCredential(verificationId!!, code)
-                            }
-                        }
 
                     val options = PhoneAuthOptions.newBuilder(auth)
                         .setPhoneNumber(Firebase.auth.currentUser!!.phoneNumber!!)
@@ -152,6 +177,7 @@ class MainActivity : AppCompatActivity() {
                             val id = findNavController(
                                 R.id.nav_host_fragment_content_main).currentDestination!!.id
 
+                            myUser = userModel.user
                             if(id == R.id.nav_splash){
 
                                         var username = findViewById<TextView>(R.id.nav_drawer_name)

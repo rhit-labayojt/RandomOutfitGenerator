@@ -4,7 +4,8 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:background="?attr/colorSecondaryVariant"
-    android:layout_margin="@dimen/carousel_margin">
+    android:layout_margin="@dimen/outfit_view_margin"
+    android:padding="@dimen/carousel_padding">
 
     <ImageView android:id="@+id/home_top"
         style="@style/carousel_image_theme"

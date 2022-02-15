@@ -1,5 +1,6 @@
 package edu.rosehulman.randomoutfitgenerator.ui
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -125,6 +126,8 @@ class UserEditFragment: Fragment() {
         binding.editButton.setOnClickListener {
             if(userModel.editUser){
                 userModel.update(binding.userEditChangeName.text.toString(), true)
+//                userModel.user!!.theme = R.style.Theme_RandomOutfitGenerator_Vikings
+//                requireActivity().recreate()
             }
 
             userModel.editUser = !userModel.editUser

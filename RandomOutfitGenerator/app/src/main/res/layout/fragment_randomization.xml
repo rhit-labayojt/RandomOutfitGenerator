@@ -119,13 +119,6 @@
 
     </ScrollView>
 
-    <com.google.android.material.button.MaterialButton android:id="@+id/use_weather"
-        style="@style/fab_theme"
-        android:layout_height="@dimen/randomize_fab_height"
-        android:text="@string/random_use_weather"
-        android:textSize="@dimen/randomize_fab_text_size"/>
-
-
 
 </RelativeLayout>
 
