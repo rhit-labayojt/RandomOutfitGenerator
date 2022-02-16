@@ -60,6 +60,8 @@ class ClothingEditFragment: Fragment() {
             R.id.save_clothing -> {
                 Log.d(Constants.TAG, "Trying to save item")
                 saveClothing()
+                model.newImageUri = ""
+                model.cameraTriggeredFragment = 0
                 findNavController().navigate(R.id.nav_closet)
                 true
             }
@@ -74,6 +76,8 @@ class ClothingEditFragment: Fragment() {
                         }else{
                             model.deleteCurrentClothing()
                         }
+                        model.newImageUri = ""
+                        model.cameraTriggeredFragment = 0
                         findNavController().navigate(R.id.nav_closet)
                     }
                     .setNegativeButton(android.R.string.cancel, null)
@@ -89,6 +93,8 @@ class ClothingEditFragment: Fragment() {
                     model.getCurrentItem().resetWeathers(originalWeathers)
                     model.getCurrentItem().resetStyles(originalStyles)
                 }
+                model.newImageUri = ""
+                model.cameraTriggeredFragment = 0
                 findNavController().navigate(R.id.nav_closet)
                 super.onOptionsItemSelected(item)
             }
@@ -124,13 +130,16 @@ class ClothingEditFragment: Fragment() {
 
             model.updateImage()
         }else {
+            if(model.cameraTriggeredFragment == R.id.nav_clothing_edit){
+                model.addPhotoFromUri(this, model.latestTmpUri)
+            }else{
+                binding.clothingEditImage.load(model.getCurrentItem().image) {
+                    crossfade(true)
+                    transformations(CircleCropTransformation())
+                }
+            }
             originalWeathers = model.getCurrentItem().getWeathers()
             originalStyles = model.getCurrentItem().getStyles()
-
-            binding.clothingEditImage.load(model.getCurrentItem().image) {
-                crossfade(true)
-                transformations(CircleCropTransformation())
-            }
         }
 
         setHasOptionsMenu(true)
@@ -218,6 +227,7 @@ class ClothingEditFragment: Fragment() {
         if(model.isNewImage){
             newItem.setSuperCat(newSuperCat)
             newItem.setSubCat(newSubCat)
+            newItem.image = model.getCurrentItem().image
         }else {
             if(newSuperCat == ""){
                 newSuperCat = model.getCurrentItem().getSuperCat()

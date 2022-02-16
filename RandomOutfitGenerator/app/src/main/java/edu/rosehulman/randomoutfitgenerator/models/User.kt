@@ -11,8 +11,7 @@ data class User(
     var shoesTags: ArrayList<String> = arrayListOf(),
     var accessoriesTags: ArrayList<String> = arrayListOf(),
     var fullBodyTags: ArrayList<String> = arrayListOf(),
-    var styles: ArrayList<String> = arrayListOf(),
-    var theme: Int = R.style.Theme_RandomOutfitGenerator
+    var styles: ArrayList<String> = arrayListOf()
 ) {
     companion object{
         const val COLLECTION_PATH = "users"

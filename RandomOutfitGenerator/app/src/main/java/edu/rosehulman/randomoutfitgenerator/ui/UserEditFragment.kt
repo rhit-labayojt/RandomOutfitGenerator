@@ -145,6 +145,7 @@ class UserEditFragment: Fragment() {
         }
 
         binding.logoutButton.setOnClickListener {
+            model.cameraTriggeredFragment = 0
             findNavController().navigate(R.id.nav_splash)
             Firebase.auth.signOut()
             userModel.user = null

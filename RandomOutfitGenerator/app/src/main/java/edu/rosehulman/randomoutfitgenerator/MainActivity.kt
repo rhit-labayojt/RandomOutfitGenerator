@@ -98,11 +98,15 @@ class MainActivity : AppCompatActivity() {
 
                             Log.d(Constants.TAG, "Authenticating")
                             if(id == R.id.nav_splash && !model.isNewImage){
-                                var username = findViewById<TextView>(R.id.nav_drawer_name)
-                                var login = findViewById<TextView>(R.id.nav_drawer_login_info)
-                                username.setText(userModel.user!!.name)
-                                login.setText("Email: ${Firebase.auth.currentUser!!.email}")
-                                navController.navigate(R.id.nav_home)
+                                if(model.cameraTriggeredFragment == R.id.nav_clothing_edit){
+                                    navController.navigate(R.id.nav_clothing_edit)
+                                }else{
+                                    var username = findViewById<TextView>(R.id.nav_drawer_name)
+                                    var login = findViewById<TextView>(R.id.nav_drawer_login_info)
+                                    username.setText(userModel.user!!.name)
+                                    login.setText("Email: ${Firebase.auth.currentUser!!.email}")
+                                    navController.navigate(R.id.nav_home)
+                                }
                             }else {
                                 if (model.isNewImage) {
                                     navController.navigate(R.id.nav_clothing_edit)

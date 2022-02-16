@@ -5,18 +5,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import edu.rosehulman.randomoutfitgenerator.Constants
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.ClosetAdapter
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentClosetBinding
 import edu.rosehulman.randomoutfitgenerator.models.Closet
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
+import edu.rosehulman.randomoutfitgenerator.models.UserViewModel
 
 class ClosetFragment : Fragment() {
     private lateinit var binding: FragmentClosetBinding
@@ -27,6 +31,7 @@ class ClosetFragment : Fragment() {
     private lateinit var fullBodyAdapter: ClosetAdapter
 
     private lateinit var model: ClosetViewModel
+    private lateinit var userModel: UserViewModel
 
     val takeImageResult =
         registerForActivityResult(ActivityResultContracts.TakePicture()){ isSuccess ->
@@ -51,6 +56,12 @@ class ClosetFragment : Fragment() {
         binding.closetParentLayout.visibility = View.INVISIBLE
 
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
+        userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+
+        var username = requireActivity().findViewById<TextView>(R.id.nav_drawer_name)
+        var login = requireActivity().findViewById<TextView>(R.id.nav_drawer_login_info)
+        username.setText("${userModel.user!!.name}")
+        login.setText("Email: ${Firebase.auth.currentUser!!.email}")
 
         setAdapters()
 

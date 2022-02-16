@@ -9,6 +9,8 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.SavedOutfitsAdapter
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentSavedOutfitsBinding
@@ -34,6 +36,11 @@ class SavedOutfitsFragment: Fragment() {
         binding = FragmentSavedOutfitsBinding.inflate(inflater, container, false)
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
         userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+
+        var username = requireActivity().findViewById<TextView>(R.id.nav_drawer_name)
+        var login = requireActivity().findViewById<TextView>(R.id.nav_drawer_login_info)
+        username.setText("${userModel.user!!.name}")
+        login.setText("Email: ${Firebase.auth.currentUser!!.email}")
 
         binding.savedOutfits.visibility = View.GONE
         binding.noSavedOutfits.visibility = View.GONE

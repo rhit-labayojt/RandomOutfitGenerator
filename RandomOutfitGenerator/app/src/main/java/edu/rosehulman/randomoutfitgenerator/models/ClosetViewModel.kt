@@ -59,8 +59,17 @@ class ClosetViewModel: ViewModel() {
         if(newItem != null){
             newItem!!.image = newImageUri
             closet.clothing.add(newItem!!)
+            currentItemIndex = closet.clothing.size - 1
+            Log.d(Constants.TAG,"Current Item Image ${closet.clothing[currentItemIndex].image}")
 
             clothingImage!!.load(newItem!!.image) {
+                crossfade(true)
+                transformations(CircleCropTransformation())
+            }
+        }else{
+            getCurrentItem().image = newImageUri
+
+            clothingImage!!.load(getCurrentItem().image) {
                 crossfade(true)
                 transformations(CircleCropTransformation())
             }
@@ -151,7 +160,9 @@ class ClosetViewModel: ViewModel() {
         var currentItem: Clothing
 
         if(isNewImage){
+            Log.d(Constants.TAG, "Adding new item")
             currentItem = item
+            Log.d(Constants.TAG,"Image Saved: ${currentItem.image}")
             clothingRef.add(currentItem)
             isNewImage = false
         }else {
