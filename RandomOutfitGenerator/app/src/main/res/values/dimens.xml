@@ -20,7 +20,7 @@
     <dimen name="clothing_edit_image_width">300dp</dimen>
     <dimen name="clothing_edit_image_margin">40dp</dimen>
     <dimen name="clothing_edit_spinner_width">150dp</dimen>
-    <dimen name="clothing_edit_text">18sp</dimen>
+    <dimen name="clothing_edit_text">16sp</dimen>
     <dimen name="clothing_edit_spinner_margin">10dp</dimen>
     <dimen name="clothing_edit_spinner_padding_left">10dp</dimen>
     <dimen name="clothing_edit_spinner_padding_right">40dp</dimen>

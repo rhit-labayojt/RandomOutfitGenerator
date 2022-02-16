@@ -17,11 +17,13 @@ import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.OutfitDisplayAdapter
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentHomeBinding
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
+import edu.rosehulman.randomoutfitgenerator.models.UserViewModel
 
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
     private lateinit var model: ClosetViewModel
+    private lateinit var userModel: UserViewModel
 
     companion object{
         const val fragmentName = "HomeFragment"
@@ -35,10 +37,11 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
+        userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
         var username = requireActivity().findViewById<TextView>(R.id.nav_drawer_name)
         var login = requireActivity().findViewById<TextView>(R.id.nav_drawer_login_info)
-        username.setText("${Firebase.auth.currentUser!!.displayName}")
+        username.setText("${userModel.user!!.name}")
         login.setText("Email: ${Firebase.auth.currentUser!!.email}")
 
         binding.randomOutfitFab.visibility = View.GONE

@@ -51,7 +51,6 @@ class ClosetFragment : Fragment() {
         binding.closetParentLayout.visibility = View.INVISIBLE
 
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
-        model.cameraTriggeredFragment = R.id.nav_closet
 
         setAdapters()
 
@@ -189,6 +188,7 @@ class ClosetFragment : Fragment() {
 
     fun takePhoto(){
         model.isNewImage = true
+        model.cameraTriggeredFragment = R.id.nav_closet
 
         lifecycleScope.launchWhenStarted{
             model.getTmpFileUri(fragment = this@ClosetFragment).let { uri ->

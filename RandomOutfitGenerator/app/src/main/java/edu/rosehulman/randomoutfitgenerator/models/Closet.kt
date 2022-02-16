@@ -22,20 +22,8 @@ class Closet() {
         const val SAVED_OUTFITS_COLLECTION_PATH = "savedOutfits"
     }
 
-    fun addClothing(item: Clothing){
-        clothing.add(item)
-    }
-
     fun removeClothing(item: Clothing){
         clothing.remove(item)
-    }
-
-    fun saveOutfit(fit: Outfit){
-        savedOutfits.add(fit)
-    }
-
-    fun removeSavedOutfit(fit: Outfit){
-        savedOutfits.remove(fit)
     }
 
     fun toString(list: ArrayList<String>): String{

@@ -59,7 +59,6 @@ class ClothingEditFragment: Fragment() {
         return when(item.itemId){
             R.id.save_clothing -> {
                 Log.d(Constants.TAG, "Trying to save item")
-                model.isNewImage = false
                 saveClothing()
                 findNavController().navigate(R.id.nav_closet)
                 true
@@ -106,7 +105,6 @@ class ClothingEditFragment: Fragment() {
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
         userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
-        model.cameraTriggeredFragment = R.id.nav_clothing_edit
         model.clothingImage = binding.clothingEditImage
         checkedStyles = BooleanArray(userModel.user!!.styles.size){false}
         binding.clothingEditImage.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_baseline_downloading_24))
@@ -317,6 +315,7 @@ class ClothingEditFragment: Fragment() {
 
     private fun takePhoto(){
         model.isNewImage = false
+        model.cameraTriggeredFragment = R.id.nav_clothing_edit
 
         lifecycleScope.launchWhenStarted{
             model.getTmpFileUri(fragment = this@ClothingEditFragment).let { uri ->

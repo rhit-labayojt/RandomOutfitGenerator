@@ -55,13 +55,10 @@ class ClosetViewModel: ViewModel() {
 
     fun getCurrentItem() = closet.clothing.get(currentItemIndex)
 
-    fun getCurrentSavedOutfit() = currentSavedOutfitIndex
-
-    fun getCurrentRecentOutfit() = currentRecentOutfitIndex
-
     fun updateImage(){
         if(newItem != null){
             newItem!!.image = newImageUri
+            closet.clothing.add(newItem!!)
 
             clothingImage!!.load(newItem!!.image) {
                 crossfade(true)
