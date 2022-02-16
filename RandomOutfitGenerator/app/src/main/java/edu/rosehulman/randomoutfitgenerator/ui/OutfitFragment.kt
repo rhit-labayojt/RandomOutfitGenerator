@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import coil.load
 import coil.transform.RoundedCornersTransformation
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import edu.rosehulman.randomoutfitgenerator.Constants
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.OutfitAccessoriesAdapter
@@ -48,7 +49,15 @@ class OutfitFragment: Fragment() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean{
         return when(item.itemId){
             R.id.delete_outfit -> {
-                deleteOutfit()
+                MaterialAlertDialogBuilder(requireContext())
+                    .setTitle("Are you sure?")
+                    .setMessage("Are you sure you want to delete this outfit?")
+                    .setPositiveButton(android.R.string.ok){dialog, which ->
+                        deleteOutfit()
+                        findNavController().navigate(R.id.nav_saved_outfits)
+                    }
+                    .setNegativeButton(android.R.string.cancel, null)
+                    .show()
                 true
             }
 
