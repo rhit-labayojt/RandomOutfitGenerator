@@ -271,11 +271,14 @@ class TagsHolderAdapter(val fragment: UserEditFragment, val tagTypes: Array<Stri
         private fun setDefault(){
             if(userModel.tagChanges.get("defaultStyle")!!.size > 1){
                 Toast.makeText(fragment.requireContext(), "You can only have one default style", Toast.LENGTH_LONG).show()
+                userModel.tagChanges.get("Styles")!!.clear()
+                userModel.tagChanges.get("defaultStyle")!!.clear()
             }else if(userModel.tagChanges.get("defaultStyle")!!.size < 1){
                 Toast.makeText(fragment.requireContext(), "You have not selected a style", Toast.LENGTH_LONG).show()
             }else{
                 userModel.user!!.defaultStyle = userModel.tagChanges.get("defaultStyle")!!.get(0)
                 userModel.tagChanges.get("defaultStyle")!!.clear()
+                userModel.tagChanges.get("Styles")!!.clear()
             }
 
             notifyDataSetChanged()

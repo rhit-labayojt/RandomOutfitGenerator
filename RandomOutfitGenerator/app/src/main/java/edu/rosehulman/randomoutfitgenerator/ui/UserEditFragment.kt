@@ -4,8 +4,10 @@ import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
@@ -33,6 +35,11 @@ class UserEditFragment: Fragment() {
         const val savedOutfitsListener = "SavedOutfitsUserEdit"
         const val recentOutfitsListener = "RecentOutfitsUserEdit"
         const val clothingListener = "ClothingUserEdit"
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        findNavController().navigate(R.id.nav_settings)
+        return super.onOptionsItemSelected(item)
     }
 
     override fun onCreateView(
@@ -126,6 +133,11 @@ class UserEditFragment: Fragment() {
         binding.editButton.setOnClickListener {
             if(userModel.editUser){
                 userModel.update(binding.userEditChangeName.text.toString(), true)
+
+                var username = requireActivity().findViewById<TextView>(R.id.nav_drawer_name)
+                var login = requireActivity().findViewById<TextView>(R.id.nav_drawer_login_info)
+                username.setText(userModel.user!!.name)
+                login.setText("Email: ${Firebase.auth.currentUser!!.email}")
             }
 
             userModel.editUser = !userModel.editUser

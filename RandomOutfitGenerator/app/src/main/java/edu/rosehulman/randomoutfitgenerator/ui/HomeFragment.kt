@@ -4,12 +4,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.appcompat.content.res.AppCompatResources.getDrawable
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.OutfitDisplayAdapter
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentHomeBinding
@@ -32,6 +35,11 @@ class HomeFragment : Fragment() {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         model = ViewModelProvider(requireActivity()).get(ClosetViewModel::class.java)
+
+        var username = requireActivity().findViewById<TextView>(R.id.nav_drawer_name)
+        var login = requireActivity().findViewById<TextView>(R.id.nav_drawer_login_info)
+        username.setText("${Firebase.auth.currentUser!!.displayName}")
+        login.setText("Email: ${Firebase.auth.currentUser!!.email}")
 
         binding.randomOutfitFab.visibility = View.GONE
         binding.outfitCarousel.visibility = View.GONE
