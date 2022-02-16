@@ -16,6 +16,7 @@ import coil.load
 import coil.transform.CircleCropTransformation
 import coil.transform.RoundedCornersTransformation
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.google.common.io.Resources.getResource
 import edu.rosehulman.randomoutfitgenerator.Constants
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentClothingEditBinding
@@ -58,6 +59,7 @@ class ClothingEditFragment: Fragment() {
         return when(item.itemId){
             R.id.save_clothing -> {
                 Log.d(Constants.TAG, "Trying to save item")
+                model.isNewImage = false
                 saveClothing()
                 findNavController().navigate(R.id.nav_closet)
                 true
@@ -73,7 +75,7 @@ class ClothingEditFragment: Fragment() {
                         }else{
                             model.deleteCurrentClothing()
                         }
-                        findNavController().popBackStack()
+                        findNavController().navigate(R.id.nav_closet)
                     }
                     .setNegativeButton(android.R.string.cancel, null)
                     .show()
@@ -88,6 +90,7 @@ class ClothingEditFragment: Fragment() {
                     model.getCurrentItem().resetWeathers(originalWeathers)
                     model.getCurrentItem().resetStyles(originalStyles)
                 }
+                findNavController().navigate(R.id.nav_closet)
                 super.onOptionsItemSelected(item)
             }
         }
@@ -104,10 +107,13 @@ class ClothingEditFragment: Fragment() {
         userModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
         model.cameraTriggeredFragment = R.id.nav_clothing_edit
+        model.clothingImage = binding.clothingEditImage
         checkedStyles = BooleanArray(userModel.user!!.styles.size){false}
+        binding.clothingEditImage.setImageDrawable(requireActivity().getDrawable(R.drawable.ic_baseline_downloading_24))
 
         if(model.isNewImage){
-            newItem = Clothing(
+            model.addPhotoFromUri(this, model.latestTmpUri)
+            model.newItem = Clothing(
                 Closet.superCategories[0],
                 userModel.user!!.topsTags[0],
                 arrayListOf<String>(),
@@ -118,10 +124,7 @@ class ClothingEditFragment: Fragment() {
             originalWeathers = arrayListOf()
             originalStyles = arrayListOf()
 
-            binding.clothingEditImage.load(newItem.image) {
-                crossfade(true)
-                transformations(RoundedCornersTransformation())
-            }
+            model.updateImage()
         }else {
             originalWeathers = model.getCurrentItem().getWeathers()
             originalStyles = model.getCurrentItem().getStyles()
@@ -160,7 +163,7 @@ class ClothingEditFragment: Fragment() {
             binding.subCatSpinner.setSelection(0)
         }else {
             Log.d(Constants.TAG, "${model.getCurrentItem().getSubCat()}")
-            Log.d(Constants.TAG, "Tag Indes = ${userModel.user!!.topsTags.indexOf(model.getCurrentItem().getSubCat())}")
+            Log.d(Constants.TAG, "Tag Index = ${userModel.user!!.topsTags.indexOf(model.getCurrentItem().getSubCat())}")
             var currentItem = model.getCurrentItem()
             binding.superCatSpinner.setSelection(Closet.superCategories.indexOfFirst {
                 it == currentItem.getSuperCat()
@@ -317,6 +320,7 @@ class ClothingEditFragment: Fragment() {
 
         lifecycleScope.launchWhenStarted{
             model.getTmpFileUri(fragment = this@ClothingEditFragment).let { uri ->
+                findNavController().navigate(R.id.nav_splash)
                 model.latestTmpUri = uri
                 takeImageResult.launch(uri)
             }

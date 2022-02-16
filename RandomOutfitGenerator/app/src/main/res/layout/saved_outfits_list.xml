@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="?attr/colorSecondary">
 
     <TextView android:id="@+id/outfit_style"
         style="@style/closet_header_theme"
+        android:layout_margin="@dimen/saved_outfits_margin"
         android:text="@string/tops" />
 
     <androidx.recyclerview.widget.RecyclerView android:id="@+id/outfit_grid"
         style="@style/closet_recycler_view_theme"
+        android:layout_margin="@dimen/saved_outfits_margin"
         android:layout_height="wrap_content"
         android:layout_below="@id/outfit_style"
         android:scrollbars="vertical"/>

@@ -69,5 +69,10 @@ class HomeFragment : Fragment() {
         return binding.root
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        model.removeListener(fragmentName)
+    }
+
 
 }

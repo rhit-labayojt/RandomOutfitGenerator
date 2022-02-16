@@ -67,7 +67,6 @@ class RandomizationFragment: Fragment() {
                 }else{
                     generateOutfit()
                 }
-
                 true
             }
 
@@ -212,7 +211,6 @@ class RandomizationFragment: Fragment() {
             model.addRecentOutfit(newOutfit)
 
             resetFields()
-
             findNavController().navigate(R.id.nav_outfit)
         }else{
             Toast.makeText(requireContext(), "You do not have any clothing matching these tags",Toast.LENGTH_LONG).show()

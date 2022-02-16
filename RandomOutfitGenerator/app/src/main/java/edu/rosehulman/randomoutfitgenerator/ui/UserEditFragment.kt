@@ -126,8 +126,6 @@ class UserEditFragment: Fragment() {
         binding.editButton.setOnClickListener {
             if(userModel.editUser){
                 userModel.update(binding.userEditChangeName.text.toString(), true)
-//                userModel.user!!.theme = R.style.Theme_RandomOutfitGenerator_Vikings
-//                requireActivity().recreate()
             }
 
             userModel.editUser = !userModel.editUser

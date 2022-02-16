@@ -3,11 +3,15 @@ package edu.rosehulman.randomoutfitgenerator.models
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
+import android.widget.ImageView
 import edu.rosehulman.randomoutfitgenerator.BuildConfig
 import androidx.core.content.FileProvider
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.navigation.fragment.findNavController
+import coil.load
+import coil.transform.CircleCropTransformation
+import coil.transform.RoundedCornersTransformation
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.firestore.*
 import com.google.firebase.firestore.ktx.firestore
@@ -42,12 +46,29 @@ class ClosetViewModel: ViewModel() {
     private var currentSavedOutfitIndex = 0
     private var currentRecentOutfitIndex = 0
     private var recentOutfitIndexToAdd = 0
+    var newItem: Clothing? = null
+    var clothingImage: ImageView? = null
 
     var storageImagesRef = Firebase.storage
         .reference
         .child("images")
 
     fun getCurrentItem() = closet.clothing.get(currentItemIndex)
+
+    fun getCurrentSavedOutfit() = currentSavedOutfitIndex
+
+    fun getCurrentRecentOutfit() = currentRecentOutfitIndex
+
+    fun updateImage(){
+        if(newItem != null){
+            newItem!!.image = newImageUri
+
+            clothingImage!!.load(newItem!!.image) {
+                crossfade(true)
+                transformations(CircleCropTransformation())
+            }
+        }
+    }
 
     fun addClothingListener(fragmentName: String, observer: () -> Unit){
         val uid = Firebase.auth.currentUser!!.uid
@@ -125,6 +146,10 @@ class ClosetViewModel: ViewModel() {
         currentItemIndex = pos
     }
 
+    fun setCurrentItem(item: Clothing){
+        currentItemIndex = closet.clothing.indexOfFirst{it.id == item.id}
+    }
+
     fun updateClothing(item: Clothing){
         var currentItem: Clothing
 
@@ -155,6 +180,14 @@ class ClosetViewModel: ViewModel() {
         savedOutfitsRef.add(currentOutfit!!)
     }
 
+    fun setCurrentSavedOutfit(fit: Outfit){
+        currentSavedOutfitIndex = closet.savedOutfits.indexOfFirst { it.id == fit.id }
+    }
+
+    fun setCurrentRecentOutfit(fit: Outfit){
+        currentRecentOutfitIndex = closet.recentOutfits.indexOfFirst { it!!.id == fit.id }
+    }
+
     fun updateCurrentSavedOutfit(pos: Int){
         currentSavedOutfitIndex = pos
         currentOutfit = closet.savedOutfits[currentSavedOutfitIndex]
@@ -163,6 +196,14 @@ class ClosetViewModel: ViewModel() {
     fun updateCurrentRecentOutfit(idx: Int){
         currentRecentOutfitIndex = idx
         currentOutfit = closet.recentOutfits[currentRecentOutfitIndex]
+    }
+
+    fun updateRecentOutfit(){
+        recentOutfitsRef.document(closet.recentOutfits[currentRecentOutfitIndex]!!.id).set(closet.recentOutfits[currentRecentOutfitIndex]!!)
+    }
+
+    fun updateSavedOutfit(){
+        savedOutfitsRef.document(closet.savedOutfits[currentSavedOutfitIndex].id).set(closet.savedOutfits[currentSavedOutfitIndex])
     }
 
     fun addRecentOutfit(fit: Outfit){
@@ -209,6 +250,7 @@ class ClosetViewModel: ViewModel() {
     }
 
     fun addPhotoFromUri(fragment: Fragment, uri: Uri?){
+        Log.d(Constants.TAG, "Trying to add photo")
         // Check for null uri
         if(uri == null){
             Log.e(Constants.TAG, "Uri is null. Not saving to storage")
@@ -224,7 +266,6 @@ class ClosetViewModel: ViewModel() {
         }
 
         val imageId = abs(Random.nextLong()).toString()
-
         storageImagesRef.child(imageId).putStream(stream)
             .continueWithTask { task ->
                 if(!task.isSuccessful){
@@ -237,6 +278,7 @@ class ClosetViewModel: ViewModel() {
             .addOnCompleteListener { task ->
                 if(task.isSuccessful){
                     newImageUri = task.result.toString()
+                    updateImage()
                     Log.d(Constants.TAG,"Got download uri: $newImageUri")
                     Log.d(Constants.TAG, "${cameraTriggeredFragment}, ${R.id.nav_clothing_edit}")
 
@@ -244,8 +286,6 @@ class ClosetViewModel: ViewModel() {
                         Log.d(Constants.TAG, "Reassigning image uri to $newImageUri")
                         getCurrentItem().image = newImageUri
                     }
-
-                    fragment.findNavController().navigate(R.id.nav_clothing_edit)
                 }else{
                     Log.d(Constants.TAG, "Failed to retrieve download uri")
                     fragment.findNavController().navigate(R.id.nav_closet)

@@ -21,9 +21,11 @@ import com.google.firebase.auth.*
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.auth.ktx.auth
 import edu.rosehulman.randomoutfitgenerator.databinding.ActivityMainBinding
+import edu.rosehulman.randomoutfitgenerator.models.Closet
 import edu.rosehulman.randomoutfitgenerator.models.ClosetViewModel
 import edu.rosehulman.randomoutfitgenerator.models.User
 import edu.rosehulman.randomoutfitgenerator.models.UserViewModel
+import edu.rosehulman.randomoutfitgenerator.ui.ClosetFragment
 import java.util.concurrent.TimeUnit
 
 class MainActivity : AppCompatActivity() {
@@ -33,52 +35,6 @@ class MainActivity : AppCompatActivity() {
     private lateinit var navController: NavController
     private lateinit var authListener: FirebaseAuth.AuthStateListener
     private lateinit var model: ClosetViewModel
-    private var myUser: User? = null
-    private var curTheme: Int = 0
-
-    var callbacks =
-        object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-
-            override fun onVerificationCompleted(credential: PhoneAuthCredential) {
-                // This callback will be invoked in two situations:
-                // 1 - Instant verification. In some cases the phone number can be instantly
-                //     verified without needing to send or enter a verification code.
-                // 2 - Auto-retrieval. On some devices Google Play services can automatically
-                //     detect the incoming verification SMS and perform verification without
-                //     user action.
-                Log.d(Constants.TAG, "onVerificationCompleted:$credential")
-                signInWithPhoneAuthCredential(credential)
-            }
-
-            override fun onVerificationFailed(e: FirebaseException) {
-                // This callback is invoked in an invalid request for verification is made,
-                // for instance if the the phone number format is not valid.
-                Log.w(Constants.TAG, "onVerificationFailed", e)
-
-                if (e is FirebaseAuthInvalidCredentialsException) {
-                    // Invalid request
-                } else if (e is FirebaseTooManyRequestsException) {
-                    // The SMS quota for the project has been exceeded
-                }
-
-                // Show a message and update the UI
-            }
-
-            override fun onCodeSent(
-                verificationId: String,
-                token: PhoneAuthProvider.ForceResendingToken
-            ) {
-                // The SMS verification code has been sent to the provided phone number, we
-                // now need to ask the user to enter the code and then construct a credential
-                // by combining the code with a verification ID.
-                Log.d(Constants.TAG, "onCodeSent:$verificationId")
-
-                // Save verification ID and resending token so we can use them later
-                var storedVerificationId = verificationId
-                var resendToken = token
-//                val credential = PhoneAuthProvider.getCredential(storedVerificationId, code)
-            }
-        }
 
     private val signinLauncher = registerForActivityResult(
         FirebaseAuthUIActivityResultContract()
@@ -89,29 +45,14 @@ class MainActivity : AppCompatActivity() {
         Firebase.auth.addAuthStateListener(authListener)
     }
 
-    override fun setTheme(themeId: Int){
-        super.setTheme(themeId)
-        curTheme = themeId
-    }
-
     override fun onStop(){
         super.onStop()
         Firebase.auth.removeAuthStateListener(authListener)
     }
 
-//    override fun recreate(){
-//        finish();
-//        overridePendingTransition(R.anim.anime_fade_in,
-//            R.anim.anime_fade_out);
-//        startActivity(getIntent());
-//        overridePendingTransition(R.anim.anime_fade_in,
-//            R.anim.anime_fade_out);
-//    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
-        initializeAuthListener()
-
         super.onCreate(savedInstanceState)
+        initializeAuthListener()
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         model = ViewModelProvider(this).get(ClosetViewModel::class.java)
@@ -135,15 +76,6 @@ class MainActivity : AppCompatActivity() {
 
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
-
-        if(myUser != null){
-            setTheme(myUser!!.theme)
-            if(curTheme != myUser!!.theme){
-                recreate()
-            }
-        }else{
-            setTheme(R.style.Theme_RandomOutfitGenerator)
-        }
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -157,42 +89,24 @@ class MainActivity : AppCompatActivity() {
 
             if(user == null){
                 setupAuthUI()
-                if(Firebase.auth.currentUser!!.phoneNumber != null) {
-
-                    val options = PhoneAuthOptions.newBuilder(auth)
-                        .setPhoneNumber(Firebase.auth.currentUser!!.phoneNumber!!)
-                        .setTimeout(60L, TimeUnit.SECONDS)
-                        .setActivity(this)
-                        .setCallbacks(callbacks)
-                        .build()
-
-                    PhoneAuthProvider.verifyPhoneNumber(options)
-
-                }
             }else{
                 with(user){
                     val userModel = ViewModelProvider(this@MainActivity).get(UserViewModel::class.java)
                     userModel.getOrMakeUser{
                         if(userModel.hasCompletedSetup()){
-                            val id = findNavController(
-                                R.id.nav_host_fragment_content_main).currentDestination!!.id
+                            val id = findNavController(R.id.nav_host_fragment_content_main).currentDestination!!.id
 
-                            myUser = userModel.user
-                            if(id == R.id.nav_splash){
-
-                                        var username = findViewById<TextView>(R.id.nav_drawer_name)
-                                        var login = findViewById<TextView>(R.id.nav_drawer_login_info)
-
-                                        username.setText(userModel.user!!.name)
-
-                                        if(Firebase.auth.currentUser!!.email != null){
-                                            login.setText("Email: ${Firebase.auth.currentUser!!.email}")
-                                        }else{
-                                            login.setText("Phone: ${Firebase.auth.currentUser!!.phoneNumber}")
-                                        }
-
-                                findNavController(R.id.nav_host_fragment_content_main)
-                                    .navigate(R.id.nav_home)
+                            Log.d(Constants.TAG, "Authenticating")
+                            if(id == R.id.nav_splash && !model.isNewImage){
+                                var username = findViewById<TextView>(R.id.nav_drawer_name)
+                                var login = findViewById<TextView>(R.id.nav_drawer_login_info)
+                                username.setText(userModel.user!!.name)
+                                login.setText("Email: ${Firebase.auth.currentUser!!.email}")
+                                navController.navigate(R.id.nav_home)
+                            }else {
+                                if (model.isNewImage) {
+                                    navController.navigate(R.id.nav_clothing_edit)
+                                }
                             }
                         }else{
                             navController.navigate(R.id.nav_user_edit)
@@ -205,7 +119,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun setupAuthUI(){
         val providers = arrayListOf(
-            AuthUI.IdpConfig.PhoneBuilder().build(),
             AuthUI.IdpConfig.EmailBuilder().build()
         )
 
@@ -218,22 +131,4 @@ class MainActivity : AppCompatActivity() {
         signinLauncher.launch(signinIntent)
     }
 
-    private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
-        Firebase.auth.signInWithCredential(credential)
-            .addOnCompleteListener(this) { task ->
-                if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Log.d(Constants.TAG, "signInWithCredential:success")
-
-                    val user = task.result?.user
-                } else {
-                    // Sign in failed, display a message and update the UI
-                    Log.w(Constants.TAG, "signInWithCredential:failure", task.exception)
-                    if (task.exception is FirebaseAuthInvalidCredentialsException) {
-                        // The verification code entered was invalid
-                    }
-                    // Update UI
-                }
-            }
-    }
 }

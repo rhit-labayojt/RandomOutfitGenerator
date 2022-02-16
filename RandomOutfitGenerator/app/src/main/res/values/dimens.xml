@@ -20,7 +20,7 @@
     <dimen name="clothing_edit_image_width">300dp</dimen>
     <dimen name="clothing_edit_image_margin">40dp</dimen>
     <dimen name="clothing_edit_spinner_width">150dp</dimen>
-    <dimen name="clothing_edit_text">20sp</dimen>
+    <dimen name="clothing_edit_text">18sp</dimen>
     <dimen name="clothing_edit_spinner_margin">10dp</dimen>
     <dimen name="clothing_edit_spinner_padding_left">10dp</dimen>
     <dimen name="clothing_edit_spinner_padding_right">40dp</dimen>
@@ -84,7 +84,7 @@
     <dimen name="carousel_image_size">200dp</dimen>
     <dimen name="carousel_full_body_height">400dp</dimen>
     <dimen name="carousel_margin">0dp</dimen>
-    <dimen name="outfit_view_margin">15dp</dimen>
+    <dimen name="outfit_view_margin">5dp</dimen>
     <dimen name="home_cardview_radius">500dp</dimen>
     <dimen name="outfit_label_text_size">48sp</dimen>
     <dimen name="outfits_margin_horizontal">50dp</dimen>
@@ -100,5 +100,8 @@
     <dimen name="divider_length">1dp</dimen>
 
     //--------------Saved Outfits-------------------
-    <dimen name="saved_outfits_margin">5dp</dimen>
+    <dimen name="saved_outfits_margin">10dp</dimen>
+    <dimen name="saved_outfits_padding">10dp</dimen>
+    <dimen name="saved_outfits_image_port">100dp</dimen>
+    <dimen name="saved_outfits_full_body_port">200dp</dimen>
 </resources>

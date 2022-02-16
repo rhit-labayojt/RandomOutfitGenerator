@@ -238,6 +238,7 @@
         <item name="android:textSize">@dimen/clothing_edit_text</item>
         <item name="android:background">?attr/colorSecondaryVariant</item>
         <item name="android:textColor">?attr/colorSecondary</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:paddingLeft">@dimen/clothing_edit_spinner_padding_left</item>
         <item name="android:paddingRight">@dimen/clothing_edit_spinner_padding_right</item>
         <item name="android:paddingVertical">@dimen/clothing_edit_spinner_padding_vertical</item>
@@ -300,6 +301,14 @@
         <item name="android:textColor">?attr/colorPrimaryVariant</item>
         <item name="android:layout_centerInParent">true</item>
         <item name="android:text">@string/loading_text</item>
+    </style>
+
+    //-----------------Saved Outfits-----------------
+    <style name="saved_outfits_port">
+        <item name="android:layout_width">@dimen/saved_outfits_image_port</item>
+        <item name="android:layout_height">@dimen/saved_outfits_image_port</item>
+        <item name="android:padding">@dimen/carousel_padding</item>
+        <item name="android:layout_margin">@dimen/carousel_margin</item>
     </style>
 
 </resources>

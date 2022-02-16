@@ -11,6 +11,8 @@
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/thick_divider.xml" value="0.1" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/thick_divider_horizontal.xml" value="0.112" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/drawable/thick_divider_vertical.xml" value="0.112" />
+        <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout-land/fragment_home.xml" value="0.31305114638447973" />
+        <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout-port/outfit_image_view.xml" value="0.25052083333333336" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/accesory_layout.xml" value="0.13323201621073963" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/activity_main.xml" value="0.275" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/app_bar_edit.xml" value="0.26268115942028986" />
@@ -24,6 +26,7 @@
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_closet.xml" value="0.39100346020761245" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_clothing_edit.xml" value="0.28611898016997167" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_home.xml" value="0.264" />
+        <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_home_land.xml" value="0.3697916666666667" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_outfit.xml" value="0.275" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_randomization.xml" value="0.1" />
         <entry key="..\:/Users/hahmcm/Documents/GitHub/RandomOutfitGenerator/RandomOutfitGenerator/app/src/main/res/layout/fragment_saved_outfits.xml" value="0.21885521885521886" />

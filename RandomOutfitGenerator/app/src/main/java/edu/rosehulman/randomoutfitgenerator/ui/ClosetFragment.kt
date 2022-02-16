@@ -1,6 +1,7 @@
 package edu.rosehulman.randomoutfitgenerator.ui
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,7 +9,9 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
+import edu.rosehulman.randomoutfitgenerator.Constants
 import edu.rosehulman.randomoutfitgenerator.R
 import edu.rosehulman.randomoutfitgenerator.adapters.ClosetAdapter
 import edu.rosehulman.randomoutfitgenerator.databinding.FragmentClosetBinding
@@ -189,7 +192,9 @@ class ClosetFragment : Fragment() {
 
         lifecycleScope.launchWhenStarted{
             model.getTmpFileUri(fragment = this@ClosetFragment).let { uri ->
+                findNavController().navigate(R.id.nav_splash)
                 model.latestTmpUri = uri
+                Log.d(Constants.TAG, "Launched Image Taker")
                 takeImageResult.launch(uri)
             }
         }

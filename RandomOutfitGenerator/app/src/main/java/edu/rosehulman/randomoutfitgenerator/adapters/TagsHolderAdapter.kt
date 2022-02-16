@@ -282,7 +282,6 @@ class TagsHolderAdapter(val fragment: UserEditFragment, val tagTypes: Array<Stri
         }
 
         fun bind(s: String, adapter: TagsAdapter){
-            Log.d(Constants.TAG, s)
             tagLabel.setText(s)
 
             if(tagTypes[adapterPosition] == "Styles" && userModel.editUser) {
@@ -311,30 +310,63 @@ class TagsHolderAdapter(val fragment: UserEditFragment, val tagTypes: Array<Stri
             when(tag){
                 "Styles" -> {
                     userModel.tagChanges.get(tag)!!.forEach { style: String ->
-                        model.closet.savedOutfits.forEach { it.style = "Other" }
-                        model.closet.recentOutfits.forEach { it!!.style = "Other" }
-                        model.closet.clothing.forEach { it.getStyles().remove((style)) }
+                        model.closet.savedOutfits.filter{it.style == style}.forEach {
+                            model.setCurrentSavedOutfit(it)
+                            it.style = "Other"
+                            model.updateSavedOutfit()
+                        }
+                        model.closet.recentOutfits.filter{it!!.style == style}.forEach {
+                            model.setCurrentRecentOutfit(it!!)
+                            it!!.style = "Other"
+                            model.updateRecentOutfit()
+                        }
+                        model.closet.clothing.filter{it.getStyles().contains(style)}.forEach {
+                            model.setCurrentItem(it)
+                            model.getCurrentItem().removeStyle(style)
+                            model.updateClothing(it)
+                        }
                     }
                 }
 
-                "Tops" -> userModel.tagChanges.get(tag)!!.forEach {
-                    model.closet.clothing.filter{it.getSuperCat() == tag}.forEach { it.setSubCat(userModel.user!!.topsTags[0]) }
+                "Tops" -> userModel.tagChanges.get(tag)!!.forEach {subCat ->
+                    model.closet.clothing.filter{it.getSuperCat() == "Top" && it.getSubCat() == subCat}.forEach {
+                        model.setCurrentItem(it)
+                        model.getCurrentItem().setSubCat(userModel.user!!.topsTags[0])
+                        model.updateClothing(it)
+                    }
                 }
 
-                "Bottoms" -> userModel.tagChanges.get(tag)!!.forEach {
-                    model.closet.clothing.filter{it.getSuperCat() == tag}.forEach { it.setSubCat(userModel.user!!.bottomsTags[0]) }
+                "Bottoms" -> userModel.tagChanges.get(tag)!!.forEach {subCat ->
+                    model.closet.clothing.filter{it.getSuperCat() == "Bottom" && it.getSubCat() == subCat}.forEach {
+                        model.setCurrentItem(it)
+                        model.getCurrentItem().setSubCat(userModel.user!!.bottomsTags[0])
+                        model.updateClothing(it)
+                    }
                 }
 
-                "Shoes" -> userModel.tagChanges.get(tag)!!.forEach {
-                    model.closet.clothing.filter{it.getSuperCat() == tag}.forEach { it.setSubCat(userModel.user!!.shoesTags[0]) }
+                "Shoes" -> userModel.tagChanges.get(tag)!!.forEach { subCat ->
+                    model.closet.clothing.filter { it.getSuperCat() == "Shoes" && it.getSubCat() == subCat }
+                        .forEach {
+                            model.setCurrentItem(it)
+                            model.getCurrentItem().setSubCat(userModel.user!!.shoesTags[0])
+                            model.updateClothing(it)
+                        }
                 }
 
-                "Accessories" -> userModel.tagChanges.get(tag)!!.forEach {
-                    model.closet.clothing.filter{it.getSuperCat() == tag}.forEach { it.setSubCat(userModel.user!!.accessoriesTags[0]) }
+                "Accessories" -> userModel.tagChanges.get(tag)!!.forEach {subCat ->
+                    model.closet.clothing.filter{it.getSuperCat() == "Accessory" && it.getSubCat() == subCat}.forEach {
+                        model.setCurrentItem(it)
+                        model.getCurrentItem().setSubCat(userModel.user!!.accessoriesTags[0])
+                        model.updateClothing(it)
+                    }
                 }
 
-                else -> userModel.tagChanges.get(tag)!!.forEach {
-                    model.closet.clothing.filter{it.getSuperCat() == tag}.forEach { it.setSubCat(userModel.user!!.fullBodyTags[0]) }
+                else -> userModel.tagChanges.get(tag)!!.forEach {subCat ->
+                    model.closet.clothing.filter{it.getSuperCat() == "Full Body" && it.getSubCat() == subCat}.forEach {
+                        model.setCurrentItem(it)
+                        model.getCurrentItem().setSubCat(userModel.user!!.fullBodyTags[0])
+                        model.updateClothing(it)
+                    }
                 }
             }
         }

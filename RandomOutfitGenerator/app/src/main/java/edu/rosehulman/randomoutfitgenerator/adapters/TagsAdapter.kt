@@ -113,7 +113,6 @@ class TagsAdapter(val fragment: Fragment, val tagType: String, val tagList: Arra
         fun bind(s: String){
             tagValue.setText(s)
             checkableTagValue.setText(s)
-            Log.d(Constants.TAG, s)
 
             if(s == userModel.user!!.defaultStyle){
                 tagValue.setTextColor(MaterialColors.getColor(fragment.requireContext(), R.attr.colorSecondary, Color.BLUE))
